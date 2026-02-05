@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Admin Dashboard') - {{ config('app.name') }}</title>
+    <link rel="icon" href="{{ asset('images/logo.avif') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-[#15171A] text-white font-['Outfit'] antialiased" x-data="{ sidebarOpen: false }">
+    <div class="flex h-screen w-full overflow-hidden">
+        <!-- Mobile Sidebar Overlay -->
+        <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 bg-black/50 z-40 md:hidden"></div>
+
+        <!-- Sidebar -->
+        <aside id="admin-sidebar" 
+            class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#232528] border-r border-white/5 flex-col transform transition-transform duration-300 ease-in-out md:translate-x-0 md:flex flex"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+            
+            <div class="p-6 flex items-center gap-3 relative">
+                <div class="size-10 bg-[#A3050A] rounded-xl flex items-center justify-center p-2 shadow-[0_0_20px_rgba(163,5,10,0.4)] flex-shrink-0">
+                    <img src="{{ asset('images/logo.avif') }}" class="h-full w-full object-contain" alt="Logo">
+                </div>
+                <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-[#A3050A] truncate">
+                    {{ config('app.name') }}
+                </h1>
+                <!-- Close Button (Mobile) -->
+                <button @click="sidebarOpen = false" class="absolute right-4 top-6 text-gray-400 hover:text-white md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1 overflow-y-auto pb-4 pt-4">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.dashboard') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+
+                <a href="{{ route('admin.submissions.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.submissions.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    <span class="font-medium">Submissions</span>
+                </a>
+
+                <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.users.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span class="font-medium">Users</span>
+                </a>
+
+                <div class="pt-6 pb-2 px-4 uppercase text-[10px] font-bold text-gray-500 tracking-wider">Configuration</div>
+
+                <a href="{{ route('admin.submission-types.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.submission-types.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span class="font-medium">Services</span>
+                </a>
+
+                <a href="{{ route('admin.service-levels.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.service-levels.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    <span class="font-medium">Service Levels</span>
+                </a>
+
+                <a href="{{ route('admin.label-types.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.label-types.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 11h.01M7 15h.01M13 7h.01M13 11h.01M13 15h.01M17 7h.01M17 11h.01M17 15h.01"></path></svg>
+                    <span class="font-medium">Label Types</span>
+                </a>
+
+                <div class="pt-6 pb-2 px-4 uppercase text-[10px] font-bold text-gray-500 tracking-wider">Content & Data</div>
+
+                <a href="{{ route('admin.showcase.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.showcase.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span class="font-medium">Showcase Cards</span>
+                </a>
+
+                <a href="{{ route('admin.population.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.population.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    <span class="font-medium">Population Report</span>
+                </a>
+
+                                <a href="{{ route('admin.contact-queries.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.contact-queries.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span class="font-medium">Contact Messages</span>
+                </a>
+                
+                <a href="{{ route('admin.newsletter.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.newsletter.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                    <span class="font-medium">Newsletter</span>
+                </a>
+
+                <a href="{{ route('admin.faqs.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 {{ request()->routeIs('admin.faqs.*') ? 'bg-gradient-to-r from-[#A3050A] to-red-700 text-white shadow-lg shadow-red-900/20' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="font-medium">FAQs Manager</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="flex-1 flex flex-col min-w-0 bg-[#15171A] relative">
+            <!-- Top Header -->
+            <header class="h-16 border-b border-white/5 flex items-center justify-between px-4 sm:px-8 bg-[#15171A]/80 backdrop-blur-xl z-20 flex-shrink-0">
+                <div class="flex items-center gap-4">
+                    <!-- Mobile Hamburger -->
+                    <button @click="sidebarOpen = !sidebarOpen" class="text-gray-400 hover:text-white md:hidden">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <h2 class="text-lg font-semibold text-white">@yield('title', 'Admin Panel')</h2>
+                </div>
+
+                <div class="flex items-center gap-3 sm:gap-6">
+                    <!-- Notifications -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="text-gray-400 hover:text-white transition-colors relative">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            <span id="notification-count" class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] font-bold flex items-center justify-center text-white border-2 border-[#15171A] {{ auth()->user()->unreadNotifications()->count() > 0 ? '' : 'hidden' }}">
+                                {{ auth()->user()->unreadNotifications()->count() }}
+                            </span>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-3 w-80 bg-[#232528] border border-white/5 rounded-2xl shadow-2xl overflow-hidden py-2 z-50">
+                            <div class="px-4 py-3 border-b border-white/5 flex justify-between items-center">
+                                <span class="font-bold text-sm">Notifications</span>
+                                @if(auth()->user()->unreadNotifications()->count() > 0)
+                                    <form action="{{ route('admin.notifications.mark-all-read') }}" method="POST" id="mark-all-read-form">
+                                        @csrf
+                                        <button type="submit" class="text-[10px] text-gray-500 uppercase tracking-widest cursor-pointer hover:text-red-500">Mark all read</button>
+                                    </form>
+                                @endif
+                            </div>
+                            <div id="notification-list" class="max-h-64 overflow-y-auto">
+                                @forelse(auth()->user()->unreadNotifications()->limit(5)->get() as $notification)
+                                    @php
+                                        $link = '#';
+                                        $data = $notification->data;
+                                        if (isset($data['submission_id'])) {
+                                            $link = route('admin.submissions.show', $data['submission_id']);
+                                        } elseif (isset($data['type']) && $data['type'] === 'contact_query' && isset($data['form_id'])) {
+                                            $link = route('admin.contact-queries.show', $data['form_id']);
+                                        }
+                                    @endphp
+                                    <a href="{{ $link }}" class="block px-4 py-3 hover:bg-white/5 border-b border-white/5 transition-colors">
+                                        <p class="text-xs text-white font-medium mb-1">{{ $notification->data['message'] ?? 'New Notification' }}</p>
+                                        <p class="text-[10px] text-gray-500">{{ $notification->created_at->diffForHumans() }}</p>
+                                    </a>
+                                @empty
+                                    <div id="no-notifications-msg" class="px-4 py-8 text-center text-gray-500 italic text-sm">
+                                        No new notifications
+                                    </div>
+                                @endforelse
+                            </div>
+                            <div class="border-t border-white/5 p-2 bg-[#232528]">
+                                <a href="{{ route('admin.notifications.index') }}" class="block text-center text-xs text-[var(--color-primary)] hover:text-white py-1 transition-colors font-bold uppercase tracking-wider">
+                                    View All Notifications
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-6 w-px bg-white/5"></div>
+
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="flex items-center gap-3 hover:bg-white/5 p-2 rounded-xl transition-colors">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-sm font-bold text-white leading-none mb-1">{{ auth()->user()->name }}</p>
+                                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Administrator</p>
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-[#A3050A] flex items-center justify-center text-sm font-bold shadow-lg shadow-red-900/20 border border-white/10 ring-2 ring-white/5">
+                                {{ substr(auth()->user()->name, 0, 1) }}
+                            </div>
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+
+                        <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-3 w-56 bg-[#232528] border border-white/5 rounded-2xl shadow-2xl overflow-hidden py-1 z-50">
+                            <a href="{{ route('admin.settings.index') }}" class="flex items-center gap-2 px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-white transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Settings
+                            </a>
+                            <div class="h-px bg-white/5 my-1"></div>
+                            <form method="POST" action="{{ route('admin.logout') }}">
+                                @csrf
+                                <button type="submit" class="flex items-center gap-2 w-full px-4 py-3 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-500 transition-colors text-left">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Page Content -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-8 relative">
+                @yield('content')
+
+                <!-- Background Decorations -->
+                <div class="fixed top-0 right-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+                <div class="fixed bottom-0 left-64 w-[500px] h-[500px] bg-red-900/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+            </main>
+        </div>
+    </div>    
+
+    <!-- Unified Toast Notification -->
+    <div id="notification-toast" class="fixed top-24 right-8 bg-[#232528] border border-l-4 text-white px-6 py-4 rounded-lg shadow-2xl z-50 transform transition-all duration-300 translate-x-full opacity-0 flex items-center gap-4">
+        <div id="toast-icon" class="p-2 rounded-full">
+            <!-- Icon injected by JS -->
+        </div>
+        <div>
+            <h4 class="font-bold text-sm" id="toast-title">Notification</h4>
+            <p class="text-xs text-gray-400" id="toast-message">Message body</p>
+        </div>
+        <button onclick="hideToast()" class="text-gray-400 hover:text-white ml-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Notification Sound -->
+    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    @vite('resources/js/app.js')
+    
+    <style>
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+            pointer-events: none;
+        }
+
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 1.25rem;
+            height: 1.25rem;
+            top: 50%;
+            left: 50%;
+            margin-top: -0.625rem;
+            margin-left: -0.625rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar */
+        /* Custom Scrollbar - Global (Main Panel) */
+        ::-webkit-scrollbar {
+            width: 8px; /* Slightly wider for main content ease of use */
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #232528;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A3050A;
+            border-color: #A3050A;
+        }
+
+        /* Sidebar Specific Scrollbar - Super Thin & Subtle */
+        #admin-sidebar *::-webkit-scrollbar,
+        #admin-sidebar::-webkit-scrollbar {
+            width: 2px; /* Very thin */
+        }
+
+        #admin-sidebar *::-webkit-scrollbar-track,
+        #admin-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #admin-sidebar *::-webkit-scrollbar-thumb,
+        #admin-sidebar::-webkit-scrollbar-thumb {
+            background: rgba(163, 5, 10, 0.3); /* Subtle dim red */
+        }
+
+        #admin-sidebar:hover *::-webkit-scrollbar-thumb,
+        #admin-sidebar:hover::-webkit-scrollbar-thumb {
+            background: #A3050A; /* Bright red on hover */
+        }
+    </style>
+
+    <script type="module">
+        // Wrapper to expose showToast globally for blade templates
+        window.showToast = function(title, message, type = 'success') {
+            const toast = document.getElementById('notification-toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastTitle.innerText = title;
+            toastMessage.innerText = message;
+            
+            // Reset classes
+            toast.classList.remove('border-emerald-500', 'border-red-500', 'border-blue-500');
+            toastIcon.classList.remove('bg-emerald-500/20', 'text-emerald-500', 'bg-red-500/10', 'text-red-500', 'bg-blue-500/20', 'text-blue-500');
+
+            if (type === 'success') {
+                toast.classList.add('border-emerald-500');
+                toastIcon.classList.add('bg-emerald-500/20', 'text-emerald-500');
+                toastIcon.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+            } else if (type === 'error') {
+                toast.classList.add('border-red-500');
+                toastIcon.classList.add('bg-red-500/10', 'text-red-500');
+                toastIcon.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            } else {
+                toast.classList.add('border-blue-500');
+                toastIcon.classList.add('bg-blue-500/20', 'text-blue-500');
+                toastIcon.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+            }
+            
+            toast.classList.remove('translate-x-full', 'opacity-0');
+            
+            setTimeout(() => {
+                hideToast();
+            }, 5000);
+        };
+
+        window.hideToast = function() {
+            document.getElementById('notification-toast').classList.add('translate-x-full', 'opacity-0');
+        };
+
+        // Check for session flash messages
+        @if(session('success'))
+            showToast('Success', "{{ session('success') }}", 'success');
+        @endif
+
+        @if(session('error'))
+            showToast('Error', "{{ session('error') }}", 'error');
+        @endif
+
+        // Global Loading Handler
+        document.addEventListener('submit', function(e) {
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn && !submitBtn.classList.contains('no-loader')) {
+                submitBtn.classList.add('btn-loading');
+                submitBtn.disabled = true;
+            }
+        });
+
+        document.querySelectorAll('a.btn-load, button.btn-load').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.tagName === 'A' && !this.href.includes('#')) {
+                    this.classList.add('btn-loading');
+                }
+            });
+        });
+
+        // Request Browser Notification Permission
+        if ("Notification" in window) {
+            if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+        }
+
+        // Wait for Echo to be initialized
+        setTimeout(() => {
+            if (window.Echo) {
+                const channel = window.Echo.channel('admin-notifications');
+
+                // Listener for New Submissions
+                channel.listen('NewSubmissionEvent', (e) => {
+                    handleNotification({
+                        title: 'New Order: ' + e.submission_no,
+                        body: e.user_name + ' submitted ' + e.amount + ' cards',
+                        link: '/admin/submissions/' + e.id,
+                        message: e.message
+                    });
+                });
+
+                // Listener for New Contact Queries
+                channel.listen('NewContactQueryEvent', (e) => {
+                    handleNotification({
+                        title: 'New Contact Message',
+                        body: e.message, // Use the matched message from event
+                        link: '/admin/contact-queries/' + e.id,
+                        message: e.message
+                    });
+                });
+
+            } else {
+                console.error('Echo not initialized');
+            }
+        }, 1000);
+
+        function handleNotification(data) {
+             // 1. Play sound
+             try {
+                const audio = document.getElementById('notification-sound');
+                audio.currentTime = 0;
+                audio.play().catch(err => console.log('Audio play failed:', err));
+            } catch (err) {
+                console.log('Audio error', err);
+            }
+
+            // 2. Update Badge
+            const badge = document.getElementById('notification-count');
+            if (badge) {
+                let count = parseInt(badge.innerText) || 0;
+                badge.innerText = count + 1;
+                badge.classList.remove('hidden');
+            }
+
+            // 3. Update List
+            const list = document.getElementById('notification-list');
+            const emptyMsg = document.getElementById('no-notifications-msg');
+            if (list) {
+                if (emptyMsg) emptyMsg.remove();
+                
+                const newNotification = `
+                    <a href="${data.link}" class="block px-4 py-3 hover:bg-white/5 border-b border-white/5 transition-colors animate-pulse">
+                        <p class="text-xs text-white font-medium mb-1">${data.message}</p>
+                        <p class="text-[10px] text-gray-500">Just now</p>
+                    </a>
+                `;
+                list.insertAdjacentHTML('afterbegin', newNotification);
+            }
+
+            // 4. Show Toast
+            showToast(data.title, data.body, 'info');
+        }
+    </script>
+</body>
+</html>
