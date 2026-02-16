@@ -7,10 +7,8 @@
             <div class="flex justify-center mb-8">
                 <!-- Logo mark -->
                 <div class="flex flex-col items-center animate-fade-in">
-                    <div
-                        class="size-12 bg-[var(--color-primary)] rounded-xl flex items-center justify-center mb-4 p-2 shadow-[0_0_20px_rgba(163,5,10,0.4)]">
-                        <img src="{{ asset('images/logo.avif') }}" class="h-full  w-full" alt="">
-                         
+                    <div class="h-16 w-auto mb-6 flex items-center justify-center">
+                        <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" class="h-full w-auto object-contain" alt="{{ config('app.name') }}">
                     </div>
                 </div>
             </div>

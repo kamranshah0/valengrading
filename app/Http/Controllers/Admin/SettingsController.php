@@ -15,7 +15,8 @@ class SettingsController extends Controller
         $settings = [
             'admin_notification_email' => SiteSetting::get('admin_notification_email', 'admin@valengrading.com'),
             'site_name' => SiteSetting::get('site_name', 'Valen Grading'),
-            'site_logo' => SiteSetting::get('site_logo', ''),
+            'site_logo_header' => SiteSetting::get('site_logo_header', asset('images/logo.avif')),
+            'site_logo_footer' => SiteSetting::get('site_logo_footer', asset('images/logo.avif')),
             'return_shipping_fee' => SiteSetting::get('return_shipping_fee', '7.99'),
             
             // SMTP Settings
@@ -45,22 +46,26 @@ class SettingsController extends Controller
         $data = $request->validate([
             'admin_notification_email' => 'required|email',
             'site_name' => 'required|string|max:255',
-            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'site_logo_header' => 'nullable|image|mimes:jpeg,png,jpg,svg,avif|max:4096',
+            'site_logo_footer' => 'nullable|image|mimes:jpeg,png,jpg,svg,avif|max:4096',
             'return_shipping_fee' => 'required|numeric|min:0',
         ]);
 
-        if ($request->hasFile('site_logo')) {
-            // Delete old logo
-            $oldLogo = SiteSetting::get('site_logo');
-            if ($oldLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('/storage/', '', $oldLogo))) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $oldLogo));
-            }
+        $logoTypes = ['site_logo_header', 'site_logo_footer'];
+        
+        foreach ($logoTypes as $type) {
+            if ($request->hasFile($type)) {
+                // Delete old logo
+                $oldLogo = SiteSetting::get($type);
+                if ($oldLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists(str_replace('/storage/', '', $oldLogo))) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete(str_replace('/storage/', '', $oldLogo));
+                }
 
-            $path = $request->file('site_logo')->store('branding', 'public');
-            $data['site_logo'] = '/storage/' . $path;
-        } else {
-            // Keep existing logo if not uploading new one
-            unset($data['site_logo']);
+                $path = $request->file($type)->store('branding', 'public');
+                $data[$type] = '/storage/' . $path;
+            } else {
+                unset($data[$type]);
+            }
         }
 
         foreach ($data as $key => $value) {

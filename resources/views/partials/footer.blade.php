@@ -3,14 +3,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
                     <div class="col-span-1">
                         <div class="flex items-center gap-2 mb-6">
-                            <div
-                                class="w-8 h-8 bg-[var(--color-primary)] rounded flex items-center justify-center text-white font-bold">
-                                V</div>
-                            <div class="flex flex-col">
-                                <span class="text-white font-bold text-lg leading-none tracking-wider">VALEN</span>
-                                <span
-                                    class="text-white text-[10px] uppercase tracking-[0.2em] leading-none">Grading</span>
-                            </div>
+                            @if(\App\Models\SiteSetting::get('site_logo_footer'))
+                                <img src="{{ \App\Models\SiteSetting::get('site_logo_footer') }}" alt="{{ config('app.name') }}" class="h-12 w-auto object-contain">
+                            @else
+                                <div
+                                    class="w-8 h-8 bg-[var(--color-primary)] rounded flex items-center justify-center text-white font-bold">
+                                    V</div>
+                                <div class="flex flex-col">
+                                    <span class="text-white font-bold text-lg leading-none tracking-wider">VALEN</span>
+                                    <span
+                                        class="text-white text-[10px] uppercase tracking-[0.2em] leading-none">Grading</span>
+                                </div>
+                            @endif
                         </div>
                         <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
                             Professional trading card grading services with industry-leading quality standards and

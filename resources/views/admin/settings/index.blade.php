@@ -81,7 +81,29 @@
                                 </div>
                                 @error('return_shipping_fee') <p class="text-red-500 text-[10px] font-bold mt-1">{{ $message }}</p> @enderror
                             </div>
-                            {{-- Site Logo Removed --}}
+                            <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/5">
+                                <div class="space-y-4">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Header Logo</label>
+                                    @if($site_logo_header)
+                                        <div class="bg-white/5 p-4 rounded-xl flex items-center justify-center h-32 border border-white/10">
+                                            <img src="{{ $site_logo_header }}" alt="Header Logo" class="max-h-full max-w-full object-contain">
+                                        </div>
+                                    @endif
+                                    <input type="file" name="site_logo_header" accept="image/*"
+                                        class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-500/10 file:text-red-500 hover:file:bg-red-500/20">
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Footer Logo</label>
+                                    @if($site_logo_footer)
+                                        <div class="bg-white/5 p-4 rounded-xl flex items-center justify-center h-32 border border-white/10">
+                                            <img src="{{ $site_logo_footer }}" alt="Footer Logo" class="max-h-full max-w-full object-contain">
+                                        </div>
+                                    @endif
+                                    <input type="file" name="site_logo_footer" accept="image/*"
+                                        class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-500/10 file:text-red-500 hover:file:bg-red-500/20">
+                                </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex items-start gap-3 p-4 bg-white/2 rounded-xl border border-white/5">
                             <svg class="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

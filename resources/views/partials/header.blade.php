@@ -4,9 +4,8 @@
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center  ">
                         <a href="{{ route('home') }}" class="flex items-center  ">
-                            <div
-                                class="size-12 bg-[var(--color-primary)] rounded-xl flex items-center justify-center p-2  shadow-[0_0_20px_rgba(163,5,10,0.4)]">
-                                <img src="{{ asset('images/logo.avif') }}" class="h-full  w-full" alt="">
+                            <div class="h-12 w-auto flex items-center">
+                                <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" class="h-full w-auto object-contain" alt="{{ config('app.name') }}">
                             </div>
                         </a>
                     </div>
