@@ -57,6 +57,7 @@ Route::prefix('admin')
 
         // FAQs
         Route::resource('faqs', \App\Http\Controllers\Admin\FaqController::class);
+        Route::resource('features', \App\Http\Controllers\Admin\ComparisonFeatureController::class);
 
         Route::post('/logout', function () {
             Auth::logout();

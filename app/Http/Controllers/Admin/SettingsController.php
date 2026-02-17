@@ -36,7 +36,17 @@ class SettingsController extends Controller
             'shipping_zip' => SiteSetting::get('shipping_zip', ''),
             'shipping_country' => SiteSetting::get('shipping_country', 'United Kingdom'),
             'shipping_phone' => SiteSetting::get('shipping_phone', ''),
+
+            // Frontend Content
+            'home_hero_title' => SiteSetting::get('home_hero_title', 'Precision Card'),
+            'home_hero_subtitle' => SiteSetting::get('home_hero_subtitle', 'Premium UK-based card grading <br> for collectors who demand excellence.'),
+            'home_features_title' => SiteSetting::get('home_features_title', 'Very Fast Turnaround'),
+            'pricing_title' => SiteSetting::get('pricing_title', 'Label Options'),
+            'pricing_subtitle' => SiteSetting::get('pricing_subtitle', 'Choose your preferred label design and service level'),
+            'pricing_comparison_title' => SiteSetting::get('pricing_comparison_title', 'Feature Comparison'),
+            'pricing_comparison_subtitle' => SiteSetting::get('pricing_comparison_subtitle', "See what's included with each service tier"),
         ];
+
 
         return view('admin.settings.index', $settings);
     }
@@ -108,6 +118,27 @@ class SettingsController extends Controller
 
         return back()->with('success', 'Shipping address updated successfully.');
     }
+
+    public function updateContent(Request $request)
+    {
+        $data = $request->validate([
+            'home_hero_title' => 'required|string',
+            'home_hero_subtitle' => 'required|string',
+            'home_features_title' => 'nullable|string',
+            'pricing_title' => 'nullable|string',
+            'pricing_subtitle' => 'nullable|string',
+            'pricing_comparison_title' => 'nullable|string',
+            'pricing_comparison_subtitle' => 'nullable|string',
+        ]);
+
+        foreach ($data as $key => $value) {
+            SiteSetting::set($key, $value, 'content');
+        }
+
+        return back()->with('success', 'Frontend content updated successfully.');
+    }
+
+
 
     public function updateProfile(Request $request)
     {

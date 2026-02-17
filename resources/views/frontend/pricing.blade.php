@@ -7,8 +7,8 @@
             <!-- Label Options -->
             <div class="mb-24">
                 <div class="text-center mb-16">
-                    <h1 class="text-4xl font-extrabold text-white sm:text-5xl mb-4">Label Options</h1>
-                    <p class="text-gray-400 text-lg">Choose your preferred label design and service level</p>
+                    <h1 class="text-4xl font-extrabold text-white sm:text-5xl mb-4">{{ \App\Models\SiteSetting::get('pricing_title', 'Label Options') }}</h1>
+                    <p class="text-gray-400 text-lg">{{ \App\Models\SiteSetting::get('pricing_subtitle', 'Choose your preferred label design and service level') }}</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -434,8 +434,8 @@
             <!-- Feature Comparison -->
             <div class="mb-12">
                 <div class="text-center mb-16">
-                    <h2 class="text-2xl font-bold text-white mb-4">Feature Comparison</h2>
-                    <p class="text-gray-400">See what's included with each service tier</p>
+                    <h2 class="text-2xl font-bold text-white mb-4">{{ \App\Models\SiteSetting::get('pricing_comparison_title', 'Feature Comparison') }}</h2>
+                    <p class="text-gray-400">{{ \App\Models\SiteSetting::get('pricing_comparison_subtitle', "See what's included with each service tier") }}</p>
                 </div>
 
                 <div class="overflow-x-auto border border-[var(--color-valen-border)] rounded-2xl">
@@ -449,39 +449,19 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[var(--color-valen-border)] bg-[#1C1E21]">
-                            @foreach([
-                                    'Industry-Leading AI' => [true, true, true],
-                                    'Tamper-Evident Slab' => [true, true, true],
-                                    'Digital Certificates' => [true, true, true],
-                                    'Online Registry' => [true, true, true],
-                                    'Priority Processing' => [false, true, true],
-                                    'High-Res Imaging' => [false, true, true],
-                                    'High-Value Insurance' => [false, true, true],
-                                    'Same-Day Turnaround' => [false, false, true],
-                                    'Dedicated AM' => [false, false, true],
-                                    'Personal Account Manager' => [false, false, true],
-                                    'White Glove Service' => [false, false, true],
-                                ] as $feature => $tiers)
-
-
-
-
-                                                                <tr class="hover:bg-white/5 transition-colors">
-
-
-
-
-                                                                        <td class="px-6 py-4 font-medium text-white">{{ $feature }}</td>
+                            @foreach($comparisonFeatures as $feature)
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-white">{{ $feature->name }}</td>
                                     <td class="px-6 py-4 text-center">
-                                        @if($tiers[0]) <svg class="w-4 h-4 text-[var(--color-primary)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                        @if($feature->is_standard) <svg class="w-4 h-4 text-[var(--color-primary)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                         @else <svg class="w-4 h-4 text-gray-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> @endif
                                      </td>
                                      <td class="px-6 py-4 text-center">
-                                         @if($tiers[1]) <svg class="w-4 h-4 text-[var(--color-primary)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                         @if($feature->is_express) <svg class="w-4 h-4 text-[var(--color-primary)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                          @else <svg class="w-4 h-4 text-gray-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> @endif
                                      </td>
                                      <td class="px-6 py-4 text-center">
-                                             @if($tiers[2]) <svg class="w-4 h-4 text-[var(--color-primary)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                             @if($feature->is_elite) <svg class="w-4 h-4 text-[var(--color-primary)] mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                                              @else <svg class="w-4 h-4 text-gray-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> @endif
                                          </td>
                                      </tr>

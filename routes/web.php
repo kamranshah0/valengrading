@@ -30,7 +30,8 @@ Route::get('/contact', function () {
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/pricing', function () {
-    return view('frontend.pricing');
+    $comparisonFeatures = \App\Models\ComparisonFeature::orderBy('order')->get();
+    return view('frontend.pricing', compact('comparisonFeatures'));
 })->name('pricing');
 
 Route::get('/about', function () {

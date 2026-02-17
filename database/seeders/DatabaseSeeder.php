@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             LabelTypeSeeder::class,
             ServiceLevelSeeder::class,
             SubmissionTypeSeeder::class,
+            SiteContentSeeder::class,
         ]);
         
     }

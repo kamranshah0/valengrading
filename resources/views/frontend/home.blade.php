@@ -13,10 +13,10 @@
                 </div>
             </div>
             <h1 class="text-5xl tracking-tight font-extrabold text-white sm:text-6xl md:text-7xl mb-6 animate-slide-up">
-                Precision Card
+                {{ \App\Models\SiteSetting::get('home_hero_title', 'Precision Card') }}
             </h1>
             <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-400 mb-12 animate-slide-up" style="animation-delay: 0.1s;">
-                Premium UK-based card grading <br> for collectors who demand excellence.
+                {!! \App\Models\SiteSetting::get('home_hero_subtitle', 'Premium UK-based card grading <br> for collectors who demand excellence.') !!}
             </p>
             <div class="flex justify-center flex-col sm:flex-row gap-4 animate-slide-up" style="animation-delay: 0.2s;">
                 <a href="{{ route('submission.step1') }}"
@@ -86,7 +86,7 @@
                                 d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Very Fast Turnaround</h3>
+                    <h3 class="text-lg font-bold text-white mb-3">{{ \App\Models\SiteSetting::get('home_features_title', 'Very Fast Turnaround') }}</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
                         Industry-leading turnaround times without compromising quality. We value your time.
                     </p>
