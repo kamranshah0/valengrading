@@ -31,10 +31,6 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     Shipping Address
                 </button>
-                <button onclick="switchTab('content')" id="tab-btn-content" class="setting-tab-btn w-full text-left px-5 py-3 rounded-xl transition-all font-bold text-sm uppercase tracking-wider flex items-center gap-3 inactive-tab">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    Frontend Content
-                </button>
                 <div class="h-px bg-white/5 my-4"></div>
                 <button onclick="switchTab('profile')" id="tab-btn-profile" class="setting-tab-btn w-full text-left px-5 py-3 rounded-xl transition-all font-bold text-sm uppercase tracking-wider flex items-center gap-3 inactive-tab">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -106,17 +102,7 @@
                                     <input type="file" name="site_logo_footer" accept="image/*"
                                         class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-500/10 file:text-red-500 hover:file:bg-red-500/20">
                                 </div>
-                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-start gap-3 p-4 bg-white/2 rounded-xl border border-white/5">
-                            <svg class="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <p class="text-xs text-gray-500 leading-relaxed italic">These are the primary branding and global pricing details used across the public and admin sites.</p>
-                        </div>
-                        <div class="pt-6 border-t border-white/5">
-                            <button type="submit" class="w-full md:w-auto bg-gradient-to-r from-red-600 to-[#A3050A] text-white font-bold px-10 py-4 rounded-xl shadow-2xl shadow-red-900/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-xs">
-                                Save General Config
-                            </button>
                         </div>
                     </form>
                 </div>
@@ -213,60 +199,6 @@
                         <div class="pt-6 border-t border-white/5">
                             <button type="submit" class="w-full md:w-auto bg-gradient-to-r from-red-600 to-[#A3050A] text-white font-bold px-10 py-4 rounded-xl shadow-2xl shadow-red-900/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-xs">
                                 Update Shipping Data
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Frontend Content Settings -->
-                <div id="tab-content" class="setting-tab p-4 md:p-8 hidden">
-                    <div class="mb-8">
-                        <h3 class="text-xl font-bold text-white leading-tight">Frontend Content</h3>
-                        <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest font-bold">Edit main text on Home and Pricing pages</p>
-                    </div>
-                    <form action="{{ route('settings.update-content') }}" method="POST" class="space-y-6">
-                        @csrf
-                        @method('PATCH')
-                        <div class="space-y-6">
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Home: Hero Title</label>
-                                <input type="text" name="home_hero_title" value="{{ old('home_hero_title', $home_hero_title) }}" class="w-full bg-[#15171A] border @error('home_hero_title') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all">
-                                @error('home_hero_title') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Home: Hero Subtitle (HTML allowed)</label>
-                                <textarea name="home_hero_subtitle" rows="3" class="w-full bg-[#15171A] border @error('home_hero_subtitle') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all resize-none">{{ old('home_hero_subtitle', $home_hero_subtitle) }}</textarea>
-                                @error('home_hero_subtitle') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Home: Features Title</label>
-                                <input type="text" name="home_features_title" value="{{ old('home_features_title', $home_features_title) }}" class="w-full bg-[#15171A] border @error('home_features_title') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all">
-                                @error('home_features_title') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Pricing: Title</label>
-                                <input type="text" name="pricing_title" value="{{ old('pricing_title', $pricing_title) }}" class="w-full bg-[#15171A] border @error('pricing_title') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all">
-                                @error('pricing_title') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Pricing: Subtitle</label>
-                                <input type="text" name="pricing_subtitle" value="{{ old('pricing_subtitle', $pricing_subtitle) }}" class="w-full bg-[#15171A] border @error('pricing_subtitle') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all">
-                                @error('pricing_subtitle') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Pricing: Comparison Title</label>
-                                <input type="text" name="pricing_comparison_title" value="{{ old('pricing_comparison_title', $pricing_comparison_title) }}" class="w-full bg-[#15171A] border @error('pricing_comparison_title') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all">
-                                @error('pricing_comparison_title') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                            <div class="space-y-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest">Pricing: Comparison Subtitle</label>
-                                <input type="text" name="pricing_comparison_subtitle" value="{{ old('pricing_comparison_subtitle', $pricing_comparison_subtitle) }}" class="w-full bg-[#15171A] border @error('pricing_comparison_subtitle') border-red-500/50 @else border-white/10 @enderror rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all">
-                                @error('pricing_comparison_subtitle') <p class="text-red-500 text-[10px] font-bold">{{ $message }}</p> @enderror
-                            </div>
-                        </div>
-                        <div class="pt-6 border-t border-white/5">
-                            <button type="submit" class="w-full md:w-auto bg-gradient-to-r from-red-600 to-[#A3050A] text-white font-bold px-10 py-4 rounded-xl shadow-2xl shadow-red-900/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-xs">
-                                Update Content
                             </button>
                         </div>
                     </form>

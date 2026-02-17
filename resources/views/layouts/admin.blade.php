@@ -21,8 +21,8 @@
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
             
             <div class="p-6 flex items-center gap-3 relative">
-                <div class="size-10 bg-[#A3050A] rounded-xl flex items-center justify-center p-2 shadow-[0_0_20px_rgba(163,5,10,0.4)] flex-shrink-0">
-                    <img src="{{ asset('images/logo.avif') }}" class="h-full w-full object-contain" alt="Logo">
+                <div class="h-10 w-auto flex items-center justify-center flex-shrink-0">
+                    <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" class="h-full w-full object-contain" alt="Logo">
                 </div>
                 <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-[#A3050A] truncate">
                     {{ config('app.name') }}

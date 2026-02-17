@@ -48,6 +48,7 @@ Route::prefix('admin')
         Route::patch('/settings/shipping', [\App\Http\Controllers\Admin\SettingsController::class, 'updateShipping'])->name('settings.update-shipping');
         Route::patch('/settings/profile', [\App\Http\Controllers\Admin\SettingsController::class, 'updateProfile'])->name('settings.update-profile');
         Route::patch('/settings/password', [\App\Http\Controllers\Admin\SettingsController::class, 'updatePassword'])->name('settings.update-password');
+        Route::patch('/settings/content', [\App\Http\Controllers\Admin\SettingsController::class, 'updateContent'])->name('settings.update-content');
         
         Route::delete('/submissions/{submission}', [\App\Http\Controllers\Admin\SubmissionController::class, 'destroy'])->name('submissions.destroy');
 

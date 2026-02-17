@@ -7,8 +7,8 @@
             <!-- Label Options -->
             <div class="mb-24">
                 <div class="text-center mb-16">
-                    <h1 class="text-4xl font-extrabold text-white sm:text-5xl mb-4">{{ \App\Models\SiteSetting::get('pricing_title', 'Label Options') }}</h1>
-                    <p class="text-gray-400 text-lg">{{ \App\Models\SiteSetting::get('pricing_subtitle', 'Choose your preferred label design and service level') }}</p>
+                    <h1 class="text-4xl font-extrabold text-white sm:text-5xl mb-4">Label Options</h1>
+                    <p class="text-gray-400 text-lg">Choose your preferred label design and service level</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -434,8 +434,8 @@
             <!-- Feature Comparison -->
             <div class="mb-12">
                 <div class="text-center mb-16">
-                    <h2 class="text-2xl font-bold text-white mb-4">{{ \App\Models\SiteSetting::get('pricing_comparison_title', 'Feature Comparison') }}</h2>
-                    <p class="text-gray-400">{{ \App\Models\SiteSetting::get('pricing_comparison_subtitle', "See what's included with each service tier") }}</p>
+                    <h2 class="text-2xl font-bold text-white mb-4">Feature Comparison</h2>
+                    <p class="text-gray-400">See what's included with each service tier</p>
                 </div>
 
                 <div class="overflow-x-auto border border-[var(--color-valen-border)] rounded-2xl">
