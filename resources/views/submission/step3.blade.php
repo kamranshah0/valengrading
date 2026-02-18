@@ -323,11 +323,11 @@
     });
     
     // Check initial state
-    setMode(window.initialMode);
-    
     if (window.existingCards && window.existingCards.length > 0) {
         window.existingCards.forEach(card => addCard(card));
     }
+
+    setMode(window.initialMode);
     
     validate();
 
