@@ -4,7 +4,7 @@
     <div class="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity opacity-0" id="loginModalBackdrop"></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-2xl bg-[#1C1E21] border border-white/10 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-sm opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="loginModalPanel">
+        <div class="relative transform overflow-hidden rounded-2xl bg-[#1C1E21] border border-white/10 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" id="loginModalPanel">
             
             <!-- Close Button -->
             <div class="absolute right-0 top-0 pr-4 pt-4">
@@ -16,7 +16,7 @@
                 </button>
             </div>
 
-            <div class="px-6 py-8 sm:px-10">
+            <div class="px-6 py-6 sm:px-10">
                 <div class="text-center mb-8">
                     <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-primary)]/10 mb-4">
                         <svg class="h-8 w-8 text-[var(--color-primary)]" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -63,7 +63,7 @@
                 <div class="mt-6 text-center text-sm">
                     <p class="text-gray-400">
                         Not a member?
-                        <a href="{{ route('register') }}" class="font-semibold text-[var(--color-primary)] hover:text-red-400">Register</a>
+                        <button type="button" onclick="switchToRegister()" class="font-semibold text-[var(--color-primary)] hover:text-red-400">Register</button>
                     </p>
                 </div>
             </div>
@@ -100,6 +100,18 @@
         setTimeout(() => {
             modal.classList.add('hidden');
             document.body.classList.remove('overflow-hidden'); // Unlock scroll
+        }, 300);
+    }
+
+    function switchToRegister() {
+        closeLoginModal();
+        setTimeout(() => {
+            // Check if register modal function exists (it should if component is loaded)
+            if (typeof openRegisterModal === 'function') {
+                openRegisterModal();
+            } else {
+                window.location.href = "{{ route('register') }}";
+            }
         }, 300);
     }
 

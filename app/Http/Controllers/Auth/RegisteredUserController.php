@@ -27,7 +27,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -44,6 +44,18 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'csrf_token' => csrf_token(),
+                'redirect' => session()->has('pending_submission_id') ? route('submission.step4') : null,
+            ]);
+        }
+
+        if (session()->has('pending_submission_id')) {
+            return redirect()->route('submission.step4');
+        }
 
         return redirect(route('user.dashboard', absolute: false));
     }

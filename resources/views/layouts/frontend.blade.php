@@ -26,7 +26,8 @@
         <!-- Footer -->
         @include('partials.footer')
     </div>
-    @include('components.login-modal')
+    <x-login-modal />
+    <x-register-modal />
 </body>
 
 </html>
