@@ -51,7 +51,7 @@
                     <div class="grid grid-cols-2 gap-3 border-t border-white/5 pt-3">
                         <div>
                             <div class="text-[10px] text-gray-500 uppercase tracking-wider">Price/Card</div>
-                            <div class="text-emerald-400 font-bold mt-0.5">€{{ number_format($level->price_per_card, 2) }}</div>
+                            <div class="text-emerald-400 font-bold mt-0.5">£{{ number_format($level->price_per_card, 2) }}</div>
                         </div>
                         <div class="text-right">
                              <div class="text-[10px] text-gray-500 uppercase tracking-wider">Min Cards</div>
@@ -117,7 +117,7 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 md:px-6 md:py-4 text-center">
-                                <span class="text-emerald-400 font-bold tabular-nums text-xs md:text-base">€{{ number_format($level->price_per_card, 2) }}</span>
+                                <span class="text-emerald-400 font-bold tabular-nums text-xs md:text-base">£{{ number_format($level->price_per_card, 2) }}</span>
                             </td>
                             <td class="px-4 py-3 md:px-6 md:py-4 text-center">
                                 <span class="px-2 py-1 md:px-3 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $level->is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400' }}">

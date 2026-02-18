@@ -218,7 +218,7 @@
         
         let labelOptions = '<option value="" disabled selected>Select</option>';
         window.labelTypes.forEach(type => {
-             let displayPrice = type.price_adjustment == 0 ? 'Free' : (type.price_adjustment > 0 ? '+€'+type.price_adjustment : '-€'+Math.abs(type.price_adjustment));
+             let displayPrice = type.price_adjustment == 0 ? 'Free' : (type.price_adjustment > 0 ? '+£'+type.price_adjustment : '-£'+Math.abs(type.price_adjustment));
              let selected = data && data.label_type_id == type.id ? 'selected' : '';
              labelOptions += `<option value="${type.id}" ${selected}>${type.name} (${displayPrice})</option>`;
         });

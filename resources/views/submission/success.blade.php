@@ -29,7 +29,7 @@
                 <div class="space-y-4 mb-8">
                     <div class="flex justify-between items-center py-3 border-b border-white/5">
                         <span class="text-gray-400">Grading Service ({{ $submission->serviceLevel->name }})</span>
-                        <span class="font-medium text-white">€{{ number_format($submission->serviceLevel->price_per_card, 2) }} x {{ $submission->card_entry_mode === 'detailed' ? $submission->cards->sum('qty') : $submission->total_cards }}</span>
+                        <span class="font-medium text-white">£{{ number_format($submission->serviceLevel->price_per_card, 2) }} x {{ $submission->card_entry_mode === 'detailed' ? $submission->cards->sum('qty') : $submission->total_cards }}</span>
                     </div>
                     
                     @if($submission->card_entry_mode === 'detailed')
@@ -37,14 +37,14 @@
                         @if($labelTotal > 0)
                             <div class="flex justify-between items-center py-3 border-b border-white/5">
                                 <span class="text-gray-400">Label Adjustments</span>
-                                <span class="font-medium text-white">€{{ number_format($labelTotal, 2) }}</span>
+                                <span class="font-medium text-white">£{{ number_format($labelTotal, 2) }}</span>
                             </div>
                         @endif
                     @endif
 
                     <div class="flex justify-between items-center pt-6">
                         <span class="text-lg font-bold text-white">Total Amount Paid</span>
-                        <span class="text-2xl font-bold text-emerald-500">€{{ number_format($submission->total_cost, 2) }}</span>
+                        <span class="text-2xl font-bold text-emerald-500">£{{ number_format($submission->total_cost, 2) }}</span>
                     </div>
                 </div>
 

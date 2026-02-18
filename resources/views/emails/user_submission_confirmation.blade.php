@@ -63,7 +63,7 @@
                             </td>
                             <td>
                                 <span style="font-weight: bold; color: #6B7280; display: block; text-transform: uppercase; font-size: 11px; margin-bottom: 4px;">Total Cost</span>
-                                <span style="color: #111827; font-weight: 600;">€{{ number_format($submission->total_cost, 2) }}</span>
+                                <span style="color: #111827; font-weight: 600;">£{{ number_format($submission->total_cost, 2) }}</span>
                             </td>
                         </tr>
                     </table>

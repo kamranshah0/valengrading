@@ -67,7 +67,7 @@
                                     @endif
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-3xl font-bold text-white">€{{ floatval($level->price_per_card) }}</span>
+                                    <span class="text-3xl font-bold text-white">£{{ floatval($level->price_per_card) }}</span>
                                     <span class="block text-xs text-gray-500 uppercase tracking-wide">Per Card</span>
                                 </div>
                             </div>

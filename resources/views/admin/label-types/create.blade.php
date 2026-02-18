@@ -26,7 +26,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                    <label for="price_adjustment" class="text-sm font-medium text-gray-400">Price Adjustment (€)*</label>
+                    <label for="price_adjustment" class="text-sm font-medium text-gray-400">Price Adjustment (£)*</label>
                     <input type="number" step="0.01" id="price_adjustment" name="price_adjustment" value="{{ old('price_adjustment', 0) }}" 
                         class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
                         required>

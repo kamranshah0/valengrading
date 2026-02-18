@@ -16,7 +16,7 @@
                     <div
                         class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2">
                         <h3 class="text-xl font-bold text-white mb-2">Classic Label</h3>
-                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">$0 <span
+                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">£0 <span
                                 class="text-sm font-medium text-gray-400">/ per card</span></div>
                         <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Included with submission price</p>
                         <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4">
@@ -42,7 +42,7 @@
                     <div
                         class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2">
                         <h3 class="text-xl font-bold text-white mb-2">Premium Label</h3>
-                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">$5 <span
+                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">£5 <span
                                 class="text-sm font-medium text-gray-400">/ per card</span></div>
                         <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Enhanced features & security</p>
                         <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4">
@@ -68,7 +68,7 @@
                     <div
                         class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2">
                         <h3 class="text-xl font-bold text-white mb-2">Custom Label</h3>
-                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">$15 <span
+                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">£15 <span
                                 class="text-sm font-medium text-gray-400">/ per card</span></div>
                         <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Fully customizable design</p>
                         <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4">
@@ -142,7 +142,7 @@
                             </div>
                             <h3 class="text-xl font-bold text-white mb-2">Standard</h3>
                             <p class="text-xs text-gray-500 mb-6">Perfect for new collectors</p>
-                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$15 <span
+                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£15 <span
                                     class="text-sm font-medium text-gray-400">/ per card</span></div>
                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span
                                     class="text-gray-400 font-normal">45 Business Days</span></div>
@@ -188,7 +188,7 @@
                             </div>
                             <h3 class="text-xl font-bold text-white mb-2">Express</h3>
                             <p class="text-xs text-gray-500 mb-6">Faster service for urgent needs</p>
-                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$25 <span
+                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£25 <span
                                     class="text-sm font-medium text-gray-400">/ per card</span></div>
                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span
                                     class="text-gray-400 font-normal">20 Business Days</span></div>
@@ -232,7 +232,7 @@
                             </div>
                             <h3 class="text-xl font-bold text-white mb-2">Elite</h3>
                             <p class="text-xs text-gray-500 mb-6">Our Premium Service</p>
-                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$45 <span
+                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£45 <span
                                     class="text-sm font-medium text-gray-400">/ per card</span></div>
                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5
                                     Business Days</span></div>
@@ -282,7 +282,7 @@
                         <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
                              <h3 class="text-xl font-bold text-white mb-2">Basic Auto</h3>
                              <p class="text-xs text-gray-500 mb-6">Authentication Only</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$20 <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£20 <span class="text-sm font-medium text-gray-400">/ item</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">45 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Signature verification</li>
@@ -297,7 +297,7 @@
                              <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
                              <h3 class="text-xl font-bold text-white mb-2">Grade + Auto</h3>
                              <p class="text-xs text-gray-500 mb-6">Card Grade & Auto Auth</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$35 <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£35 <span class="text-sm font-medium text-gray-400">/ item</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">20 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Card Grading</li>
@@ -311,7 +311,7 @@
                         <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
                              <h3 class="text-xl font-bold text-white mb-2">Dual Service</h3>
                              <p class="text-xs text-gray-500 mb-6">Grade Both Card & Auto</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$55 <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£55 <span class="text-sm font-medium text-gray-400">/ item</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Card Grading (1-10)</li>
@@ -335,7 +335,7 @@
                         <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
                              <h3 class="text-xl font-bold text-white mb-2">Standard</h3>
                              <p class="text-xs text-gray-500 mb-6">Re-case Existing Slabs</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$10 <span class="text-sm font-medium text-gray-400">/ card</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£10 <span class="text-sm font-medium text-gray-400">/ card</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">45 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> New Generation Slab</li>
@@ -350,7 +350,7 @@
                              <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
                              <h3 class="text-xl font-bold text-white mb-2">Express</h3>
                              <p class="text-xs text-gray-500 mb-6">Fast Track Re-casing</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$20 <span class="text-sm font-medium text-gray-400">/ card</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£20 <span class="text-sm font-medium text-gray-400">/ card</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">20 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Priority queue</li>
@@ -364,7 +364,7 @@
                         <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
                              <h3 class="text-xl font-bold text-white mb-2">Elite</h3>
                              <p class="text-xs text-gray-500 mb-6">Premium Re-casing</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$35 <span class="text-sm font-medium text-gray-400">/ card</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£35 <span class="text-sm font-medium text-gray-400">/ card</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Max Speed</li>
@@ -388,7 +388,7 @@
                         <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
                              <h3 class="text-xl font-bold text-white mb-2">Standard</h3>
                              <p class="text-xs text-gray-500 mb-6">Verification Only</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$12 <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£12 <span class="text-sm font-medium text-gray-400">/ item</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">45 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Visual inspection</li>
@@ -403,7 +403,7 @@
                              <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
                              <h3 class="text-xl font-bold text-white mb-2">Express</h3>
                              <p class="text-xs text-gray-500 mb-6">Fast Verification</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$22 <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£22 <span class="text-sm font-medium text-gray-400">/ item</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">20 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Priority review</li>
@@ -417,7 +417,7 @@
                         <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
                              <h3 class="text-xl font-bold text-white mb-2">Elite</h3>
                              <p class="text-xs text-gray-500 mb-6">Expert Verification</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">$40 <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£40 <span class="text-sm font-medium text-gray-400">/ item</span></div>
                              <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5 Business Days</span></div>
                              <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                 <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Multi-expert panel</li>

@@ -52,7 +52,7 @@
                             </td>
                             <td style="padding-bottom: 20px; width: 50%; vertical-align: top;">
                                 <div style="color: #6B7280; font-size: 11px; text-transform: uppercase; font-weight: bold; margin-bottom: 5px;">Total Amount</div>
-                                <div style="color: #111827; font-size: 16px; font-weight: 600;">€{{ number_format($submission->total_cost, 2) }}</div>
+                                <div style="color: #111827; font-size: 16px; font-weight: 600;">£{{ number_format($submission->total_cost, 2) }}</div>
                             </td>
                         </tr>
                         <tr>

@@ -71,7 +71,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <div>
-                    <h4 class="text-2xl font-bold text-white">€{{ number_format($stats['monthly_revenue'], 2) }}</h4>
+                    <h4 class="text-2xl font-bold text-white">£{{ number_format($stats['monthly_revenue'], 2) }}</h4>
                     <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Monthly Revenue</p>
                 </div>
             </div>
@@ -223,7 +223,7 @@
             <!-- Y-axis Guidelines -->
             <div class="absolute left-0 top-0 bottom-6 w-8 md:w-12 flex flex-col justify-between text-[10px] md:text-xs text-gray-500 font-medium z-10">
                 @for($i = 4; $i >= 0; $i--)
-                    <span class="truncate">€{{ number_format(($maxScale / 4) * $i, 0) }}</span>
+                    <span class="truncate">£{{ number_format(($maxScale / 4) * $i, 0) }}</span>
                 @endfor
             </div>
             
@@ -266,7 +266,7 @@
                     @foreach($mappedPoints as $point)
                         <g class="group cursor-pointer chart-point" 
                            data-date="{{ $point['full_date'] }}" 
-                           data-revenue="€{{ number_format($point['revenue']) }}"
+                           data-revenue="£{{ number_format($point['revenue']) }}"
                            data-cx="{{ $point['x'] / 10 }}" 
                            data-cy="{{ $point['y'] }}"
                            >
