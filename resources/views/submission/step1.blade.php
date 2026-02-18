@@ -58,7 +58,7 @@
                             <div class="relative submission-card-wrapper">
                                 <input type="radio" id="type_{{ $type->id }}" name="submission_type_id" value="{{ $type->id }}" class="peer hidden" 
                                     {{ (old('submission_type_id', session('submission_data.submission_type_id')) == $type->id) ? 'checked' : '' }} required>
-                                <label for="type_{{ $type->id }}" class="block text-left p-6 bg-[#15171A] border border-white/10 rounded-2xl cursor-pointer transition-all duration-300 
+                                <label for="type_{{ $type->id }}" class="block text-left p-6 bg-[#15171A] border border-white/10 rounded-2xl cursor-pointer transition-all duration-300 h-full
                                     hover:border-red-500/50 hover:bg-white/[0.02] 
                                     peer-checked:border-red-500 peer-checked:bg-red-500/5 peer-checked:shadow-[0_0_20px_rgba(163,5,10,0.1)]">
                                     <div class="flex items-center justify-between mb-2">
@@ -82,7 +82,11 @@
                     @enderror
                 </div>
 
-                <div class="flex justify-end pt-6 border-t border-white/10">
+                <div class="flex items-center justify-between pt-6 border-t border-white/10">
+                    <a href="{{ route('home') }}" class="text-gray-500 hover:text-white transition-colors text-sm font-semibold flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Exit to Home
+                    </a>
                     <button type="submit" class="w-full md:w-auto text-white bg-gradient-to-r from-red-600 to-[#A3050A] font-bold rounded-xl text-lg px-8 py-4 shadow-[0_0_20px_rgba(163,5,10,0.3)] hover:shadow-[0_0_30px_rgba(163,5,10,0.5)] transform transition hover:scale-[1.02]">
                         Continue to Service Level →
                     </button>
