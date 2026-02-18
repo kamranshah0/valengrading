@@ -104,6 +104,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="pt-6 border-t border-white/5">
+                            <button type="submit" class="w-full md:w-auto bg-gradient-to-r from-red-600 to-[#A3050A] text-white font-bold px-10 py-4 rounded-xl shadow-2xl shadow-red-900/20 transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest text-xs">
+                                Save General Config
+                            </button>
+                        </div>
                     </form>
                 </div>
 
