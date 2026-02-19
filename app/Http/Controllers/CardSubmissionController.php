@@ -433,7 +433,7 @@ class CardSubmissionController extends Controller
         }
 
         $submission = Submission::with(['user', 'serviceLevel', 'submissionType', 'cards', 'shippingAddress'])->findOrFail($submissionId);
-        $submission->update(['status' => 'order_received']);
+        $submission->update(['status' => 'awaiting_arrival']);
 
         // Generate Certification Numbers and QR Tokens for each card
         if ($submission->card_entry_mode === 'easy') {

@@ -23,7 +23,7 @@
             <label class="text-sm font-medium text-gray-400 md:hidden">Update Status:</label>
             <div class="relative w-full md:w-auto">
                 <select name="status" class="w-full md:w-48 h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-white focus:outline-none focus:border-red-500 transition-colors appearance-none cursor-pointer">
-                    @foreach(['draft', 'pending_payment', 'order_received', 'processing', 'shipped', 'completed', 'cancelled'] as $status)
+                    @foreach(['draft', 'pending_payment', 'awaiting_arrival', 'order_arrived', 'in_production', 'awaiting_shipment', 'shipped', 'completed', 'cancelled'] as $status)
                         <option value="{{ $status }}" {{ $submission->status === $status ? 'selected' : '' }}>
                             {{ ucwords(str_replace('_', ' ', $status)) }}
                         </option>

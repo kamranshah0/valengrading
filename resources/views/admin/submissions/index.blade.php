@@ -16,7 +16,7 @@
                 <div class="relative">
                     <select x-model="status" class="w-full md:w-auto h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-gray-300 focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
                         <option value="">All Statuses</option>
-                        @foreach(['draft', 'processing', 'shipped', 'completed', 'cancelled'] as $st)
+                        @foreach(['draft', 'pending_payment', 'awaiting_arrival', 'order_arrived', 'in_production', 'awaiting_shipment', 'shipped', 'completed', 'cancelled'] as $st)
                             <option value="{{ $st }}">{{ strtoupper(str_replace('_', ' ', $st)) }}</option>
                         @endforeach
                     </select>
@@ -123,8 +123,10 @@
                                     $colors = [
                                         'draft' => 'bg-gray-500/20 text-gray-400',
                                         // 'pending_payment' => 'bg-amber-500/20 text-amber-400',
-                                        'order_received' => 'bg-emerald-500/20 text-emerald-400',
-                                        'processing' => 'bg-red-500/20 text-red-400',
+                                        'awaiting_arrival' => 'bg-emerald-500/20 text-emerald-400',
+                                        'order_arrived' => 'bg-blue-500/20 text-blue-400',
+                                        'in_production' => 'bg-purple-500/20 text-purple-400',
+                                        'awaiting_shipment' => 'bg-amber-500/20 text-amber-400',
                                         'shipped' => 'bg-red-700/20 text-red-500',
                                         'completed' => 'bg-red-600/20 text-red-400',
                                         'cancelled' => 'bg-red-900/20 text-red-700',
