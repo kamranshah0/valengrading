@@ -432,13 +432,18 @@
                                 <x-ui.valen-input label="Recipient Name" name="full_name" placeholder="Full Name" :value="$latestAddress->full_name ?? auth()->user()->name" />
                                 <x-ui.valen-input label="Phone Number" name="phone" placeholder="+1 (555) 000-0000" :value="$latestAddress->number ?? ''" />
                             </div>
-                            <x-ui.valen-input label="Street Address" name="address_line_1" placeholder="Street Address" :value="$latestAddress->address_line_1 ?? ''" />
-                            <div class="grid grid-cols-3 gap-6">
+                            <x-ui.valen-input label="Address Line 1" name="address_line_1" placeholder="Street Address" :value="$latestAddress->address_line_1 ?? ''" />
+                            <x-ui.valen-input label="Address Line 2 (Optional)" name="address_line_2" placeholder="Start typing address..." :value="$latestAddress->address_line_2 ?? ''" />
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <x-ui.valen-input label="City" name="city" placeholder="City" :value="$latestAddress->city ?? ''" />
-                                <x-ui.valen-input label="State/County" name="county" placeholder="State/County" :value="$latestAddress->county ?? ''" />
-                                <x-ui.valen-input label="Zip/Post Code" name="post_code" placeholder="Zip Code" :value="$latestAddress->post_code ?? ''" />
+                                <x-ui.valen-input label="County (Optional)" name="county" placeholder="County" :value="$latestAddress->county ?? ''" />
                             </div>
-                            <x-ui.valen-input label="Country" name="country" placeholder="Country" :value="$latestAddress->country ?? ''" />
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <x-ui.valen-input label="Post Code" name="post_code" placeholder="Zip/Post Code" :value="$latestAddress->post_code ?? ''" />
+                                <x-ui.valen-input label="Country" name="country" placeholder="Country" :value="$latestAddress->country ?? ''" />
+                            </div>
                         </div>
                         <div class="mt-6 text-right">
                             <button type="submit" class="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-2 rounded text-sm font-bold transition-colors">
@@ -454,10 +459,12 @@
                             <span class="w-1.5 h-6 bg-[var(--color-primary)] rounded-sm"></span>
                             Change Password
                         </h3>
-                        <div class="gap-6 grid grid-cols-1 md:grid-cols-2">
-                            <x-ui.valen-input label="Current Password" type="password" name="current_password" placeholder="••••••••" />
-                            <x-ui.valen-input label="New Password" type="password" name="new_password" placeholder="••••••••" />
-                            <x-ui.valen-input label="Confirm New Password" type="password" name="new_password_confirmation" placeholder="••••••••" />
+                        <div class="space-y-6">
+                             <x-ui.valen-input label="Current Password" type="password" name="current_password" placeholder="••••••••" />
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <x-ui.valen-input label="New Password" type="password" name="new_password" placeholder="••••••••" />
+                                <x-ui.valen-input label="Confirm New Password" type="password" name="new_password_confirmation" placeholder="••••••••" />
+                            </div>
                         </div>
                         <div class="mt-6 text-right">
                             <button type="submit" class="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-6 py-2 rounded text-sm font-bold transition-colors">
