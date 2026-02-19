@@ -68,7 +68,7 @@
                             </p>
                         </div>
                         <div>
-                            <p class="text-gray-500">Entry Mode</p>
+                            <p class="text-gray-500">Entry Type</p>
                             <p class="text-white font-medium capitalize">{{ $submission->card_entry_mode }}</p>
                         </div>
                     </div>
