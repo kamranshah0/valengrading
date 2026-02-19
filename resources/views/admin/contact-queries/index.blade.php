@@ -70,15 +70,22 @@
                     @forelse($queries as $query)
                         <tr class="hover:bg-white/[0.02] transition-colors {{ $query->is_read ? '' : 'bg-white/[0.03]' }}">
                             <td class="px-6 py-4 text-sm">
-                                @if($query->is_read)
-                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-gray-500/20 text-gray-400 border border-gray-500/30">
-                                        Read
-                                    </span>
-                                @else
-                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-red-500/20 text-red-500 border border-red-500/30 anim-pulse">
-                                        New
-                                    </span>
-                                @endif
+                                @switch($query->status)
+                                    @case(\App\Models\ContactQuery::STATUS_NEW)
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-red-500/20 text-red-500 border border-red-500/30 anim-pulse">New</span>
+                                        @break
+                                    @case(\App\Models\ContactQuery::STATUS_READ)
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-gray-500/20 text-gray-400 border border-gray-500/30">Read</span>
+                                        @break
+                                    @case(\App\Models\ContactQuery::STATUS_IN_PROGRESS)
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-yellow-500/20 text-yellow-500 border border-yellow-500/30">In Progress</span>
+                                        @break
+                                    @case(\App\Models\ContactQuery::STATUS_COMPLETE)
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-emerald-500/20 text-emerald-500 border border-emerald-500/30">Complete</span>
+                                        @break
+                                    @default
+                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-md bg-gray-500/20 text-gray-400 border border-gray-500/30">Read</span>
+                                @endswitch
                             </td>
                             <td class="px-6 py-4 text-sm font-medium text-white">{{ $query->name ?: '-' }}</td>
                             <td class="px-6 py-4 text-sm text-gray-400">{{ $query->email }}</td>

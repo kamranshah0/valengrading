@@ -49,20 +49,70 @@
             </div>
         </div>
 
-        <!-- Actions -->
-        <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-stretch md:items-center justify-end gap-3">
-             <a href="mailto:{{ $contactQuery->email }}?subject=Re: {{ $contactQuery->subject }}&body=%0D%0A%0D%0AOn {{ $contactQuery->created_at->format('M d, Y') }}, {{ $contactQuery->name }} wrote:%0D%0A> {{ str_replace(PHP_EOL, '%0D%0A> ', $contactQuery->message) }}" 
-               class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-colors shadow-lg shadow-blue-900/40 text-center">
-                Reply via Email
-            </a>
-            
-            <form action="{{ route('admin.contact-queries.destroy', $contactQuery) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="w-full md:w-auto bg-red-600/10 hover:bg-red-600/20 text-red-500 border border-red-600/20 px-6 py-2 rounded-lg font-bold transition-colors">
-                    Delete Message
-                </button>
-            </form>
+
+        <!-- Actions & Reply -->
+        <div class="pt-8 border-t border-white/5 space-y-8">
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm uppercase text-gray-500 font-bold tracking-wider">Status</h3>
+                @switch($contactQuery->status)
+                    @case(\App\Models\ContactQuery::STATUS_NEW)
+                        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-md bg-red-500/20 text-red-500 border border-red-500/30">New</span>
+                        @break
+                    @case(\App\Models\ContactQuery::STATUS_READ)
+                        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-md bg-gray-500/20 text-gray-400 border border-gray-500/30">Read</span>
+                        @break
+                    @case(\App\Models\ContactQuery::STATUS_IN_PROGRESS)
+                        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-md bg-yellow-500/20 text-yellow-500 border border-yellow-500/30">In Progress</span>
+                        @break
+                    @case(\App\Models\ContactQuery::STATUS_COMPLETE)
+                        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-md bg-emerald-500/20 text-emerald-500 border border-emerald-500/30">Complete</span>
+                        @break
+                @endswitch
+            </div>
+
+            <!-- Reply Form -->
+            <div class="bg-black/20 rounded-xl p-6 border border-white/5">
+                <h3 class="text-white font-bold text-lg mb-4">Reply to {{ $contactQuery->name }}</h3>
+                <form action="{{ route('admin.contact-queries.update', $contactQuery) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    
+                    <div class="mb-4">
+                        <textarea name="reply_message" rows="6" class="w-full bg-[#15171A] text-white border border-white/10 rounded-lg p-4 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all placeholder-gray-600" placeholder="Type your reply here..." required></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <input type="hidden" name="action" value="reply">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-colors shadow-lg shadow-blue-900/40 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+                            Send Reply
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Management Actions -->
+            <div class="flex flex-col md:flex-row items-stretch md:items-center justify-end gap-3 pt-4 border-t border-white/5">
+                @if($contactQuery->status !== \App\Models\ContactQuery::STATUS_COMPLETE)
+                <form action="{{ route('admin.contact-queries.update', $contactQuery) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="action" value="complete">
+                    <button type="submit" class="w-full md:w-auto bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-500 border border-emerald-600/20 px-6 py-2 rounded-lg font-bold transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Mark as Complete
+                    </button>
+                </form>
+                @endif
+                
+                <form action="{{ route('admin.contact-queries.destroy', $contactQuery) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="w-full md:w-auto bg-red-600/10 hover:bg-red-600/20 text-red-500 border border-red-600/20 px-6 py-2 rounded-lg font-bold transition-colors">
+                        Delete Message
+                    </button>
+                </form>
+            </div>
         </div>
 
     </div>

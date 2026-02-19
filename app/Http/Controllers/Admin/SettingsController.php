@@ -28,6 +28,8 @@ class SettingsController extends Controller
             'mail_from_address' => SiteSetting::get('mail_from_address', 'hello@valengrading.com'),
             'mail_from_name' => SiteSetting::get('mail_from_name', 'Valen Grading'),
 
+
+
             // Shipping Settings
             'shipping_name' => SiteSetting::get('shipping_name', 'Valen Grading'),
             'shipping_address' => SiteSetting::get('shipping_address', ''),
@@ -95,6 +97,7 @@ class SettingsController extends Controller
             'mail_encryption' => 'required',
             'mail_from_address' => 'required|email',
             'mail_from_name' => 'required',
+
         ]);
 
         foreach ($data as $key => $value) {
