@@ -21,7 +21,20 @@ class SubmissionController extends Controller
     public function show(Submission $submission)
     {
         $submission->load(['user', 'serviceLevel', 'submissionType', 'labelType', 'cards.labelType', 'shippingAddress']);
-        return view('admin.submissions.show', compact('submission'));
+        
+        $statuses = [
+            'Submission Complete', 
+            'Cards Received', 
+            'In Grading', 
+            'Label Creation', 
+            'Slabbed', 
+            'Quality Control', 
+            'Completed', 
+            'Shipped', 
+            'Delivered'
+        ];
+
+        return view('admin.submissions.show', compact('submission', 'statuses'));
     }
 
     public function updateStatus(Request $request, Submission $submission)

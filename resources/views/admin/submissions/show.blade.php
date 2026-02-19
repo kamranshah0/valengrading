@@ -200,7 +200,7 @@
         <div class="p-4 md:p-6 border-b border-white/5">
             <h3 class="text-lg font-bold text-white flex items-center gap-2">
                 <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                Itemized Cards ({{ count($submission->cards) }})
+                Card List ({{ count($submission->cards) }})
             </h3>
         </div>
         
@@ -213,19 +213,20 @@
                             <div class="text-white font-medium">{{ $card->title }}</div>
                             <div class="text-xs text-gray-500 mt-0.5">{{ $card->year }} {{ $card->set_name }} #{{ $card->card_number }}</div>
                         </div>
-                        @php
-                            $statusColors = [
-                                'Submission Complete' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-                                'Cards Received' => 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-                                'In Grading' => 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-                                'Slabbed' => 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-                                'Delivered' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-                            ];
-                            $colorClass = $statusColors[$card->status] ?? 'bg-white/5 text-gray-300 border-white/10';
-                        @endphp
-                        <span class="flex-shrink-0 px-2.5 py-1 rounded-full text-[10px] font-bold border uppercase tracking-wider {{ $colorClass }}">
-                            {{ $card->status ?? 'Received' }}
-                        </span>
+                        <form action="{{ route('admin.submissions.cards.update', $card) }}" method="POST" x-data class="flex-shrink-0">
+                            @csrf
+                            @method('PATCH')
+                            <div class="relative">
+                                <select name="status" @change="$el.closest('form').submit()" 
+                                    class="w-full bg-[#15171A] border border-white/10 rounded-lg pl-3 pr-8 py-1 text-[10px] text-white font-medium focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
+                                    @foreach($statuses as $statusOption)
+                                        <option value="{{ $statusOption }}" {{ $card->status === $statusOption ? 'selected' : '' }}>
+                                            {{ $statusOption }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
                     </div>
                     
                     <div class="flex items-center justify-between pt-3 border-t border-white/5">
@@ -276,19 +277,23 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
-                                @php
-                                    $statusColors = [
-                                        'Submission Complete' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-                                        'Cards Received' => 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-                                        'In Grading' => 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-                                        'Slabbed' => 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-                                        'Delivered' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
-                                    ];
-                                    $colorClass = $statusColors[$card->status] ?? 'bg-white/5 text-gray-300 border-white/10';
-                                @endphp
-                                <span class="px-3 py-1 rounded-full text-[10px] font-bold border uppercase tracking-tighter {{ $colorClass }}">
-                                    {{ $card->status ?? 'Submission Complete' }}
-                                </span>
+                                <form action="{{ route('admin.submissions.cards.update', $card) }}" method="POST" x-data>
+                                    @csrf
+                                    @method('PATCH')
+                                    <div class="relative">
+                                        <select name="status" @change="$el.closest('form').submit()" 
+                                            class="w-full bg-[#15171A] border border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-[11px] text-white font-medium focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
+                                            @foreach($statuses as $statusOption)
+                                                <option value="{{ $statusOption }}" {{ $card->status === $statusOption ? 'selected' : '' }}>
+                                                    {{ $statusOption }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                        </div>
+                                    </div>
+                                </form>
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{{ route('admin.submissions.cards.edit', $card) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all text-[11px] font-bold">
