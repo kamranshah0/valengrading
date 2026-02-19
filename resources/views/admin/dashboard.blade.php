@@ -6,78 +6,23 @@
 <div class="space-y-8">
     <!-- Stat Cards -->
     <!-- Stat Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-        <!-- Total Users -->
+    <!-- Row 1: Logistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Active Orders -->
         <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-blue-500/20"></div>
             <div class="flex flex-col h-full justify-between gap-4">
                 <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                </div>
-                <div>
-                    <h4 class="text-2xl font-bold text-white">{{ $stats['total_users'] }}</h4>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Total Users</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Submissions -->
-        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-gray-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-gray-500/20"></div>
-            <div class="flex flex-col h-full justify-between gap-4">
-                <div class="w-10 h-10 rounded-lg bg-gray-500/20 flex items-center justify-center text-gray-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                 </div>
                 <div>
-                    <h4 class="text-2xl font-bold text-white">{{ $stats['total_submissions'] }}</h4>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">All Submissions</p>
+                    <h4 class="text-2xl font-bold text-white">{{ $stats['active_orders'] }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Active Orders</p>
                 </div>
             </div>
         </div>
 
-        <!-- Received Submissions (Non-Draft) -->
-        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-emerald-500/20"></div>
-            <div class="flex flex-col h-full justify-between gap-4">
-                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <div>
-                    <h4 class="text-2xl font-bold text-white">{{ $stats['received_submissions'] }}</h4>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Received Orders</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Drafts -->
-        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-gray-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-gray-500/20"></div>
-            <div class="flex flex-col h-full justify-between gap-4">
-                <div class="w-10 h-10 rounded-lg bg-gray-500/20 flex items-center justify-center text-gray-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                </div>
-                <div>
-                    <h4 class="text-2xl font-bold text-white">{{ $stats['draft_submissions'] }}</h4>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Drafts</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Monthly Revenue -->
-        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-emerald-500/20"></div>
-            <div class="flex flex-col h-full justify-between gap-4">
-                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <div>
-                    <h4 class="text-2xl font-bold text-white">£{{ number_format($stats['monthly_revenue'], 2) }}</h4>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Monthly Revenue</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Cards -->
+        <!-- Cards In Production -->
         <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-purple-500/20"></div>
             <div class="flex flex-col h-full justify-between gap-4">
@@ -85,10 +30,152 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                 </div>
                 <div>
-                    <h4 class="text-2xl font-bold text-white">{{ $stats['total_cards'] }}</h4>
-                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Total Cards</p>
+                    <h4 class="text-2xl font-bold text-white">{{ $stats['cards_in_production'] }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Cards In Production</p>
                 </div>
             </div>
+        </div>
+
+        <!-- Awaiting Customer Label -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-amber-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">{{ $stats['awaiting_label'] }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Awaiting Label Selection</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Ready To Ship -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-emerald-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">{{ $stats['ready_to_ship'] }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Ready To Ship</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 2: Revenue -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Revenue This Month -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-emerald-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">£{{ number_format($stats['revenue_this_month'], 2) }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Revenue This Month</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue This Week -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-emerald-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">£{{ number_format($stats['revenue_this_week'], 2) }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Revenue This Week</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avg Revenue Per Card -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-blue-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">£{{ number_format($stats['avg_revenue_per_card'], 2) }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg Rev / Card</p>
+                </div>
+            </div>
+        </div>
+
+         <!-- Avg Revenue Per Order -->
+         <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-blue-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">£{{ number_format($stats['avg_revenue_per_order'], 2) }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg Rev / Order</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 3: Operational Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Total Cards This Month -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-purple-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">{{ $stats['total_cards_this_month'] }}</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Total Cards (This Month)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avg Order Completion Time -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gray-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-gray-500/20"></div>
+            <div class="flex flex-col h-full justify-between gap-4">
+                <div class="w-10 h-10 rounded-lg bg-gray-500/20 flex items-center justify-center text-gray-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-white">{{ $stats['avg_completion_time'] }} Days</h4>
+                    <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Avg Completion Time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Breakdown -->
+        <div class="bg-[#232528]/50 backdrop-blur-xl border border-white/5 p-6 rounded-2xl relative overflow-hidden group">
+             <div class="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-2xl -z-10 transition-all duration-700 group-hover:bg-red-500/20"></div>
+             <div class="flex flex-col h-full gap-4">
+                 <div class="flex items-center gap-2 mb-2">
+                     <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center text-red-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                     </div>
+                     <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Service Breakdown</p>
+                 </div>
+                 <div class="space-y-2 overflow-y-auto max-h-24 pr-2">
+                    @foreach($stats['service_breakdown'] as $service)
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-gray-300">{{ $service['name'] }}</span>
+                            <span class="font-bold text-white">{{ $service['percentage'] }}%</span>
+                        </div>
+                        <div class="w-full bg-white/5 rounded-full h-1">
+                            <div class="bg-red-500 h-1 rounded-full opactiy-80" style="width: {{ $service['percentage'] }}%"></div>
+                        </div>
+                    @endforeach
+                 </div>
+             </div>
         </div>
     </div>
 
@@ -98,16 +185,28 @@
             <div class="flex flex-col md:flex-row md:items-center gap-4">
                 <h3 class="text-lg font-bold text-white flex items-center gap-2">
                     <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
-                    <span>Revenue Trend <span class="text-gray-400 text-sm font-normal">({{ $stats['active_filter'] == '30_days' ? 'Last 30 Days' : 'Last 12 Months' }})</span></span>
+                    @php
+                        $filterLabels = [
+                            '12_months' => 'Yearly',
+                            '12_weeks' => 'Weekly',
+                            '30_days' => 'Monthly',
+                        ];
+                        $activeLabel = $filterLabels[$stats['active_filter'] ?? '12_months'] ?? 'Yearly';
+                    @endphp
+                    <span>Revenue Trend <span class="text-gray-400 text-sm font-normal">({{ $activeLabel }})</span></span>
                 </h3>
                 <div class="flex bg-white/5 rounded-lg p-1 self-start md:self-auto">
                     <a href="{{ request()->fullUrlWithQuery(['revenue_filter' => '12_months']) }}" 
                        class="px-3 py-1 text-xs font-medium rounded-md transition-all {{ ($stats['active_filter'] ?? '12_months') == '12_months' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
-                        12 Months
+                        Yearly
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['revenue_filter' => '12_weeks']) }}" 
+                       class="px-3 py-1 text-xs font-medium rounded-md transition-all {{ ($stats['active_filter'] ?? '') == '12_weeks' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
+                        Weekly
                     </a>
                     <a href="{{ request()->fullUrlWithQuery(['revenue_filter' => '30_days']) }}" 
                        class="px-3 py-1 text-xs font-medium rounded-md transition-all {{ ($stats['active_filter'] ?? '') == '30_days' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5' }}">
-                        30 Days
+                        Monthly
                     </a>
                 </div>
             </div>
