@@ -99,7 +99,9 @@ Route::group(['prefix' => 'submission', 'as' => 'submission.'], function () {
     Route::get('/payment/success', [CardSubmissionController::class, 'paymentSuccess'])->name('success');
     Route::get('/payment/cancel', [CardSubmissionController::class, 'paymentCancel'])->name('cancel');
     Route::get('/packing-slip/{id}', [CardSubmissionController::class, 'downloadPackingSlip'])->name('packingSlip.download');
+    // Resume & Delete Drafts
     Route::get('/resume/{id}', [CardSubmissionController::class, 'resume'])->name('resume');
+    Route::delete('/draft/{id}', [CardSubmissionController::class, 'deleteDraft'])->name('draft.delete');
 });
 
 // Public Card Validation/Report

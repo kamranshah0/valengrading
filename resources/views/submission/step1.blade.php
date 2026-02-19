@@ -37,6 +37,43 @@
                 <p class="text-gray-400">Let's get started with your submission details.</p>
             </div>
 
+            <!-- Resume Draft Section -->
+            @if(isset($drafts) && $drafts->count() > 0)
+                <div class="mb-10 animate-fade-in-up">
+                    <label class="block mb-4 text-sm font-semibold text-gray-300 uppercase tracking-wider">Resume a Submission</label>
+                    
+                    <div class="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                        @foreach($drafts as $draft)
+                            <div class="bg-[#15171A] border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:border-red-500/50 hover:bg-white/[0.02] flex flex-col md:flex-row md:items-center justify-between gap-4 group">
+                                <div>
+                                    <h4 class="font-bold text-white text-lg group-hover:text-red-400 transition-colors">{{ $draft->guest_name ?? 'Untitled Submission' }} 
+                                        <span class="text-gray-500 font-normal text-sm ml-2">({{ $draft->submissionType->title ?? 'Unknown' }} - {{ $draft->serviceLevel->name ?? 'Unknown' }})</span>
+                                    </h4>
+                                    <div class="text-xs text-gray-500 mt-2 flex gap-4 uppercase tracking-wider font-medium">
+                                        <span>Created: {{ $draft->created_at->format('jS F Y') }}</span>
+                                        <span>Cards: {{ $draft->total_cards ?? 0 }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('submission.resume', $draft->id) }}" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all border border-white/5 hover:border-white/20">
+                                        <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                        Resume
+                                    </a>
+                                    <form action="{{ route('submission.draft.delete', $draft->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this draft?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="flex items-center gap-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all border border-red-500/20 hover:border-red-500">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <form action="{{ route('submission.storeStep1') }}" method="POST">
                 @csrf
                 

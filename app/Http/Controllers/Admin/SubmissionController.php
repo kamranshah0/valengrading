@@ -11,6 +11,7 @@ class SubmissionController extends Controller
     public function index(Request $request)
     {
         $submissions = Submission::with(['user', 'serviceLevel', 'submissionType', 'cards', 'labelType'])
+            ->where('status', '!=', 'draft')
             ->latest()
             ->get();
 

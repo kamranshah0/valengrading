@@ -15,9 +15,34 @@ class CardSubmissionController extends Controller
     // Step 1: Submission Name & Type
     public function index()
     {
-        $types = SubmissionType::where('is_active', true)->orderBy('order')->get();
+        // Clear previous submission data to ensure fresh start unless resuming
+        session()->forget(['submission_data', 'pending_submission_id']);
 
-        return view('submission.step1', compact('types'));
+        $types = SubmissionType::where('is_active', true)->orderBy('order')->get();
+        
+        $drafts = collect();
+        if (auth()->check()) {
+            $drafts = Submission::where('user_id', auth()->id())
+                ->where('status', 'draft')
+                ->with(['submissionType', 'serviceLevel'])
+                ->latest()
+                ->get();
+        }
+
+        return view('submission.step1', compact('types', 'drafts'));
+    }
+
+    public function deleteDraft($id)
+    {
+        $submission = Submission::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+
+        if ($submission->status !== 'draft') {
+            return back()->with('error', 'Cannot delete a submitted order.');
+        }
+
+        $submission->delete();
+
+        return back()->with('success', 'Draft submission deleted.');
     }
 
     public function storeStep1(Request $request)
