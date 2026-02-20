@@ -23,65 +23,70 @@ class ServiceLevelSeeder extends Seeder
         $crossover = \App\Models\SubmissionType::where('name', 'Crossover')->first();
         $auth = \App\Models\SubmissionType::where('name', 'Authentication')->first();
 
-        // 1. Grading (Basic: £8, Express: £15? - Keeping placeholder)
+        $tiers = [
+            ['name' => 'Basic', 'time' => '45 Business Days', 'price' => 15.00],
+            ['name' => 'Express', 'time' => '20 Business Days', 'price' => 25.00],
+            ['name' => 'Premium', 'time' => '5 Business Days', 'price' => 45.00],
+        ];
+
+        // 1. Grading
         if ($grading) {
-            ServiceLevel::create([
-                'submission_type_id' => $grading->id,
-                'name' => 'Basic',
-                'delivery_time' => '15-20 Business Days',
-                'min_submission' => 5,
-                'price_per_card' => 8.00,
-                'order' => 1,
-                'is_active' => true,
-            ]);
-            ServiceLevel::create([
-                'submission_type_id' => $grading->id,
-                'name' => 'Express',
-                'delivery_time' => '5-7 Business Days',
-                'min_submission' => 5,
-                'price_per_card' => 15.00, // Placeholder
-                'order' => 2,
-                'is_active' => true,
-            ]);
+            foreach ($tiers as $index => $tier) {
+                ServiceLevel::create([
+                    'submission_type_id' => $grading->id,
+                    'name' => $tier['name'],
+                    'delivery_time' => $tier['time'],
+                    'min_submission' => $tier['name'] === 'Basic' ? 5 : null,
+                    'price_per_card' => $tier['price'],
+                    'order' => $index + 1,
+                    'is_active' => true,
+                ]);
+            }
         }
 
-        // 2. Reholder (£6, No Min)
+        // 2. Reholder
         if ($reholder) {
-            ServiceLevel::create([
-                'submission_type_id' => $reholder->id,
-                'name' => 'Standard Reholder',
-                'delivery_time' => '10-15 Business Days',
-                'min_submission' => null,
-                'price_per_card' => 6.00,
-                'order' => 1,
-                'is_active' => true,
-            ]);
+            foreach ($tiers as $index => $tier) {
+                ServiceLevel::create([
+                    'submission_type_id' => $reholder->id,
+                    'name' => $tier['name'] . ' Reholder',
+                    'delivery_time' => $tier['time'],
+                    'min_submission' => null,
+                    'price_per_card' => $tier['price'],
+                    'order' => $index + 1,
+                    'is_active' => true,
+                ]);
+            }
         }
 
-        // 3. Crossover (£6, No Min)
+        // 3. Crossover
         if ($crossover) {
-            ServiceLevel::create([
-                'submission_type_id' => $crossover->id,
-                'name' => 'Standard Crossover',
-                'delivery_time' => '15-20 Business Days',
-                'min_submission' => null,
-                'price_per_card' => 6.00,
-                'order' => 1,
-                'is_active' => true,
-            ]);
+            foreach ($tiers as $index => $tier) {
+                ServiceLevel::create([
+                    'submission_type_id' => $crossover->id,
+                    'name' => $tier['name'] . ' Crossover',
+                    'delivery_time' => $tier['time'],
+                    'min_submission' => null,
+                    'price_per_card' => $tier['price'],
+                    'order' => $index + 1,
+                    'is_active' => true,
+                ]);
+            }
         }
 
-        // 4. Authentication (£6, Min 2)
+        // 4. Authentication
         if ($auth) {
-            ServiceLevel::create([
-                'submission_type_id' => $auth->id,
-                'name' => 'Authentication Only',
-                'delivery_time' => '15-20 Business Days',
-                'min_submission' => 2,
-                'price_per_card' => 6.00,
-                'order' => 1,
-                'is_active' => true,
-            ]);
+            foreach ($tiers as $index => $tier) {
+                ServiceLevel::create([
+                    'submission_type_id' => $auth->id,
+                    'name' => $tier['name'] . ' Authentication',
+                    'delivery_time' => $tier['time'],
+                    'min_submission' => null,
+                    'price_per_card' => $tier['price'],
+                    'order' => $index + 1,
+                    'is_active' => true,
+                ]);
+            }
         }
     }
 }

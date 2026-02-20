@@ -100,333 +100,97 @@
                         budget. All options include our industry-leading quality standards.</p>
                 </div>
 
-                <!-- Tabs -->
+                 <!-- Tabs -->
                 <div class="flex justify-center mb-12">
-                    <div class="bg-white/10 backdrop-blur-md rounded-full p-1 flex border border-white/10">
+                    <div class="bg-white/10 backdrop-blur-md rounded-full p-1 flex border border-white/10 overflow-x-auto max-w-full hide-scrollbar">
                         <button @click="activeTab = 'grading'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'grading', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'grading' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300">Grading</button>
-                        <button @click="activeTab = 'autograph'"
-                            :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'autograph', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'autograph' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300">Autograph</button>
+                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Grading</button>
+                        <button @click="activeTab = 'crossover'"
+                            :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'crossover', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'crossover' }"
+                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Crossover</button>
                         <button @click="activeTab = 'reholder'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'reholder', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'reholder' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300">Re-Holder</button>
+                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Re-Holder</button>
                         <button @click="activeTab = 'authentication'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'authentication', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'authentication' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300">Authentication</button>
+                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Authentication</button>
                     </div>
                 </div>
 
                 <!-- Content Area -->
                 <div class="relative min-h-[500px]">
                     
-                    <!-- Grading Content -->
-                    <div x-show="activeTab === 'grading'" 
-                         x-transition:enter="transition ease-out duration-500"
-                         x-transition:enter-start="opacity-0 translate-y-8"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         x-transition:leave="transition ease-in duration-300 absolute top-0 w-full"
-                         x-transition:leave-start="opacity-100 translate-y-0"
-                         x-transition:leave-end="opacity-0 -translate-y-8"
-                         class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                        <!-- Standard -->
-                        <div
-                            class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                            <div
-                                class="w-12 h-12 rounded-lg bg-[#2A1215] flex items-center justify-center text-[var(--color-primary)] mb-6">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
-                                    </path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Standard</h3>
-                            <p class="text-xs text-gray-500 mb-6">Perfect for new collectors</p>
-                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£15 <span
-                                    class="text-sm font-medium text-gray-400">/ per card</span></div>
-                            <div class="text-sm text-white font-bold mb-8">Turnaround: <span
-                                    class="text-gray-400 font-normal">45 Business Days</span></div>
+                    @php
+                        $tiers = [
+                            'Basic' => ['price' => '15', 'time' => '45 Business Days', 'subtitle' => 'Perfect for casual collectors', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'],
+                            'Express' => ['price' => '25', 'time' => '20 Business Days', 'subtitle' => 'Faster service for urgent needs', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>'],
+                            'Premium' => ['price' => '45', 'time' => '5 Business Days', 'subtitle' => 'Our highest tier service', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>'],
+                        ];
+                        
+                        $services = [
+                            'grading' => [
+                                'Basic' => ['Authentication', 'Expert Grading', 'Encapsulation', 'Basic insurance'],
+                                'Express' => ['All Basic features', 'Priority handling', 'Enhanced insurance', 'Front of line access'],
+                                'Premium' => ['All Express features', 'Same day processing', 'Dedicated support', 'Max insurance cover', 'White glove service'],
+                            ],
+                            'crossover' => [
+                                'Basic' => ['Evaluation', 'New encapsulation if grade meets/exceeds', 'Database entry', 'Basic insurance'],
+                                'Express' => ['Priority Evaluation', 'New encapsulation if grade meets/exceeds', 'Enhanced insurance', 'Front of line access'],
+                                'Premium' => ['Expert Panel Evaluation', 'Same day processing', 'Dedicated support', 'Max insurance cover'],
+                            ],
+                            'reholder' => [
+                                'Basic' => ['New Generation Slab', 'Label refresh', 'Sonic sealing'],
+                                'Express' => ['Priority queue', 'New Generation Slab', 'Enhanced protection'],
+                                'Premium' => ['Max Speed', 'UV Protection', 'Custom label option'],
+                            ],
+                            'authentication' => [
+                                'Basic' => ['Visual inspection', 'Digital Proof', 'Database addition'],
+                                'Express' => ['Priority review', 'Physical Letter', 'Fast tracking'],
+                                'Premium' => ['Multi-expert panel', 'Detailed Report', 'High value items'],
+                            ]
+                        ];
+                    @endphp
 
-                            <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Authentication</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Expert Grading</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Encapsulation</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Basic insurance</li>
-                            </ul>
-                            <button
-                                class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
+                    @foreach($services as $serviceKey => $serviceTiers)
+                        <div x-show="activeTab === '{{ $serviceKey }}'" {{ $serviceKey !== 'grading' ? 'style="display: none;"' : '' }}
+                             x-transition:enter="transition ease-out duration-500"
+                             x-transition:enter-start="opacity-0 translate-y-8"
+                             x-transition:enter-end="opacity-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-300 absolute top-0 w-full"
+                             x-transition:leave-start="opacity-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 -translate-y-8"
+                             class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+                             
+                             @foreach($tiers as $tierName => $tierDetails)
+                                <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] {{ $tierName === 'Express' ? 'scale-105 z-10 shadow-2xl relative' : '' }} group relative overflow-hidden">
+                                     @if($tierName === 'Express')
+                                        <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
+                                     @endif
+                                     
+                                     <div class="w-12 h-12 rounded-lg bg-[#2A1215] flex items-center justify-center text-[var(--color-primary)] mb-6">
+                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             {!! $tierDetails['icon'] !!}
+                                         </svg>
+                                     </div>
+                                     <h3 class="text-xl font-bold text-white mb-2">{{ $tierName }}</h3>
+                                     <p class="text-xs text-gray-500 mb-6">{{ $tierDetails['subtitle'] }}</p>
+                                     <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£{{ $tierDetails['price'] }} <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                                     <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">{{ $tierDetails['time'] }}</span></div>
+        
+                                     <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
+                                        @foreach($serviceTiers[$tierName] as $featureDescription)
+                                            <li class="flex items-center">
+                                                <svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> 
+                                                {{ $featureDescription }}
+                                            </li>
+                                        @endforeach
+                                     </ul>
+                                     <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
+                                </div>
+                             @endforeach
                         </div>
-
-                        <!-- Express -->
-                        <div
-                            class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] scale-105 z-10 shadow-2xl group relative overflow-hidden">
-                            <div
-                                class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">
-                                Most Popular</div>
-                            <div
-                                class="w-12 h-12 rounded-lg bg-[#2A1215] flex items-center justify-center text-[var(--color-primary)] mb-6">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Express</h3>
-                            <p class="text-xs text-gray-500 mb-6">Faster service for urgent needs</p>
-                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£25 <span
-                                    class="text-sm font-medium text-gray-400">/ per card</span></div>
-                            <div class="text-sm text-white font-bold mb-8">Turnaround: <span
-                                    class="text-gray-400 font-normal">20 Business Days</span></div>
-
-                            <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> All Standard features</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Priority handling</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Enhanced insurance</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Front of line access</li>
-                            </ul>
-                            <button
-                                class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Elite -->
-                        <div
-                            class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                            <div
-                                class="w-12 h-12 rounded-lg bg-[#2A1215] flex items-center justify-center text-[var(--color-primary)] mb-6">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Elite</h3>
-                            <p class="text-xs text-gray-500 mb-6">Our Premium Service</p>
-                            <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£45 <span
-                                    class="text-sm font-medium text-gray-400">/ per card</span></div>
-                            <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5
-                                    Business Days</span></div>
-
-                            <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> All Express features</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Same day processing</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Dedicated support</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> Max insurance cover</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                            d="M5 13l4 4L19 7"></path>
-                                    </svg> White glove service</li>
-                            </ul>
-                            <button
-                                class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-                    </div>
-
-                    <!-- Autograph Content -->
-                    <div x-show="activeTab === 'autograph'" style="display: none;"
-                         x-transition:enter="transition ease-out duration-500"
-                         x-transition:enter-start="opacity-0 translate-y-8"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         x-transition:leave="transition ease-in duration-300 absolute top-0 w-full"
-                         x-transition:leave-start="opacity-100 translate-y-0"
-                         x-transition:leave-end="opacity-0 -translate-y-8"
-                         class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                         <!-- Auto Standard -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                             <h3 class="text-xl font-bold text-white mb-2">Basic Auto</h3>
-                             <p class="text-xs text-gray-500 mb-6">Authentication Only</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£20 <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">45 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Signature verification</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Encapsulation</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Database entry</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Auto Express -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] scale-105 z-10 shadow-2xl group relative overflow-hidden">
-                             <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
-                             <h3 class="text-xl font-bold text-white mb-2">Grade + Auto</h3>
-                             <p class="text-xs text-gray-500 mb-6">Card Grade & Auto Auth</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£35 <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">20 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Card Grading</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Auto Authentication</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Dual label info</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Auto Elite -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                             <h3 class="text-xl font-bold text-white mb-2">Dual Service</h3>
-                             <p class="text-xs text-gray-500 mb-6">Grade Both Card & Auto</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£55 <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Card Grading (1-10)</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Auto Grading (1-10)</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Detailed subgrades</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-                    </div>
-
-                    <!-- Reholder Content -->
-                    <div x-show="activeTab === 'reholder'" style="display: none;"
-                         x-transition:enter="transition ease-out duration-500"
-                         x-transition:enter-start="opacity-0 translate-y-8"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         x-transition:leave="transition ease-in duration-300 absolute top-0 w-full"
-                         x-transition:leave-start="opacity-100 translate-y-0"
-                         x-transition:leave-end="opacity-0 -translate-y-8"
-                         class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                         <!-- Reholder Standard -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                             <h3 class="text-xl font-bold text-white mb-2">Standard</h3>
-                             <p class="text-xs text-gray-500 mb-6">Re-case Existing Slabs</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£10 <span class="text-sm font-medium text-gray-400">/ card</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">45 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> New Generation Slab</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Label refresh</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Sonic sealing</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Reholder Express -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] scale-105 z-10 shadow-2xl group relative overflow-hidden">
-                             <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
-                             <h3 class="text-xl font-bold text-white mb-2">Express</h3>
-                             <p class="text-xs text-gray-500 mb-6">Fast Track Re-casing</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£20 <span class="text-sm font-medium text-gray-400">/ card</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">20 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Priority queue</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> New Generation Slab</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Enhanced protection</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Reholder Elite -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                             <h3 class="text-xl font-bold text-white mb-2">Elite</h3>
-                             <p class="text-xs text-gray-500 mb-6">Premium Re-casing</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£35 <span class="text-sm font-medium text-gray-400">/ card</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Max Speed</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> UV Protection</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Custom label option</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-                    </div>
-
-                    <!-- Authentication Content -->
-                    <div x-show="activeTab === 'authentication'" style="display: none;"
-                         x-transition:enter="transition ease-out duration-500"
-                         x-transition:enter-start="opacity-0 translate-y-8"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         x-transition:leave="transition ease-in duration-300 absolute top-0 w-full"
-                         x-transition:leave-start="opacity-100 translate-y-0"
-                         x-transition:leave-end="opacity-0 -translate-y-8"
-                         class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                         <!-- Auth Standard -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                             <h3 class="text-xl font-bold text-white mb-2">Standard</h3>
-                             <p class="text-xs text-gray-500 mb-6">Verification Only</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£12 <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">45 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Visual inspection</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Digital Proof</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Database addition</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Auth Express -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] scale-105 z-10 shadow-2xl group relative overflow-hidden">
-                             <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
-                             <h3 class="text-xl font-bold text-white mb-2">Express</h3>
-                             <p class="text-xs text-gray-500 mb-6">Fast Verification</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£22 <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">20 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Priority review</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Physical Letter</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Fast tracking</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-
-                        <!-- Auth Elite -->
-                        <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] group relative overflow-hidden">
-                             <h3 class="text-xl font-bold text-white mb-2">Elite</h3>
-                             <p class="text-xs text-gray-500 mb-6">Expert Verification</p>
-                             <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£40 <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                             <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">5 Business Days</span></div>
-                             <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Multi-expert panel</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> Detailed Report</li>
-                                <li class="flex items-center"><svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> High value items</li>
-                             </ul>
-                             <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -443,9 +207,9 @@
                         <thead class="text-xs text-white uppercase bg-black/40">
                             <tr>
                                 <th scope="col" class="px-6 py-4 font-bold">Feature</th>
-                                <th scope="col" class="px-6 py-4 font-bold text-center">Standard</th>
+                                <th scope="col" class="px-6 py-4 font-bold text-center">Basic</th>
                                 <th scope="col" class="px-6 py-4 font-bold text-center">Express</th>
-                                <th scope="col" class="px-6 py-4 font-bold text-center">Elite</th>
+                                <th scope="col" class="px-6 py-4 font-bold text-center">Premium</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-[var(--color-valen-border)] bg-[#1C1E21]">
