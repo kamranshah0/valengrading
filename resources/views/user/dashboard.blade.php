@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('content')
-    <div x-data="{ activeTab: 'overview' }" class="pb-32 pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div x-data="{ activeTab: '{{ request('tab', 'overview') }}' }" class="pb-32 pt-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <!-- Dashboard Header -->
         <div class="mb-10">
             <h1 class="text-3xl font-bold text-white mb-2">My Dashboard</h1>
@@ -157,7 +157,47 @@
 
             <!-- MY CARDS TAB -->
             <div x-show="activeTab === 'cards'" class="p-8" style="display: none;">
-                <h2 class="text-xl font-bold text-white mb-8 text-center">My Card Collection</h2>
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+                    <h2 class="text-xl font-bold text-white whitespace-nowrap">My Card Collection</h2>
+                    
+                    <form action="{{ route('user.dashboard') }}" method="GET" class="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+                        <input type="hidden" name="tab" value="cards">
+                        
+                        <!-- Search Group -->
+                        <div class="flex w-full sm:w-auto items-stretch">
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search..." 
+                                class="w-full sm:w-64 bg-[var(--color-valen-dark)] border border-r-0 border-[var(--color-valen-border)] rounded-l-lg py-3 pl-4 pr-3 text-sm text-white focus:outline-none focus:border-[var(--color-primary)] placeholder-gray-500 transition-colors">
+                            <button type="submit" class="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-5 rounded-r-lg border border-[var(--color-primary)] transition-colors flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </button>
+                        </div>
+
+                        <!-- Filters Group -->
+                        <div class="grid grid-cols-2 gap-3 w-full sm:w-auto">
+                            <!-- Grade Filter -->
+                            <select name="grade_filter" onchange="this.form.submit()" 
+                                class="w-full sm:w-40 bg-[var(--color-valen-dark)] border border-[var(--color-valen-border)] rounded-lg py-2.5 px-3 text-sm text-white focus:outline-none focus:border-[var(--color-primary)] cursor-pointer appearance-none">
+                                <option value="">All Grades</option>
+                                <option value="10" {{ request('grade_filter') == '10' ? 'selected' : '' }}>Grade 10</option>
+                                <option value="9" {{ request('grade_filter') == '9' ? 'selected' : '' }}>Grade 9</option>
+                                <option value="8" {{ request('grade_filter') == '8' ? 'selected' : '' }}>Grade 8</option>
+                                <option value="7" {{ request('grade_filter') == '7' ? 'selected' : '' }}>Grade 7</option>
+                                <option value="6_and_below" {{ request('grade_filter') == '6_and_below' ? 'selected' : '' }}>6 & Below</option>
+                                <option value="authentic" {{ request('grade_filter') == 'authentic' ? 'selected' : '' }}>Authentic</option>
+                            </select>
+
+                            <!-- Sort -->
+                            <select name="sort" onchange="this.form.submit()" 
+                                class="w-full sm:w-40 bg-[var(--color-valen-dark)] border border-[var(--color-valen-border)] rounded-lg py-2.5 px-3 text-sm text-white focus:outline-none focus:border-[var(--color-primary)] cursor-pointer appearance-none">
+                                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                                <option value="alphabetical" {{ request('sort') == 'alphabetical' ? 'selected' : '' }}>Alphabetical</option>
+                                <option value="highest_grade" {{ request('sort') == 'highest_grade' ? 'selected' : '' }}>Highest Grade</option>
+                                <option value="lowest_grade" {{ request('sort') == 'lowest_grade' ? 'selected' : '' }}>Lowest Grade</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="space-y-4">
                     @forelse($myCards as $card)
@@ -276,6 +316,10 @@
                         No cards found.
                     </div>
                     @endforelse
+                </div>
+                
+                <div class="mt-8">
+                    {{ $myCards->appends(request()->query())->links() }}
                 </div>
             </div>
 

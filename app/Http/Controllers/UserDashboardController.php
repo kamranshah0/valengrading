@@ -9,7 +9,7 @@ use App\Models\SubmissionCard;
 
 class UserDashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -20,16 +20,82 @@ class UserDashboardController extends Controller
             ->latest()
             ->get();
 
-        $myCards = SubmissionCard::whereHas('submission', function ($query) use ($user) {
-            $query->where('user_id', $user->id)->where('status', '!=', 'draft');
+        // My Cards Query with Search, Filter, Sort
+        $query = SubmissionCard::whereHas('submission', function ($q) use ($user) {
+            $q->where('user_id', $user->id)->where('status', '!=', 'draft');
         })
         ->where(function($q) {
             $q->whereNotNull('grade')
               ->orWhere('grade', '!=', '')
               ->orWhereIn('status', ['Label Creation', 'Slabbed', 'Quality Control', 'Completed', 'Shipped', 'Delivered']);
-        })
-        ->latest()
-        ->get();
+        });
+
+        // 1. Search (Title, Set, Year)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('set_name', 'like', "%{$search}%")
+                  ->orWhere('year', 'like', "%{$search}%")
+                  ->orWhere('cert_number', 'like', "%{$search}%");
+            });
+        }
+
+        // 2. Filter by Grade
+        if ($request->filled('grade_filter')) {
+            $grade = $request->grade_filter;
+            if ($grade === 'authentic') {
+                $query->where('grade', 'Authentic');
+            } elseif ($grade === '6_and_below') {
+                // Assuming grades are numeric strings, we might need casting or regex if mixed.
+                // Best effort numeric comparison if grade stores numbers.
+                $query->where(function ($q) {
+                    $q->where('grade', '<=', 6)
+                      ->where('grade', '!=', 'Authentic')
+                      ->where('grade', '!=', '');
+                });
+            } else {
+                // 10, 9, 8, 7
+                $query->where('grade', $grade);
+            }
+        }
+
+        // 3. Sort
+        $sort = $request->input('sort', 'newest');
+        switch ($sort) {
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'alphabetical':
+                $query->orderBy('title', 'asc');
+                break;
+            case 'highest_grade':
+                 // Cast to decimal for numeric sorting if possible, or string sort
+                 // Ideally DB field should be sortable. '10' comes before '9' in string so desc works for 10 vs 9 generally
+                 // But '10' comes before '2'. So we need natural sort or cast.
+                 // For simplicity, raw orderBy cast? Or strict column type?
+                 // Let's try simple string desc first, usually '10' > '9' works in string if length same? No. '10' < '9' string-wise? 
+                 // '10' vs '9': 1 < 9, so 10 comes first in ASC. 
+                 // In DESC: 9 > 1, so 9 comes first. Wait, '10' vs '9'. Character 1 vs 9. 9 is bigger.
+                 // So '9' comes before '10' in DESC string sort? Yes. 
+                 // FIX: use LENGTH desc, then value desc to handle 10 vs 9.
+                $query->orderByRaw('LENGTH(grade) DESC, grade DESC'); 
+                break;
+            case 'lowest_grade':
+                // For lowest: LENGTH asc, grade asc
+                // '1' vs '10'. Length 1 vs 2. '1' first. Correct.
+                // '9' vs '10'. Length 1 vs 2. '9' first. Correct.
+                $query->orderByRaw('LENGTH(grade) ASC, grade ASC');
+                break;
+            case 'newest':
+            default:
+                $query->latest();
+                break;
+        }
+
+        // 4. Pagination (10 per page)
+        // Append query params to pagination links
+        $myCards = $query->paginate(10)->withQueryString();
 
         // Calculate Stats
         $totalSubmissions = $submissions->count();
