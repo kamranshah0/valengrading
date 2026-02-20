@@ -390,6 +390,19 @@
                                     <h4 class="text-white font-bold text-lg mb-1">Submission Cancelled</h4>
                                     <p class="text-gray-400 text-sm">This submission order has been cancelled.</p>
                                 </div>
+                            @elseif($submission->status === 'Awaiting Label Selection')
+                                <div class="mb-8 bg-blue-500/10 border border-blue-500/20 rounded-lg p-6 flex flex-col items-center text-center">
+                                    <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center mb-3">
+                                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="text-white font-bold text-lg mb-1">Action Required: Select Labels</h4>
+                                    <p class="text-gray-400 text-sm mb-4">Your cards have been graded! Because you submitted via Easy Mode, please select a label style for each card so we can encapsulate them.</p>
+                                    <a href="{{ route('user.submissions.labels', $submission->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                                        Select Labels Now
+                                    </a>
+                                </div>
                             @else
                                 <!-- Status Grid (Horizontal/Wrap) -->
                                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">

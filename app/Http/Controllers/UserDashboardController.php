@@ -256,4 +256,116 @@ class UserDashboardController extends Controller
             'status' => 'success'
         ]);
     }
+    public function labelSelection(Submission $submission)
+    {
+        if ($submission->user_id !== auth()->id() || $submission->status !== 'Awaiting Label Selection') {
+            return redirect()->route('user.dashboard')->with('error', 'Label selection is not available for this submission.');
+        }
+
+        $submission->load(['cards.labelType', 'serviceLevel']);
+        $labelTypes = \App\Models\LabelType::where('is_active', true)->orderBy('order')->get();
+
+        return view('user.submissions.labels', compact('submission', 'labelTypes'));
+    }
+
+    public function processLabelSelection(Request $request, Submission $submission)
+    {
+        if ($submission->user_id !== auth()->id() || $submission->status !== 'Awaiting Label Selection') {
+            return redirect()->route('user.dashboard')->with('error', 'Label selection is not available for this submission.');
+        }
+
+        $request->validate([
+            'cards' => 'required|array',
+            'cards.*.label_type_id' => 'required|exists:label_types,id',
+        ]);
+
+        $totalExtraCost = 0;
+        $lineItems = [];
+
+        foreach ($submission->cards as $card) {
+            $selectedLabelId = $request->cards[$card->id]['label_type_id'] ?? null;
+            if ($selectedLabelId) {
+                $labelType = \App\Models\LabelType::find($selectedLabelId);
+                $extraCost = max(0, $labelType->price_adjustment); // Only charge positive adjustments
+
+                if ($extraCost > 0) {
+                    $totalExtraCost += $extraCost;
+                    $lineItems[] = [
+                        'price_data' => [
+                            'currency' => 'gbp',
+                            'product_data' => [
+                                'name' => 'Premium Label Upgrade',
+                                'description' => ($card->title ?? 'Card') . ' - Select Label: ' . $labelType->name,
+                            ],
+                            'unit_amount' => round($extraCost * 100),
+                        ],
+                        'quantity' => 1,
+                    ];
+                }
+            }
+        }
+
+        // Store selections in session
+        session(['label_selections_'.$submission->id => $request->cards]);
+
+        if ($totalExtraCost > 0) {
+            try {
+                \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+
+                $session = \Stripe\Checkout\Session::create([
+                    'payment_method_types' => ['card'],
+                    'line_items' => $lineItems,
+                    'mode' => 'payment',
+                    'success_url' => route('user.submissions.labels_success') . '?session_id={CHECKOUT_SESSION_ID}&submission_id='.$submission->id,
+                    'cancel_url' => route('user.submissions.labels', $submission->id),
+                    'metadata' => [
+                        'label_payment_submission_id' => $submission->id,
+                    ],
+                ]);
+
+                return redirect($session->url);
+            } catch (\Exception $e) {
+                return back()->with('error', 'Error starting payment: ' . $e->getMessage());
+            }
+        }
+
+        // Applied for free
+        return $this->applyLabels($submission, $request->cards);
+    }
+
+    public function labelPaymentSuccess(Request $request)
+    {
+        $submissionId = $request->submission_id;
+        if (!$submissionId) {
+            return redirect()->route('user.dashboard');
+        }
+
+        $submission = Submission::findOrFail($submissionId);
+        $selections = session('label_selections_'.$submission->id);
+
+        if ($selections) {
+            return $this->applyLabels($submission, $selections);
+        }
+
+        return redirect()->route('user.dashboard')->with('success', 'Labels processed.');
+    }
+
+    protected function applyLabels(Submission $submission, $selections)
+    {
+        foreach ($submission->cards as $card) {
+            $selectedLabelId = $selections[$card->id]['label_type_id'] ?? null;
+            if ($selectedLabelId) {
+                $card->update([
+                    'label_type_id' => $selectedLabelId,
+                    'status' => 'Label Selection Received'
+                ]);
+            }
+        }
+
+        // Update submission status to proceed out of "Awaiting Label Selection"
+        $submission->update(['status' => 'Label Selection Received']);
+        session()->forget('label_selections_'.$submission->id);
+
+        return redirect()->route('user.dashboard')->with('success', 'Your label selections have been saved! We will now proceed with encapsulating your cards.');
+    }
 }

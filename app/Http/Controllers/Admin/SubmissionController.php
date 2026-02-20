@@ -25,6 +25,8 @@ class SubmissionController extends Controller
         $statuses = [
             'Submission Complete', 
             'Cards Logged', 
+            'Awaiting Label Selection',
+            'Label Selection Received',
             'Grading Complete', 
             'Label Created', 
             'Encapsulation Complete', 
@@ -38,10 +40,42 @@ class SubmissionController extends Controller
     public function updateStatus(Request $request, Submission $submission)
     {
         $request->validate([
-            'status' => 'required|in:Submission Complete,Cards Logged,Grading Complete,Label Created,Encapsulation Complete,Quality Control Complete,Cancelled',
+            'status' => 'required|in:Submission Complete,Cards Logged,Awaiting Label Selection,Label Selection Received,Grading Complete,Label Created,Encapsulation Complete,Quality Control Complete,Cancelled',
         ]);
 
+        $sendEmailRequested = $request->input('send_email', '0') === '1';
+
+        $oldStatus = $submission->status;
         $submission->update(['status' => $request->status]);
+
+        if ($request->status === 'Awaiting Label Selection') {
+            // Also update all cards
+            $submission->cards()->update(['status' => 'Awaiting Label Selection']);
+            
+            // Notify User ONLY if they chose "Yes, Send Email" via the Modal OR if it's not present (default bypass behavior)
+            // Wait, since we added the hidden input, sendEmailRequested will be false if they said No.
+            // If they are on a different page that doesn't have the modal but forces an update, it defaults to '0'.
+            if ($sendEmailRequested) {
+                try {
+                    $user = $submission->user;
+                    $userEmail = $user->email ?? $submission->shippingAddress->email ?? null;
+                    
+                    if ($userEmail) {
+                        \Illuminate\Support\Facades\Mail::to($userEmail)->send(new \App\Mail\LabelSelectionRequiredEmail($submission));
+                    }
+                    
+                    if ($user) {
+                        $user->notify(new \App\Notifications\LabelSelectionRequired($submission));
+                    }
+
+                    // Mark as sent
+                    $submission->update(['label_selection_email_sent' => true]);
+
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send label selection required email: ' . $e->getMessage());
+                }
+            }
+        }
 
         return back()->with('success', 'Submission status updated successfully.');
     }
@@ -52,6 +86,8 @@ class SubmissionController extends Controller
         $statuses = [
             'Submission Complete', 
             'Cards Logged', 
+            'Awaiting Label Selection',
+            'Label Selection Received',
             'Grading Complete', 
             'Label Created', 
             'Encapsulation Complete', 
@@ -63,13 +99,14 @@ class SubmissionController extends Controller
 
     public function updateCard(Request $request, \App\Models\SubmissionCard $card)
     {
+        // Make all fields nullable since this method handles both the full edit page and the quick status dropdown on the show page
         $request->validate([
-            'status' => 'required|string|max:255',
-            'grade' => 'nullable|string|max:255',
-            'centering' => 'nullable|numeric|min:0|max:10',
-            'corners' => 'nullable|numeric|min:0|max:10',
-            'edges' => 'nullable|numeric|min:0|max:10',
-            'surface' => 'nullable|numeric|min:0|max:10',
+            'status' => 'nullable|string',
+            'grade' => 'nullable|string',
+            'centering' => 'nullable|numeric|min:1|max:10',
+            'corners' => 'nullable|numeric|min:1|max:10',
+            'edges' => 'nullable|numeric|min:1|max:10',
+            'surface' => 'nullable|numeric|min:1|max:10',
             'grading_insights' => 'nullable|string',
             'is_revealed' => 'nullable|boolean',
             'grading_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
@@ -107,6 +144,42 @@ class SubmissionController extends Controller
         }
 
         $card->update($data);
+
+        // Check if all cards are awaiting label selection
+        $submission = $card->submission;
+        if ($submission) {
+            $totalCards = $submission->cards()->count();
+            $awaitingCards = $submission->cards()->where('status', 'Awaiting Label Selection')->count();
+
+            if ($totalCards > 0 && $totalCards === $awaitingCards && $submission->status !== 'Awaiting Label Selection') {
+                $submission->update(['status' => 'Awaiting Label Selection']);
+                
+                // Notify User
+                try {
+                    $user = $submission->user;
+                    $userEmail = $user->email ?? $submission->shippingAddress->email ?? null;
+                    
+                    if ($userEmail) {
+                        \Illuminate\Support\Facades\Mail::to($userEmail)->send(new \App\Mail\LabelSelectionRequiredEmail($submission));
+                    }
+                    
+                    if ($user) {
+                        $user->notify(new \App\Notifications\LabelSelectionRequired($submission));
+                    }
+
+                    // Mark as sent
+                    $submission->update(['label_selection_email_sent' => true]);
+
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send label selection required email: ' . $e->getMessage());
+                }
+            }
+        }
+
+        // If the request only had 'status' and maybe '_token'/'_method', it likely came from the dropdown on the show page.
+        if (count($request->except(['_token', '_method', 'status'])) === 0 && $request->has('status')) {
+            return back()->with('success', 'Card status updated to ' . $request->status);
+        }
 
         return redirect()->route('admin.submissions.show', $card->submission_id)
             ->with('success', 'Card details updated successfully.');

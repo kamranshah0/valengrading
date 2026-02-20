@@ -17,24 +17,73 @@
             </div>
         </div>
 
-        <form action="{{ route('admin.submissions.update-status', $submission) }}" method="POST" class="w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center gap-3">
-            @csrf
-            @method('PATCH')
-            <label class="text-sm font-medium text-gray-400 md:hidden">Update Status:</label>
-            <div class="relative w-full md:w-auto">
-                <select name="status" class="w-full md:w-48 h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-white focus:outline-none focus:border-red-500 transition-colors appearance-none cursor-pointer">
-                    @foreach(['Submission Complete', 'Cards Logged', 'Grading Complete', 'Label Created', 'Encapsulation Complete', 'Quality Control Complete', 'Cancelled'] as $status)
-                        <option value="{{ $status }}" {{ $submission->status === $status ? 'selected' : '' }}>
-                            {{ $status }}
-                        </option>
-                    @endforeach
-                </select>
-                <svg class="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
+        <div x-data="{
+            showEmailModal: false,
+            emailAlreadySent: {{ $submission->label_selection_email_sent ? 'true' : 'false' }},
+            submitForm(sendEmail) {
+                document.getElementById('send_email_input').value = sendEmail ? '1' : '0';
+                this.$refs.statusForm.submit();
+            },
+            checkAndSubmit(e) {
+                if (this.$refs.statusSelect.value === 'Awaiting Label Selection') {
+                    e.preventDefault();
+                    this.showEmailModal = true;
+                }
+            }
+        }" class="w-full md:w-auto">
+            <form x-ref="statusForm" @submit="checkAndSubmit" action="{{ route('admin.submissions.update-status', $submission) }}" method="POST" class="w-full md:w-auto flex flex-col md:flex-row items-stretch md:items-center gap-3">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="send_email" id="send_email_input" value="1">
+                <label class="text-sm font-medium text-gray-400 md:hidden">Update Status:</label>
+                <div class="relative w-full md:w-auto">
+                    <select x-ref="statusSelect" name="status" class="w-full md:w-48 h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-white focus:outline-none focus:border-red-500 transition-colors appearance-none cursor-pointer">
+                        @foreach($statuses as $statusOption)
+                            <option value="{{ $statusOption }}" {{ $submission->status === $statusOption ? 'selected' : '' }}>
+                                {{ $statusOption }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <svg class="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <button type="submit" class="h-10 bg-[#A3050A] hover:bg-red-700 text-white font-bold px-6 rounded-lg transition-all text-sm shadow-lg shadow-red-900/20">Update</button>
+            </form>
+
+            <!-- Confirmation Modal -->
+            <div x-show="showEmailModal" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                <div @click.away="showEmailModal = false" class="bg-[#232528] border border-white/10 p-6 rounded-2xl max-w-md w-full shadow-2xl space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-500 flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Send Notification</h3>
+                            <p class="text-sm text-gray-400">Label Selection Required</p>
+                        </div>
+                    </div>
+
+                    <div class="text-gray-300 text-sm leading-relaxed" x-show="emailAlreadySent">
+                        <p class="text-amber-400 font-bold mb-2 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3.L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Email Already Sent
+                        </p>
+                        You have already sent the Label Selection email to this user previously. Do you want to send it again?
+                    </div>
+                    <div class="text-gray-300 text-sm leading-relaxed" x-show="!emailAlreadySent">
+                        You are changing the status to <strong class="text-white">Awaiting Label Selection</strong>. Do you want to notify the user via email to select their labels?
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-white/5">
+                        <button @click="showEmailModal = false" type="button" class="w-full sm:w-auto px-4 py-2 rounded-lg font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors">Cancel</button>
+                        <div class="flex-1"></div>
+                        <button @click="submitForm(false)" type="button" class="w-full sm:w-auto px-4 py-2 rounded-lg font-medium bg-gray-700 hover:bg-gray-600 text-white transition-colors">No, Just Save</button>
+                        <button @click="submitForm(true)" type="button" class="w-full sm:w-auto px-4 py-2 rounded-lg font-bold bg-[#A3050A] hover:bg-red-700 text-white shadow-lg shadow-red-900/20 transition-all" x-text="emailAlreadySent ? 'Yes, Send Again' : 'Yes, Send Email'"></button>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="h-10 bg-[#A3050A] hover:bg-red-700 text-white font-bold px-6 rounded-lg transition-all text-sm shadow-lg shadow-red-900/20">Update</button>
-        </form>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

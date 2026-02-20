@@ -51,7 +51,7 @@
                         </div>
                         <div class="flex items-center gap-2 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">
                             <span class="text-red-400 font-bold uppercase text-[10px] tracking-wider">Label:</span>
-                            <span class="text-red-400 font-medium">{{ $card->labelType->name ?? 'Standard' }}</span>
+                            <span class="text-red-400 font-medium">{{ $card->labelType->name ?? 'Pending Selection' }}</span>
                         </div>
                     </div>
                 </div>

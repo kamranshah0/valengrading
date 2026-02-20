@@ -45,6 +45,11 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'verified'])->group(fu
     Route::post('/profile/update-address', [\App\Http\Controllers\UserDashboardController::class, 'updateAddress'])->name('profile.update-address');
     Route::post('/profile/update-password', [\App\Http\Controllers\UserDashboardController::class, 'updatePassword'])->name('profile.update-password');
     Route::post('/card/{id}/reveal', [\App\Http\Controllers\UserDashboardController::class, 'revealGrade'])->name('card.reveal');
+
+    // Label Selection
+    Route::get('/submissions/{submission}/labels', [\App\Http\Controllers\UserDashboardController::class, 'labelSelection'])->name('submissions.labels');
+    Route::post('/submissions/{submission}/labels', [\App\Http\Controllers\UserDashboardController::class, 'processLabelSelection'])->name('submissions.process_labels');
+    Route::get('/submissions/labels/success', [\App\Http\Controllers\UserDashboardController::class, 'labelPaymentSuccess'])->name('submissions.labels_success');
 });
 
 // Admin Routes (Preserved)

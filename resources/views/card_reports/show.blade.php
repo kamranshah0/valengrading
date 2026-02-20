@@ -126,7 +126,7 @@
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">Label Type</p>
-                                <p class="text-sm font-semibold text-red-500">{{ $card->labelType->name ?? 'Standard' }}</p>
+                                <p class="text-sm font-semibold text-red-500">{{ $card->labelType->name ?? 'Pending Selection' }}</p>
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">Reg. Date</p>
