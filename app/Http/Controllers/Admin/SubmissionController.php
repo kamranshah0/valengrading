@@ -24,14 +24,12 @@ class SubmissionController extends Controller
         
         $statuses = [
             'Submission Complete', 
-            'Cards Received', 
-            'In Grading', 
-            'Label Creation', 
-            'Slabbed', 
-            'Quality Control', 
-            'Completed', 
-            'Shipped', 
-            'Delivered'
+            'Cards Logged', 
+            'Grading Complete', 
+            'Label Created', 
+            'Encapsulation Complete', 
+            'Quality Control Complete', 
+            'Cancelled'
         ];
 
         return view('admin.submissions.show', compact('submission', 'statuses'));
@@ -40,7 +38,7 @@ class SubmissionController extends Controller
     public function updateStatus(Request $request, Submission $submission)
     {
         $request->validate([
-            'status' => 'required|in:draft,pending_payment,awaiting_arrival,order_arrived,in_production,awaiting_shipment,shipped,completed,cancelled',
+            'status' => 'required|in:Submission Complete,Cards Logged,Grading Complete,Label Created,Encapsulation Complete,Quality Control Complete,Cancelled',
         ]);
 
         $submission->update(['status' => $request->status]);
@@ -53,14 +51,12 @@ class SubmissionController extends Controller
         $card->load('submission');
         $statuses = [
             'Submission Complete', 
-            'Cards Received', 
-            'In Grading', 
-            'Label Creation', 
-            'Slabbed', 
-            'Quality Control', 
-            'Completed', 
-            'Shipped', 
-            'Delivered'
+            'Cards Logged', 
+            'Grading Complete', 
+            'Label Created', 
+            'Encapsulation Complete', 
+            'Quality Control Complete', 
+            'Cancelled'
         ];
         return view('admin.submissions.cards.edit', compact('card', 'statuses'));
     }

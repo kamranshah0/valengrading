@@ -333,20 +333,33 @@
                             $backendStatus = $submission->status;
                             $progressLevel = 0;
 
-                            // Map backend status to progress steps (1-6)
-                            // Skip payment steps visually
-                            $startStep = 1; // Cards Received
+                            $states = [
+                                'Submission Complete' => 1,
+                                'Cards Logged' => 2,
+                                'Grading Complete' => 3,
+                                'Label Created' => 4,
+                                'Encapsulation Complete' => 5,
+                                'Quality Control Complete' => 6,
+                            ];
 
-                            if(in_array($backendStatus, ['submitted', 'pending_payment', 'order_received'])) $progressLevel = 1; // All pre-grading = Cards Received (or just Received)
-                            if($backendStatus == 'processing') $progressLevel = 2; // In Grading
-                            if(in_array($backendStatus, ['shipped', 'completed'])) $progressLevel = 5; // Done
+                            // Determine level based on Exact match, but handle legacy mappings generically or fallback to 1
+                            if (array_key_exists($backendStatus, $states)) {
+                                $progressLevel = $states[$backendStatus];
+                            } elseif (in_array(strtolower($backendStatus), ['submitted', 'pending_payment', 'order_received', 'awaiting_arrival'])) {
+                                $progressLevel = 1;
+                            } elseif (in_array(strtolower($backendStatus), ['processing', 'in_production'])) {
+                                $progressLevel = 3;
+                            } elseif (in_array(strtolower($backendStatus), ['shipped', 'completed', 'delivered'])) {
+                                $progressLevel = 6;
+                            }
 
-                            $steps = [
-                                1 => 'Cards Received',
-                                2 => 'In Grading',
-                                3 => 'Label Creation',
-                                4 => 'Slabbed',
-                                5 => 'Quality Control'
+                            $stepsConfig = [
+                                1 => [ 'completed' => 'Submission Complete', 'pending' => 'Submission Complete' ],
+                                2 => [ 'completed' => 'Cards Logged', 'pending' => 'Awaiting Card Logging' ],
+                                3 => [ 'completed' => 'Grading Complete', 'pending' => 'Awaiting Grading' ],
+                                4 => [ 'completed' => 'Label Created', 'pending' => 'Label Selection Received' ],
+                                5 => [ 'completed' => 'Encapsulation Complete', 'pending' => 'Awaiting Encapsulation' ],
+                                6 => [ 'completed' => 'Quality Control Confirmed', 'pending' => 'Awaiting Quality Control' ],
                             ];
                         @endphp
                         
@@ -367,57 +380,54 @@
                                         Resume Application
                                     </a>
                                 </div>
+                            @elseif(strtolower($submission->status) === 'cancelled')
+                                <div class="mb-8 bg-red-500/10 border border-red-500/20 rounded-lg p-6 flex flex-col items-center text-center">
+                                    <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center mb-3">
+                                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <h4 class="text-white font-bold text-lg mb-1">Submission Cancelled</h4>
+                                    <p class="text-gray-400 text-sm">This submission order has been cancelled.</p>
+                                </div>
                             @else
-                                <!-- Status Grid (Horizontal Bars) -->
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                                    
-                                    <!-- Step 1: Submission Complete -->
-                                    <div class="bg-[var(--color-valen-light)]/40 border {{ $progressLevel >= 1 ? 'border-green-900/50' : 'border-gray-800' }} rounded flex items-center p-3 gap-3">
-                                        <div class="w-5 h-5 rounded-full border {{ $progressLevel >= 1 ? 'border-green-500 text-green-500' : 'border-gray-600 text-gray-600' }} flex items-center justify-center">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <span class="{{ $progressLevel >= 1 ? 'text-green-500' : 'text-gray-500' }} text-sm font-medium">Submission Complete</span>
-                                    </div>
+                                <!-- Status Grid (Horizontal/Wrap) -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                                    @for($i = 1; $i <= 6; $i++)
+                                        @php
+                                            $isCompleted = $progressLevel >= $i;
+                                            $isActivePending = ($progressLevel + 1) == $i; // The immediately next step
+                                            $isFuture = $progressLevel < ($i - 1);
+                                            
+                                            $text = $isCompleted ? $stepsConfig[$i]['completed'] : $stepsConfig[$i]['pending'];
+                                            
+                                            // Box border styling
+                                            $boxBorder = 'border-gray-800 bg-[var(--color-valen-light)]/40';
+                                            if ($isCompleted) $boxBorder = 'border-green-900/50 bg-[var(--color-valen-light)]/40';
+                                            if ($isActivePending) $boxBorder = 'border-amber-700/50 bg-amber-500/5';
+                                            
+                                            // Icon circle border & text
+                                            $iconBorder = 'border-gray-600 text-gray-600';
+                                            if ($isCompleted) $iconBorder = 'border-green-500 text-green-500';
+                                            if ($isActivePending) $iconBorder = 'border-amber-500 text-amber-500';
 
-                                    <!-- Step 2: Cards Received -->
-                                    <div class="bg-[var(--color-valen-light)]/40 border {{ $progressLevel >= 2 ? 'border-green-900/50' : 'border-gray-800' }} rounded flex items-center p-3 gap-3">
-                                        <div class="w-5 h-5 rounded-full border {{ $progressLevel >= 2 ? 'border-green-500 text-green-500' : 'border-gray-600 text-gray-600' }} flex items-center justify-center">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                            // Text color
+                                            $textColor = 'text-gray-500';
+                                            if ($isCompleted) $textColor = 'text-green-500';
+                                            if ($isActivePending) $textColor = 'text-amber-500 font-bold';
+                                        @endphp
+                                        
+                                        <div class="border {{ $boxBorder }} rounded flex items-center p-3 gap-3 transition-colors">
+                                            <div class="w-5 h-5 flex-shrink-0 rounded-full border {{ $iconBorder }} flex items-center justify-center">
+                                                @if($isCompleted)
+                                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                                @elseif($isActivePending)
+                                                    <div class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                                                @endif
+                                            </div>
+                                            <span class="{{ $textColor }} text-sm {{ $isCompleted ? 'font-medium' : '' }}">{{ $text }}</span>
                                         </div>
-                                        <span class="{{ $progressLevel >= 2 ? 'text-green-500' : 'text-gray-500' }} text-sm font-medium">Cards Received</span>
-                                    </div>
-
-                                    <!-- Step 3: In Grading -->
-                                    <div class="bg-[var(--color-valen-light)]/40 border {{ $progressLevel >= 3 ? 'border-green-900/50' : 'border-gray-800' }} rounded flex items-center p-3 gap-3">
-                                        <div class="w-5 h-5 rounded-full border {{ $progressLevel >= 3 ? 'border-green-500 text-green-500' : 'border-gray-600 text-gray-600' }} flex items-center justify-center">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <span class="{{ $progressLevel >= 3 ? 'text-green-500' : 'text-gray-500' }} text-sm font-medium">In Grading</span>
-                                    </div>
-
-                                    <!-- Step 4: Label Creation -->
-                                    <div class="bg-[var(--color-valen-light)]/40 border {{ $progressLevel >= 4 ? 'border-green-900/50' : 'border-gray-800' }} rounded flex items-center p-3 gap-3">
-                                        <div class="w-5 h-5 rounded-full border {{ $progressLevel >= 4 ? 'border-green-500 text-green-500' : 'border-gray-600 text-gray-600' }} flex items-center justify-center">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <span class="{{ $progressLevel >= 4 ? 'text-green-500' : 'text-gray-500' }} text-sm font-medium">Label Creation</span>
-                                    </div>
-
-                                    <!-- Step 5: Slabbed -->
-                                    <div class="bg-[var(--color-valen-light)]/40 border {{ $progressLevel >= 5 ? 'border-green-900/50' : 'border-gray-800' }} rounded flex items-center p-3 gap-3">
-                                        <div class="w-5 h-5 rounded-full border {{ $progressLevel >= 5 ? 'border-green-500 text-green-500' : 'border-gray-600 text-gray-600' }} flex items-center justify-center">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <span class="{{ $progressLevel >= 5 ? 'text-green-500' : 'text-gray-500' }} text-sm font-medium">Slabbed</span>
-                                    </div>
-
-                                    <!-- Step 6: Quality Control -->
-                                    <div class="bg-[var(--color-valen-light)]/40 border {{ $progressLevel >= 6 ? 'border-green-900/50' : 'border-gray-800' }} rounded flex items-center p-3 gap-3">
-                                        <div class="w-5 h-5 rounded-full border {{ $progressLevel >= 6 ? 'border-green-500 text-green-500' : 'border-gray-600 text-gray-600' }} flex items-center justify-center">
-                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                        </div>
-                                        <span class="{{ $progressLevel >= 6 ? 'text-green-500' : 'text-gray-500' }} text-sm font-medium">Quality Control</span>
-                                    </div>
+                                    @endfor
                                 </div>
                             @endif
 
