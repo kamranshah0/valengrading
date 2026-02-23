@@ -61,14 +61,19 @@
                 </div>
             </div>
 
-            <!-- Total Spent -->
+            <!-- Grading Reports -->
             <div
                 class="bg-[var(--color-valen-light)] rounded-lg p-6 border border-[var(--color-valen-border)] relative overflow-hidden group">
                 <div class="flex flex-col justify-between h-full min-h-[90px]">
-                    <span class="text-xs text-gray-400 font-medium uppercase tracking-wide">Total Spent</span>
+                    <span class="text-xs text-gray-400 font-medium uppercase tracking-wide">Grading Reports</span>
                     <div class="flex justify-between items-end">
-                        <span class="text-4xl font-bold text-white">{{ number_format($totalSpent, 2) }}</span>
-                        <div class="text-[var(--color-primary)] font-bold text-4xl opacity-80">$</div>
+                        <span class="text-4xl font-bold text-white">{{ $gradingReportsCount }}</span>
+                        <div class="text-purple-500 opacity-80">
+                            <svg class="size-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
