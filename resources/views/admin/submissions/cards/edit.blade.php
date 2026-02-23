@@ -108,9 +108,9 @@
                         @foreach(['centering', 'corners', 'edges', 'surface'] as $subgrade)
                             <div class="bg-[#15171A] p-4 rounded-xl border border-white/5 space-y-3 hover:border-red-500/30 transition-colors">
                                 <label for="{{ $subgrade }}" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{ $subgrade }}</label>
-                                <input type="number" step="0.5" min="1" max="10" name="{{ $subgrade }}" id="{{ $subgrade }}" value="{{ old($subgrade, $card->$subgrade) }}" 
+                                <input type="number" min="1" max="10" name="{{ $subgrade }}" id="{{ $subgrade }}" value="{{ old($subgrade, $card->$subgrade) }}" 
                                     class="w-full bg-transparent border-b border-white/10 p-0 text-2xl font-bold text-white focus:outline-none focus:border-red-500 transition-colors placeholder-gray-800"
-                                    placeholder="0.0">
+                                    placeholder="0">
                             </div>
                         @endforeach
                     </div>

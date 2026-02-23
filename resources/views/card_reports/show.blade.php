@@ -21,10 +21,9 @@
         <!-- Minimal Navigation -->
         <nav class="max-w-6xl mx-auto px-6 py-10 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-                    <span class="text-white font-black text-xl">V</span>
+                <div class="h-10 w-auto flex items-center justify-center">
+                    <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" class="h-full w-auto object-contain" alt="{{ config('app.name') }}">
                 </div>
-                <span class="font-bold uppercase tracking-[0.4em] text-xs text-white/80">Valen <span class="text-red-600">Grading</span></span>
             </div>
             <div class="flex items-center gap-6">
                 <div class="hidden md:block text-right">
@@ -50,7 +49,7 @@
                             <img id="main-image" src="{{ asset('storage/' . $card->grading_image) }}" alt="Card Front" class="w-full h-full object-contain transition-all duration-1000">
                             
                             <!-- Floating Grade Badge -->
-                            <div class="absolute top-8 right-8 w-24 h-24 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/10 flex flex-col items-center justify-center shadow-2xl">
+                            <div class="absolute bottom-8 right-8 w-24 h-24 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/10 flex flex-col items-center justify-center shadow-2xl">
                                 <span class="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Valen</span>
                                 <span class="text-4xl font-black text-white leading-none">{{ explode(' ', $card->grade ?? '')[count(explode(' ', $card->grade ?? ''))-1] ?? '-' }}</span>
                             </div>

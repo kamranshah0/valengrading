@@ -83,6 +83,10 @@
 </head>
 <body>
     <div id="slip-content">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" alt="Valen Grading Logo" style="height: 60px; width: auto; vertical-align: middle; display: inline-block;">
+            <span style="font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-left: 15px; vertical-align: middle; display: inline-block; color: #A3050A;">Valen Grading</span>
+        </div>
         <div class="top">
             <h1>Packing Slip</h1>
             <div class="fields">

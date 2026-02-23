@@ -7,7 +7,7 @@
     <div class="max-w-xl w-full">
         <div class="text-center mb-12">
             <div class="mb-6 flex justify-center">
-                <img src="{{ asset('images/logo.avif') }}" class="h-16 w-auto object-contain" alt="Valen Grading Logo">
+                <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" class="h-16 w-auto object-contain" alt="{{ \App\Models\SiteSetting::get('site_name', 'Valen Grading') }} Logo">
             </div>
             <h1 class="text-4xl font-bold text-white mb-4">Certification Verification</h1>
             <p class="text-gray-400">Enter a certification number to verify its authenticity and view the grading report.</p>

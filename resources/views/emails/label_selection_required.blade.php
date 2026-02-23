@@ -18,9 +18,7 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td style="vertical-align: middle; padding-right: 12px;">
-                                        <div style="background-color: #A3050A; border-radius: 12px; width: 48px; height: 48px; padding: 8px; box-sizing: border-box; box-shadow: 0 0 20px rgba(163,5,10,0.4);">
-                                            <img src="{{ $message->embed(public_path('images/logo.avif')) }}" alt="Valen Grading" style="height: 100%; width: 100%; object-fit: contain; display: block;">
-                                        </div>
+                                        <img src="{{ $message->embed(\App\Models\SiteSetting::get('site_logo_header') ? public_path(str_replace(url('/'), '', \App\Models\SiteSetting::get('site_logo_header'))) : public_path('images/logo.avif')) }}" alt="Valen Grading" style="height: 48px; width: auto; object-fit: contain; display: block;">
                                     </td>
                                     <td style="vertical-align: middle;">
                                         <h1 style="margin: 0; font-size: 20px; font-weight: bold; color: #ef4444; font-family: 'Outfit', sans-serif; line-height: 1.2;">
