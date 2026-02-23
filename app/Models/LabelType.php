@@ -12,7 +12,10 @@ class LabelType extends Model
 
     protected $fillable = [
         'name',
+        'subtitle',
         'description',
+        'image_path',
+        'features',
         'price_adjustment',
         'order',
         'is_active',
@@ -24,6 +27,7 @@ class LabelType extends Model
             'price_adjustment' => 'decimal:2',
             'order' => 'integer',
             'is_active' => 'boolean',
+            'features' => 'array',
         ];
     }
 

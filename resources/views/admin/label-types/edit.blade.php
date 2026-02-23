@@ -5,7 +5,7 @@
 @section('content')
 <div class="w-full">
     <div class="bg-[#232528]/80 backdrop-blur-xl border border-white/5 rounded-2xl p-4 md:p-8 shadow-2xl">
-        <form method="POST" action="{{ route('admin.label-types.update', $labelType) }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.label-types.update', $labelType) }}" class="space-y-6" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             
@@ -16,13 +16,42 @@
                     placeholder="e.g., Classic, Premium, Custom" required>
                 @error('name')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
+
+            <div class="space-y-2">
+                <label for="subtitle" class="text-sm font-medium text-gray-400">Subtitle</label>
+                <input type="text" id="subtitle" name="subtitle" value="{{ old('subtitle', $labelType->subtitle) }}" 
+                    class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
+                    placeholder="e.g., Included with submission price">
+                @error('subtitle')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+            </div>
             
             <div class="space-y-2">
                 <label for="description" class="text-sm font-medium text-gray-400">Description</label>
                 <input type="text" id="description" name="description" value="{{ old('description', $labelType->description) }}" 
                     class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
-                    placeholder="e.g., Classic (Free), Premium (+5)">
+                    placeholder="e.g., Clean, timeless look for any collection.">
                 @error('description')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+            </div>
+            
+            <div class="space-y-2">
+                <label for="image" class="text-sm font-medium text-gray-400">Label Image (leave blank to keep current)</label>
+                <input type="file" id="image" name="image" 
+                    class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
+                    accept="image/*">
+                @if($labelType->image_path)
+                    <div class="mt-2 pl-1">
+                        <img src="{{ asset('storage/' . $labelType->image_path) }}" alt="Current Image" class="h-20 w-auto rounded border border-white/10">
+                    </div>
+                @endif
+                @error('image')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+            </div>
+            
+            <div class="space-y-2">
+                <label for="features" class="text-sm font-medium text-gray-400">Features (one per line)</label>
+                <textarea id="features" name="features" rows="4"
+                    class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
+                    placeholder="Clean, timeless design&#10;Clear Information&#10;QR Code Authentication">{{ old('features', is_array($labelType->features) ? implode("\n", $labelType->features) : '') }}</textarea>
+                @error('features')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

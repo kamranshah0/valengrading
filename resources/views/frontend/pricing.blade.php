@@ -12,83 +12,40 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Classic -->
+                    @php
+                        $labelTypes = \App\Models\LabelType::where('is_active', true)->orderBy('order')->get();
+                    @endphp
+                    @foreach($labelTypes as $label)
                     <div
-                        class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2">
-                        <h3 class="text-xl font-bold text-white mb-2">Classic Label</h3>
-                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">£0 <span
+                        class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2 flex flex-col items-center">
+                        <h3 class="text-xl font-bold text-white mb-2">{{ $label->name }} Label</h3>
+                        
+                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2 mt-4">{{ $label->price_adjustment == 0 ? '£0' : '£' . number_format($label->price_adjustment, 0) }} <span
                                 class="text-sm font-medium text-gray-400">/ per card</span></div>
-                        <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Included with submission price</p>
-                        <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4">
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
+                        <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">{{ $label->subtitle ?? 'Label Option' }}</p>
+                        
+                        @if($label->features && is_array($label->features) && count($label->features) > 0)
+                        <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4 w-full flex-grow">
+                            @foreach($label->features as $feature)
+                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3 flex-shrink-0" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                         d="M5 13l4 4L19 7"></path>
-                                </svg> Clean, timeless design</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> Clear Information</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> QR Code Authentication</li>
+                                </svg> {{ $feature }}</li>
+                            @endforeach
                         </ul>
-                    </div>
+                        @endif
 
-                    <!-- Premium -->
-                    <div
-                        class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2">
-                        <h3 class="text-xl font-bold text-white mb-2">Premium Label</h3>
-                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">£5 <span
-                                class="text-sm font-medium text-gray-400">/ per card</span></div>
-                        <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Enhanced features & security</p>
-                        <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4">
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> Holographic elements</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> Premium foil text</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> Superior security</li>
-                        </ul>
+                        <!-- Image -->
+                        <div class="w-full mt-auto flex justify-center">
+                            @if($label->image_path)
+                                <img src="{{ asset('storage/' . $label->image_path) }}" alt="{{ $label->name }} Label" class="max-w-full h-auto rounded-lg shadow-lg border border-white/10 group-hover:border-[var(--color-primary)]/50 transition-colors">
+                            @else
+                                <div class="w-full h-32 bg-[#2A1215] rounded-lg border border-white/10 flex items-center justify-center text-gray-500">No Image</div>
+                            @endif
+                        </div>
                     </div>
-
-                    <!-- Custom -->
-                    <div
-                        class="group relative bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-10 text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] hover:-translate-y-2">
-                        <h3 class="text-xl font-bold text-white mb-2">Custom Label</h3>
-                        <div class="text-4xl font-black text-[var(--color-primary)] mb-2">£15 <span
-                                class="text-sm font-medium text-gray-400">/ per card</span></div>
-                        <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Fully customizable design</p>
-                        <ul class="text-sm text-gray-400 text-left space-y-4 mb-8 pl-4">
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> Submit your own art</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> Exclusive designs</li>
-                            <li class="flex items-center"><svg class="w-4 h-4 text-[var(--color-primary)] mr-3" fill="none"
-                                    stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg> All premium features</li>
-                        </ul>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 

@@ -212,48 +212,37 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
-                <!-- Option 1 -->
+                @php
+                    $labelTypes = \App\Models\LabelType::where('is_active', true)->orderBy('order')->get();
+                @endphp
+                @foreach($labelTypes as $index => $label)
                 <div
-                    class="bg-[#1C1E21] rounded-2xl border border-[var(--color-valen-border)] p-10 text-center hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.1)] transition-all duration-300 group">
-                    <h3
-                        class="text-lg font-bold text-[var(--color-primary)] mb-8 uppercase tracking-widest border-b border-[#333] pb-4 mx-auto w-1/2 group-hover:border-[var(--color-primary)] transition-colors">
-                        Classic</h3>
-
-                    <h4 class="text-xl font-bold text-white mb-2">Classic Label</h4>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                        Traditional design offering a clean, timeless look for any collection.
-                    </p>
-                </div>
-
-                <!-- Option 2 -->
-                <div
-                    class="bg-[#1C1E21] rounded-2xl border border-[var(--color-valen-border)] p-10 text-center hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.2)] transition-all duration-300 relative transform md:-translate-y-4">
+                    class="bg-[#1C1E21] rounded-2xl border border-[var(--color-valen-border)] p-10 text-center hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.1)] transition-all duration-300 group flex flex-col items-center {{ $index == 1 ? 'relative transform md:-translate-y-4' : '' }}">
+                    
+                    @if($index == 1)
                     <div
-                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg z-10">
                         Most Popular</div>
+                    @endif
 
                     <h3
-                        class="text-lg font-bold text-[var(--color-primary)] mb-8 uppercase tracking-widest border-b border-[#333] pb-4 mx-auto w-1/2">
-                        Premier</h3>
+                        class="text-lg font-bold text-[var(--color-primary)] mb-6 uppercase tracking-widest border-b border-[#333] pb-4 mx-auto w-1/2 group-hover:border-[var(--color-primary)] transition-colors">
+                        {{ $label->name }}</h3>
 
-                    <h4 class="text-xl font-bold text-white mb-2">Premier Label</h4>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                        Feature-rich design with enhanced security and premium aesthetics.
+                    <h4 class="text-xl font-bold text-white mb-2 mt-4">{{ $label->name }} Label</h4>
+                    <p class="text-sm text-gray-500 mb-6 leading-relaxed flex-grow">
+                        {{ $label->description ?? 'Premium label option for your collection.' }}
                     </p>
+                    
+                    <div class="w-full mt-auto flex justify-center">
+                        @if($label->image_path)
+                            <img src="{{ asset('storage/' . $label->image_path) }}" alt="{{ $label->name }} Label" class="max-w-full h-auto rounded-lg shadow-lg border border-white/10 group-hover:border-[var(--color-primary)]/50 transition-colors">
+                        @else
+                            <div class="w-full h-40 bg-[#2A1215] rounded-lg border border-white/10 flex items-center justify-center text-gray-500">No Image</div>
+                        @endif
+                    </div>
                 </div>
-
-                <!-- Option 3 -->
-                <div
-                    class="bg-[#1C1E21] rounded-2xl border border-[var(--color-valen-border)] p-10 text-center hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.1)] transition-all duration-300 group">
-                    <h3
-                        class="text-lg font-bold text-[var(--color-primary)] mb-8 uppercase tracking-widest border-b border-[#333] pb-4 mx-auto w-1/2 group-hover:border-[var(--color-primary)] transition-colors">
-                        Custom</h3>
-
-                    <h4 class="text-xl font-bold text-white mb-2">Custom Label</h4>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                        Fully bespoke designs for rare, special edition, or personal cards.
-                    </p>
-                </div>
+                @endforeach
             </div>
             <div class="text-center mt-16">
                 <a href="{{ route('submission.step1') }}"

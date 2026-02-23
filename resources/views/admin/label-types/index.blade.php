@@ -62,11 +62,13 @@
             <table class="w-full text-left">
                 <thead class="bg-white/5 text-gray-400 uppercase text-xs font-bold tracking-wider">
                     <tr>
-                        <th class="px-8 py-5">Name</th>
-                        <th class="px-8 py-5">Description</th>
-                        <th class="px-8 py-5">Display Price</th>
-                        <th class="px-8 py-5 text-center">Status</th>
-                        <th class="px-8 py-5 text-right">Actions</th>
+                        <th class="px-6 py-5">Order</th>
+                        <th class="px-6 py-5">Image</th>
+                        <th class="px-6 py-5">Name</th>
+                        <th class="px-6 py-5 hidden lg:table-cell">Description</th>
+                        <th class="px-6 py-5 text-center">Display Price</th>
+                        <th class="px-6 py-5 text-center">Status</th>
+                        <th class="px-6 py-5 text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
@@ -74,10 +76,22 @@
                         <tr class="hover:bg-white/[0.02] transition-colors group"
                             x-show="search === '' || '{{ strtolower($type->name . ' ' . $type->description) }}'.includes(search.toLowerCase())">
                             <td class="px-4 py-3 md:px-6 md:py-4 text-gray-500 font-mono text-xs">{{ $type->order }}</td>
-                            <td class="px-4 py-3 md:px-6 md:py-4 font-bold text-white text-xs md:text-sm whitespace-nowrap">{{ $type->name }}</td>
-                            <td class="hidden md:table-cell px-6 py-4 text-sm text-gray-400 max-w-xs truncate">{{ $type->description }}</td>
+                            <td class="px-4 py-3 md:px-6 md:py-4">
+                                @if($type->image_path)
+                                    <img src="{{ asset('storage/' . $type->image_path) }}" alt="{{ $type->name }}" class="h-10 w-auto rounded bg-[#1C1E21] border border-white/10">
+                                @else
+                                    <div class="h-10 w-16 bg-white/5 rounded border border-white/10 flex items-center justify-center text-[10px] text-gray-500">None</div>
+                                @endif
+                            </td>
+                            <td class="px-4 py-3 md:px-6 md:py-4 font-bold text-white text-xs md:text-sm whitespace-nowrap">
+                                {{ $type->name }}
+                                @if($type->subtitle)
+                                    <div class="text-[10px] font-normal text-gray-500">{{ $type->subtitle }}</div>
+                                @endif
+                            </td>
+                            <td class="hidden lg:table-cell px-6 py-4 text-sm text-gray-400 max-w-xs truncate" title="{{ $type->description }}">{{ $type->description }}</td>
                             <td class="px-4 py-3 md:px-6 md:py-4 text-center">
-                                <span class="bg-red-500/10 text-red-400 px-2 py-1 md:px-3 rounded-lg font-bold tabular-nums text-xs">
+                                <span class="bg-red-500/10 text-red-400 px-2 py-1 md:px-3 rounded-lg font-bold tabular-nums text-xs whitespace-nowrap">
                                     {{ $type->display_price }}
                                 </span>
                             </td>

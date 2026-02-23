@@ -26,14 +26,30 @@ class LabelTypeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
             'price_adjustment' => 'required|numeric|min:0',
             'order' => 'required|integer',
             'is_active' => 'required|boolean',
+            'image' => 'nullable|image|max:2048',
+            'features' => 'nullable|string',
         ]);
 
         // Convert string to boolean
         $validated['is_active'] = (bool) $validated['is_active'];
+
+        // Handle Features
+        $features = [];
+        if (!empty($validated['features'])) {
+            $features = array_filter(array_map('trim', explode("\n", $validated['features'])));
+        }
+        $validated['features'] = $features;
+
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('labels', 'public');
+            $validated['image_path'] = $imagePath;
+        }
 
         LabelType::create($validated);
 
@@ -51,14 +67,35 @@ class LabelTypeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
             'price_adjustment' => 'required|numeric|min:0',
             'order' => 'required|integer',
             'is_active' => 'required|boolean',
+            'image' => 'nullable|image|max:2048',
+            'features' => 'nullable|string',
         ]);
 
         // Convert string to boolean
         $validated['is_active'] = (bool) $validated['is_active'];
+
+        // Handle Features
+        $features = [];
+        if (!empty($validated['features'])) {
+            $features = array_filter(array_map('trim', explode("\n", $validated['features'])));
+        }
+        $validated['features'] = $features;
+
+        // Handle Image Upload
+        if ($request->hasFile('image')) {
+            // Optionally delete old image
+            if ($labelType->image_path && \Storage::disk('public')->exists($labelType->image_path)) {
+                \Storage::disk('public')->delete($labelType->image_path);
+            }
+            
+            $imagePath = $request->file('image')->store('labels', 'public');
+            $validated['image_path'] = $imagePath;
+        }
 
         $labelType->update($validated);
 
