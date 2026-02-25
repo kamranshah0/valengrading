@@ -8,7 +8,8 @@
                 <!-- Logo mark -->
                 <div class="flex flex-col items-center animate-fade-in">
                     <div class="h-16 w-auto mb-6 flex items-center justify-center">
-                        <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" class="h-full w-auto object-contain" alt="{{ config('app.name') }}">
+                        <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}"
+                            class="h-full w-auto object-contain" alt="{{ config('app.name') }}">
                     </div>
                 </div>
             </div>
@@ -37,64 +38,70 @@
     </div>
 
     <!-- Infinite Card Slider -->
-    <div class="bg-[#0A0C0E] border-y border-[var(--color-valen-border)] overflow-hidden py-10 relative">
-        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0A0C0E] to-transparent z-10"></div>
-        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0A0C0E] to-transparent z-10"></div>
+    <div class="bg-[#0A0C0E] border-y border-[var(--color-valen-border)] overflow-hidden py-10 relative flex w-full">
+        <!-- Left/Right Fades -->
+        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0A0C0E] to-transparent z-10 pointer-events-none">
+        </div>
+        <div
+            class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0A0C0E] to-transparent z-10 pointer-events-none">
+        </div>
 
-        <div class="flex w-[200%] animate-marquee">
-            <!-- First set of cards -->
-            <div class="flex justify-around w-1/2 px-4 gap-8">
-                @foreach($showcaseCards as $card)
-                    <div
-                        class="flex-shrink-0 w-48 h-72 bg-[var(--color-valen-light)] rounded-lg border-2 border-[#333] relative group shadow-2xl skew-x-[-2deg] transform transition-transform hover:scale-110 hover:z-20 hover:border-[var(--color-primary)]">
+        <!-- Scroll Container -->
+        <div class="flex group/slider w-[max-content]">
+            <!-- First sliding track -->
+            <div class="flex shrink-0 animate-slide-left gap-8 pr-8 group-hover/slider:[animation-play-state:paused]">
+                @for ($i = 0; $i < 8; $i++)
+                    @foreach($showcaseCards as $card)
                         <div
-                            class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg">
-                            {{ $card->grade }}</div>
-                        <div class="absolute inset-2 bg-[#1a1d21] rounded flex items-center justify-center overflow-hidden"> 
-                          <img src="{{ asset($card->image_path) }}" class="h-full w-full object-cover" alt="{{ $card->title }}">
-                             
+                            class="flex-shrink-0 w-48 h-72 rounded-lg border-2 border-[rgba(255,255,255,0.05)] relative group shadow-2xl skew-x-[-2deg] transform transition-all duration-300 hover:scale-110 hover:z-20 hover:border-[var(--color-primary)] overflow-hidden bg-gradient-to-br from-[var(--color-primary)]/40 via-[#1C1E21]/80 to-[#0A0C0E] backdrop-blur-xl">
+
+                            <!-- Shiny overlay for glass effect -->
+                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                            @if($card->grade)
+                                <div
+                                    class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg z-10">
+                                    {{ $card->grade }}
+                                </div>
+                            @endif
+
+                            <div class="absolute inset-2 flex items-center justify-center overflow-hidden rounded p-1">
+                                <img src="{{ asset($card->image_path) }}"
+                                    class="max-h-full max-w-full object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)] transform group-hover:scale-105 transition-transform duration-300"
+                                    alt="{{ $card->title }}">
+                            </div>
                         </div>
-                        
-                    </div>
-                @endforeach
-                @foreach($showcaseCards as $card)
-                    <div
-                        class="flex-shrink-0 w-48 h-72 bg-[var(--color-valen-light)] rounded-lg border-2 border-[#333] relative group shadow-2xl skew-x-[-2deg] transform transition-transform hover:scale-110 hover:z-20 hover:border-[var(--color-primary)]">
-                        <div class="absolute inset-2 bg-[#1a1d21] rounded flex items-center justify-center overflow-hidden">
-                          <img src="{{ asset($card->image_path) }}" class="h-full w-full object-cover" alt="{{ $card->title }}">
-                             
-                        </div>
-                        
-                    </div>
-                @endforeach
+                    @endforeach
+                @endfor
             </div>
-            <!-- Second set of cards (Duplicate for seamless scroll) -->
-            <div class="flex justify-around w-1/2 px-4 gap-8">
-                @foreach($showcaseCards as $card)
-                    <div
-                        class="flex-shrink-0 w-48 h-72 bg-[var(--color-valen-light)] rounded-lg border-2 border-[#333] relative group shadow-2xl skew-x-[-2deg] transform transition-transform hover:scale-110 hover:z-20 hover:border-[var(--color-primary)]">
+
+            <!-- Second sliding track (Duplicate for seamless scroll) -->
+            <div class="flex shrink-0 animate-slide-left gap-8 pr-8 group-hover/slider:[animation-play-state:paused]"
+                aria-hidden="true">
+                @for ($i = 0; $i < 8; $i++)
+                    @foreach($showcaseCards as $card)
                         <div
-                            class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg">
-                            {{ $card->grade }}</div>
-                        <div class="absolute inset-2 bg-[#1a1d21] rounded flex items-center justify-center overflow-hidden"> 
-                          <img src="{{ asset($card->image_path) }}" class="h-full w-full object-cover" alt="{{ $card->title }}">
-                             
+                            class="flex-shrink-0 w-48 h-72 rounded-lg border-2 border-[rgba(255,255,255,0.05)] relative group shadow-2xl skew-x-[-2deg] transform transition-all duration-300 hover:scale-110 hover:z-20 hover:border-[var(--color-primary)] overflow-hidden bg-gradient-to-br from-[var(--color-primary)]/40 via-[#1C1E21]/80 to-[#0A0C0E] backdrop-blur-xl">
+
+                            <!-- Shiny overlay for glass effect -->
+                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                            @if($card->grade)
+                                <div
+                                    class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg z-10">
+                                    {{ $card->grade }}
+                                </div>
+                            @endif
+
+                            <div class="absolute inset-2 flex items-center justify-center overflow-hidden rounded p-1">
+                                <img src="{{ asset($card->image_path) }}"
+                                    class="max-h-full max-w-full object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.5)] transform group-hover:scale-105 transition-transform duration-300"
+                                    alt="{{ $card->title }}">
+                            </div>
                         </div>
-                        
-                    </div>
-                @endforeach
-                @foreach($showcaseCards as $card)
-                    <div
-                        class="flex-shrink-0 w-48 h-72 bg-[var(--color-valen-light)] rounded-lg border-2 border-[#333] relative group shadow-2xl skew-x-[-2deg] transform transition-transform hover:scale-110 hover:z-20 hover:border-[var(--color-primary)]">
-                        <div class="absolute inset-2 bg-[#1a1d21] rounded flex items-center justify-center overflow-hidden">
-                          <img src="{{ asset($card->image_path) }}" class="h-full w-full object-cover" alt="{{ $card->title }}">
-                             
-                        </div>
-                        
-                    </div>
-                @endforeach
+                    @endforeach
+                @endfor
             </div>
-             
         </div>
     </div>
 
@@ -216,32 +223,36 @@
                     $labelTypes = \App\Models\LabelType::where('is_active', true)->orderBy('order')->get();
                 @endphp
                 @foreach($labelTypes as $index => $label)
-                <div
-                    class="bg-[#1C1E21] rounded-2xl border border-[var(--color-valen-border)] p-10 text-center hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.1)] transition-all duration-300 group flex flex-col items-center {{ $index == 1 ? 'relative transform md:-translate-y-4' : '' }}">
-                    
-                    @if($index == 1)
                     <div
-                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg z-10">
-                        Most Popular</div>
-                    @endif
+                        class="bg-[#1C1E21] rounded-2xl border border-[var(--color-valen-border)] p-10 text-center hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.1)] transition-all duration-300 group flex flex-col items-center {{ $index == 1 ? 'relative transform md:-translate-y-4' : '' }}">
 
-                    <h3
-                        class="text-lg font-bold text-[var(--color-primary)] mb-6 uppercase tracking-widest border-b border-[#333] pb-4 mx-auto w-1/2 group-hover:border-[var(--color-primary)] transition-colors">
-                        {{ $label->name }}</h3>
-
-                    <h4 class="text-xl font-bold text-white mb-2 mt-4">{{ $label->name }} Label</h4>
-                    <p class="text-sm text-gray-500 mb-6 leading-relaxed flex-grow">
-                        {{ $label->description ?? 'Premium label option for your collection.' }}
-                    </p>
-                    
-                    <div class="w-full mt-auto flex justify-center">
-                        @if($label->image_path)
-                            <img src="{{ asset('storage/' . $label->image_path) }}" alt="{{ $label->name }} Label" class="max-w-full h-auto rounded-lg shadow-lg border border-white/10 group-hover:border-[var(--color-primary)]/50 transition-colors">
-                        @else
-                            <div class="w-full h-40 bg-[#2A1215] rounded-lg border border-white/10 flex items-center justify-center text-gray-500">No Image</div>
+                        @if($index == 1)
+                            <div
+                                class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--color-primary)] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-wider shadow-lg z-10">
+                                Most Popular</div>
                         @endif
+
+                        <h3
+                            class="text-lg font-bold text-[var(--color-primary)] mb-6 uppercase tracking-widest border-b border-[#333] pb-4 mx-auto w-1/2 group-hover:border-[var(--color-primary)] transition-colors">
+                            {{ $label->name }}
+                        </h3>
+
+                        <h4 class="text-xl font-bold text-white mb-2 mt-4">{{ $label->name }} Label</h4>
+                        <p class="text-sm text-gray-500 mb-6 leading-relaxed flex-grow">
+                            {{ $label->description ?? 'Premium label option for your collection.' }}
+                        </p>
+
+                        <div class="w-full mt-auto flex justify-center">
+                            @if($label->image_path)
+                                <img src="{{ asset('storage/' . $label->image_path) }}" alt="{{ $label->name }} Label"
+                                    class="max-w-full h-auto rounded-lg shadow-lg border border-white/10 group-hover:border-[var(--color-primary)]/50 transition-colors">
+                            @else
+                                <div
+                                    class="w-full h-40 bg-[#2A1215] rounded-lg border border-white/10 flex items-center justify-center text-gray-500">
+                                    No Image</div>
+                            @endif
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
             <div class="text-center mt-16">
@@ -354,21 +365,22 @@
 
             <div class="space-y-4" x-data="{ active: null }">
                 @foreach($faqs as $faq)
-                <div class="bg-[#1C1E21] rounded-lg border border-[var(--color-valen-border)] overflow-hidden">
-                    <button @click="active = (active === {{ $faq->id }} ? null : {{ $faq->id }})"
-                        class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-[var(--color-valen-dark)] transition-colors">
-                        <span class="text-sm font-bold text-white">{{ $faq->question }}</span>
-                        <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200"
-                            :class="{'rotate-180': active === {{ $faq->id }}}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div x-show="active === {{ $faq->id }}" x-collapse style="display: none;">
-                        <div class="px-6 pb-5 text-sm text-gray-400 leading-relaxed border-t border-gray-800 pt-4">
-                            {{ $faq->answer }}
+                    <div class="bg-[#1C1E21] rounded-lg border border-[var(--color-valen-border)] overflow-hidden">
+                        <button @click="active = (active === {{ $faq->id }} ? null : {{ $faq->id }})"
+                            class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-[var(--color-valen-dark)] transition-colors">
+                            <span class="text-sm font-bold text-white">{{ $faq->question }}</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200"
+                                :class="{'rotate-180': active === {{ $faq->id }}}" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="active === {{ $faq->id }}" x-collapse style="display: none;">
+                            <div class="px-6 pb-5 text-sm text-gray-400 leading-relaxed border-t border-gray-800 pt-4">
+                                {{ $faq->answer }}
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
