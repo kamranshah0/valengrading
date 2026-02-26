@@ -335,36 +335,60 @@
                 <div class="space-y-8">
                     @forelse($submissions as $submission)
                         @php 
-                            $backendStatus = $submission->status;
-                            $progressLevel = 0;
-
                             $states = [
                                 'Submission Complete' => 1,
+                                'Cards Received' => 1,
                                 'Cards Logged' => 2,
+                                'Awaiting Label Selection' => 2,
+                                'Label Selection Received' => 2,
                                 'Grading Complete' => 3,
                                 'Label Created' => 4,
                                 'Encapsulation Complete' => 5,
                                 'Quality Control Complete' => 6,
+                                'Quality Control Confirmed' => 6,
                             ];
 
-                            // Determine level based on Exact match, but handle legacy mappings generically or fallback to 1
-                            if (array_key_exists($backendStatus, $states)) {
-                                $progressLevel = $states[$backendStatus];
-                            } elseif (in_array(strtolower($backendStatus), ['submitted', 'pending_payment', 'order_received', 'awaiting_arrival'])) {
-                                $progressLevel = 1;
-                            } elseif (in_array(strtolower($backendStatus), ['processing', 'in_production'])) {
-                                $progressLevel = 3;
-                            } elseif (in_array(strtolower($backendStatus), ['shipped', 'completed', 'delivered'])) {
-                                $progressLevel = 6;
+                            $progressLevel = 1; // Default
+                            
+                            if ($submission->cards && $submission->cards->count() > 0) {
+                                $minLevel = 6;
+                                foreach($submission->cards as $card) {
+                                    $cardStatus = $card->status ?? 'Submission Complete';
+                                    $cardLevel = $states[$cardStatus] ?? 1;
+                                    
+                                    if (in_array(strtolower($cardStatus), ['submitted', 'pending_payment', 'order_received', 'awaiting_arrival'])) {
+                                        $cardLevel = 1;
+                                    } elseif (in_array(strtolower($cardStatus), ['processing', 'in_production'])) {
+                                        $cardLevel = 3;
+                                    } elseif (in_array(strtolower($cardStatus), ['shipped', 'completed', 'delivered'])) {
+                                        $cardLevel = 6;
+                                    }
+
+                                    if ($cardLevel < $minLevel) {
+                                        $minLevel = $cardLevel;
+                                    }
+                                }
+                                $progressLevel = $minLevel;
+                            } else {
+                                $backendStatus = $submission->status;
+                                if (array_key_exists($backendStatus, $states)) {
+                                    $progressLevel = $states[$backendStatus];
+                                } elseif (in_array(strtolower($backendStatus), ['submitted', 'pending_payment', 'order_received', 'awaiting_arrival'])) {
+                                    $progressLevel = 1;
+                                } elseif (in_array(strtolower($backendStatus), ['processing', 'in_production'])) {
+                                    $progressLevel = 3;
+                                } elseif (in_array(strtolower($backendStatus), ['shipped', 'completed', 'delivered'])) {
+                                    $progressLevel = 6;
+                                }
                             }
 
                             $stepsConfig = [
                                 1 => [ 'completed' => 'Submission Complete', 'pending' => 'Submission Complete' ],
                                 2 => [ 'completed' => 'Cards Logged', 'pending' => 'Awaiting Card Logging' ],
                                 3 => [ 'completed' => 'Grading Complete', 'pending' => 'Awaiting Grading' ],
-                                4 => [ 'completed' => 'Label Created', 'pending' => 'Label Selection Received' ],
+                                4 => [ 'completed' => 'Label Created', 'pending' => 'Awaiting Label Creation' ],
                                 5 => [ 'completed' => 'Encapsulation Complete', 'pending' => 'Awaiting Encapsulation' ],
-                                6 => [ 'completed' => 'Quality Control Confirmed', 'pending' => 'Awaiting Quality Control' ],
+                                6 => [ 'completed' => 'Quality Control Complete', 'pending' => 'Awaiting Quality Control' ],
                             ];
                         @endphp
                         

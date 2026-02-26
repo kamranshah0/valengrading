@@ -21,16 +21,16 @@ class SubmissionController extends Controller
     public function show(Submission $submission)
     {
         $submission->load(['user', 'serviceLevel', 'submissionType', 'labelType', 'cards.labelType', 'shippingAddress']);
-        
+
         $statuses = [
-            'Submission Complete', 
-            'Cards Logged', 
+            'Submission Complete',
+            'Cards Logged',
             'Awaiting Label Selection',
             'Label Selection Received',
-            'Grading Complete', 
-            'Label Created', 
-            'Encapsulation Complete', 
-            'Quality Control Complete', 
+            'Grading Complete',
+            'Label Created',
+            'Encapsulation Complete',
+            'Quality Control Complete',
             'Cancelled'
         ];
 
@@ -51,7 +51,7 @@ class SubmissionController extends Controller
         if ($request->status === 'Awaiting Label Selection') {
             // Also update all cards
             $submission->cards()->update(['status' => 'Awaiting Label Selection']);
-            
+
             // Notify User ONLY if they chose "Yes, Send Email" via the Modal OR if it's not present (default bypass behavior)
             // Wait, since we added the hidden input, sendEmailRequested will be false if they said No.
             // If they are on a different page that doesn't have the modal but forces an update, it defaults to '0'.
@@ -59,11 +59,11 @@ class SubmissionController extends Controller
                 try {
                     $user = $submission->user;
                     $userEmail = $user->email ?? $submission->shippingAddress->email ?? null;
-                    
+
                     if ($userEmail) {
                         \Illuminate\Support\Facades\Mail::to($userEmail)->send(new \App\Mail\LabelSelectionRequiredEmail($submission));
                     }
-                    
+
                     if ($user) {
                         $user->notify(new \App\Notifications\LabelSelectionRequired($submission));
                     }
@@ -71,7 +71,8 @@ class SubmissionController extends Controller
                     // Mark as sent
                     $submission->update(['label_selection_email_sent' => true]);
 
-                } catch (\Exception $e) {
+                }
+                catch (\Exception $e) {
                     \Log::error('Failed to send label selection required email: ' . $e->getMessage());
                 }
             }
@@ -84,15 +85,12 @@ class SubmissionController extends Controller
     {
         $card->load('submission');
         $statuses = [
-            'Submission Complete', 
-            'Cards Logged', 
-            'Awaiting Label Selection',
-            'Label Selection Received',
-            'Grading Complete', 
-            'Label Created', 
-            'Encapsulation Complete', 
-            'Quality Control Complete', 
-            'Cancelled'
+            'Submission Complete',
+            'Cards Logged',
+            'Grading Complete',
+            'Label Created',
+            'Encapsulation Complete',
+            'Quality Control Complete'
         ];
         return view('admin.submissions.cards.edit', compact('card', 'statuses'));
     }
@@ -115,7 +113,7 @@ class SubmissionController extends Controller
         ]);
 
         $data = $request->only([
-            'status', 'grade', 'centering', 'corners', 'edges', 'surface', 
+            'status', 'grade', 'centering', 'corners', 'edges', 'surface',
             'grading_insights', 'admin_notes'
         ]);
 
@@ -153,16 +151,16 @@ class SubmissionController extends Controller
 
             if ($totalCards > 0 && $totalCards === $awaitingCards && $submission->status !== 'Awaiting Label Selection') {
                 $submission->update(['status' => 'Awaiting Label Selection']);
-                
+
                 // Notify User
                 try {
                     $user = $submission->user;
                     $userEmail = $user->email ?? $submission->shippingAddress->email ?? null;
-                    
+
                     if ($userEmail) {
                         \Illuminate\Support\Facades\Mail::to($userEmail)->send(new \App\Mail\LabelSelectionRequiredEmail($submission));
                     }
-                    
+
                     if ($user) {
                         $user->notify(new \App\Notifications\LabelSelectionRequired($submission));
                     }
@@ -170,7 +168,8 @@ class SubmissionController extends Controller
                     // Mark as sent
                     $submission->update(['label_selection_email_sent' => true]);
 
-                } catch (\Exception $e) {
+                }
+                catch (\Exception $e) {
                     \Log::error('Failed to send label selection required email: ' . $e->getMessage());
                 }
             }
@@ -201,7 +200,7 @@ class SubmissionController extends Controller
         if ($submission->card_entry_mode === 'easy') {
             $currentCount = $submission->cards()->sum('qty');
             $remaining = $submission->total_cards - $currentCount;
-            
+
             if ($request->qty > $remaining) {
                 return back()->withErrors(['qty' => "Cannot add {$request->qty} cards. Only {$remaining} cards remaining for this submission."])->withInput();
             }

@@ -40,11 +40,11 @@
     <!-- Infinite Card Slider -->
     <div class="bg-[#0A0C0E] border-y border-[var(--color-valen-border)] overflow-hidden py-10 relative flex w-full">
         <!-- Left/Right Fades -->
-        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0A0C0E] to-transparent z-10 pointer-events-none">
-        </div>
-        <div
+        <!-- <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0A0C0E] to-transparent z-10 pointer-events-none">
+        </div> -->
+        <!-- <div
             class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0A0C0E] to-transparent z-10 pointer-events-none">
-        </div>
+        </div> -->
 
         <!-- Scroll Container -->
         <div class="flex group/slider w-[max-content]">
