@@ -58,20 +58,20 @@
                 </div>
 
                  <!-- Tabs -->
-                <div class="flex justify-center mb-12">
-                    <div class="bg-white/10 backdrop-blur-md rounded-full p-1 flex border border-white/10 overflow-x-auto max-w-full hide-scrollbar">
+                <div class="flex justify-center mb-12 w-full px-4">
+                    <div class="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-full p-1.5 flex flex-wrap justify-center gap-1 border border-white/10 w-full max-w-2xl mx-auto">
                         <button @click="activeTab = 'grading'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'grading', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'grading' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Grading</button>
+                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Grading</button>
                         <button @click="activeTab = 'crossover'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'crossover', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'crossover' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Crossover</button>
+                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Crossover</button>
                         <button @click="activeTab = 'reholder'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'reholder', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'reholder' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Re-Holder</button>
+                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Re-Holder</button>
                         <button @click="activeTab = 'authentication'"
                             :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'authentication', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'authentication' }"
-                            class="px-6 sm:px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap">Authentication</button>
+                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Authentication</button>
                     </div>
                 </div>
 
@@ -117,7 +117,7 @@
                              x-transition:leave="transition ease-in duration-300 absolute top-0 w-full"
                              x-transition:leave-start="opacity-100 translate-y-0"
                              x-transition:leave-end="opacity-0 -translate-y-8"
-                             class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+                             class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 w-full">
                              
                              @foreach($tiers as $tierName => $tierDetails)
                                 <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] {{ $tierName === 'Express' ? 'scale-105 z-10 shadow-2xl relative' : '' }} group relative overflow-hidden">

@@ -5,23 +5,52 @@
 <div class="min-h-screen bg-[#15171A] text-white font-['Outfit'] py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
         <!-- Progress Steps -->
-        <div class="mb-12">
+        <!-- Progress Steps Desktop -->
+        <div class="mb-12 hidden md:block">
             <div class="flex items-center justify-between relative">
                 <div class="absolute left-0 top-1/2 w-full h-1 bg-white/5 -z-10 rounded-full"></div>
                 
                 @foreach(['Submission Type', 'Service Level', 'Card Details', 'Shipping', 'Review', 'Payment'] as $index => $step)
-                    <div class="flex flex-col items-center">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm mb-2 transition-all duration-300 relative
+                    <div class="flex flex-col items-center w-24">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm mb-2 transition-all duration-300 relative z-10
                             {{ $index + 1 <= 1 ? 'bg-gradient-to-r from-red-500 to-[#A3050A] shadow-[0_0_15px_rgba(163,5,10,0.4)] scale-110' : 'bg-[#232528] text-gray-500' }}">
                             @if($index + 1 < 1)
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                             @else
                                 {{ $index + 1 }}
                             @endif
                         </div>
-                        <span class="text-xs font-medium {{ $index + 1 <= 1 ? 'text-white' : 'text-gray-500' }}">{{ $step }}</span>
+                        <span class="text-xs font-medium text-center leading-tight mt-1 {{ $index + 1 <= 1 ? 'text-white' : 'text-gray-500' }}">{{ $step }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Mobile Progress Steps (Image Style) -->
+        <div class="mb-8 block md:hidden">
+            <div class="flex items-start justify-between relative">
+                <!-- Background Line -->
+                <div class="absolute left-[8.33%] right-[8.33%] top-3 h-[2px] bg-[#232528] -z-10"></div>
+                <!-- Active Line -->
+                <div class="absolute left-[8.33%] top-3 h-[2px] bg-[#A3050A] -z-10 transition-all duration-300" style="width: {{ (1 - 1) * 20 }}%;"></div>
+                
+                @foreach(['Type', 'Level', 'Cards', 'Ship', 'Review', 'Pay'] as $index => $step)
+                    @php $isCompleted = ($index + 1) < 1; $isActive = ($index + 1) == 1; @endphp
+                    <div class="flex flex-col items-center z-10 w-1/6">
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center mb-1 transition-all duration-300 bg-[#15171A] 
+                            {{ $isCompleted ? 'bg-[#A3050A] text-white shadow-[0_0_10px_rgba(163,5,10,0.5)]' : ($isActive ? 'border-2 border-[#A3050A] text-[#A3050A] p-[2px]' : 'border border-gray-600 text-gray-500') }}">
+                            @if($isCompleted)
+                                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            @elseif($isActive)
+                                <div class="bg-gradient-to-r from-red-500 to-[#A3050A] w-full h-full rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(163,5,10,0.4)] text-[11px] font-bold text-white">
+                                    {{ $index + 1 }}
+                                </div>
+                            @else
+                                <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                            @endif
+                        </div>
+                        <span class="text-[7px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">Step {{ $index + 1 }}</span>
+                        <span class="text-[8.5px] font-bold text-center leading-tight mb-1 {{ $isActive ? 'text-white' : 'text-gray-400' }}">{{ $step }}</span>
                     </div>
                 @endforeach
             </div>
@@ -124,7 +153,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Exit to Home
                     </a>
-                    <button type="submit" class="w-full md:w-auto text-white bg-gradient-to-r from-red-600 to-[#A3050A] font-bold rounded-xl text-lg px-8 py-4 shadow-[0_0_20px_rgba(163,5,10,0.3)] hover:shadow-[0_0_30px_rgba(163,5,10,0.5)] transform transition hover:scale-[1.02]">
+                    <button type="submit" class="w-full md:w-auto text-white bg-gradient-to-r from-red-600 to-[#A3050A] font-bold rounded-xl text-base px-6 py-3 md:text-lg md:px-8 md:py-4 shadow-[0_0_20px_rgba(163,5,10,0.3)] hover:shadow-[0_0_30px_rgba(163,5,10,0.5)] transform transition hover:scale-[1.02]">
                         Continue to Service Level →
                     </button>
                 </div>

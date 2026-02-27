@@ -38,13 +38,13 @@
     </div>
 
     <!-- Infinite Card Slider -->
-    <div class="bg-[#0A0C0E] border-y border-[var(--color-valen-border)] overflow-hidden py-10 relative flex w-full">
+    <div class="bg-black border-y border-[var(--color-valen-border)] overflow-hidden py-10 relative flex w-full">
         <!-- Left/Right Fades -->
-        <!-- <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0A0C0E] to-transparent z-10 pointer-events-none">
-        </div> -->
-        <!-- <div
-            class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0A0C0E] to-transparent z-10 pointer-events-none">
-        </div> -->
+        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none">
+        </div>
+        <div
+            class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none">
+        </div>
 
         <!-- Scroll Container -->
         <div class="flex group/slider w-[max-content]">
@@ -53,14 +53,11 @@
                 @for ($i = 0; $i < 8; $i++)
                     @foreach($showcaseCards as $card)
                         <div
-                            class="flex-shrink-0 w-48 h-72 rounded-lg border-2 border-[rgba(255,255,255,0.05)] relative group shadow-2xl skew-x-[-2deg] transform transition-all duration-300 hover:scale-110 hover:z-20 hover:border-[var(--color-primary)] overflow-hidden bg-gradient-to-br from-[var(--color-primary)]/40 via-[#1C1E21]/80 to-[#0A0C0E] backdrop-blur-xl">
-
-                            <!-- Shiny overlay for glass effect -->
-                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            class="flex-shrink-0 w-48 h-72 rounded-lg border-2 border-transparent hover:border-[rgba(255,255,255,0.05)] relative group shadow-none hover:shadow-2xl skew-x-[-2deg] transform transition-all duration-300 hover:scale-110 hover:z-20 hover:border-[var(--color-primary)] overflow-hidden bg-transparent hover:bg-[var(--color-valen-light)]">
 
                             @if($card->grade)
                                 <div
-                                    class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg z-10">
+                                    class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     {{ $card->grade }}
                                 </div>
                             @endif
@@ -81,14 +78,11 @@
                 @for ($i = 0; $i < 8; $i++)
                     @foreach($showcaseCards as $card)
                         <div
-                            class="flex-shrink-0 w-48 h-72 rounded-lg border-2 border-[rgba(255,255,255,0.05)] relative group shadow-2xl skew-x-[-2deg] transform transition-all duration-300 hover:scale-110 hover:z-20 hover:border-[var(--color-primary)] overflow-hidden bg-gradient-to-br from-[var(--color-primary)]/40 via-[#1C1E21]/80 to-[#0A0C0E] backdrop-blur-xl">
-
-                            <!-- Shiny overlay for glass effect -->
-                            <div class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            class="flex-shrink-0 w-48 h-72 rounded-lg border-2 border-transparent hover:border-[rgba(255,255,255,0.05)] relative group shadow-none hover:shadow-2xl skew-x-[-2deg] transform transition-all duration-300 hover:scale-110 hover:z-20 hover:border-[var(--color-primary)] overflow-hidden bg-transparent hover:bg-[var(--color-valen-light)]">
 
                             @if($card->grade)
                                 <div
-                                    class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg z-10">
+                                    class="absolute top-2 right-2 w-8 h-8 rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center font-bold text-xs border border-white/20 shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     {{ $card->grade }}
                                 </div>
                             @endif
@@ -108,9 +102,11 @@
     <!-- Features Section (Expanded) -->
     <div class="py-24 bg-[var(--color-valen-dark)]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                <!-- Feature 1 -->
-                <div class="flex flex-col items-center text-center group">
+            <div
+                class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbars md:grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 pb-8 md:pb-0">
+                <!-- Feature -->
+                <div
+                    class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
                     <div
                         class="h-16 w-16 bg-[#1C1E21] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[var(--color-primary)]/10 transition-colors duration-300 border border-[var(--color-valen-border)] group-hover:border-[var(--color-primary)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -125,8 +121,9 @@
                     </p>
                 </div>
 
-                <!-- Feature 2 -->
-                <div class="flex flex-col items-center text-center group">
+                <!-- Feature -->
+                <div
+                    class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
                     <div
                         class="h-16 w-16 bg-[#1C1E21] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[var(--color-primary)]/10 transition-colors duration-300 border border-[var(--color-valen-border)] group-hover:border-[var(--color-primary)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -141,8 +138,9 @@
                     </p>
                 </div>
 
-                <!-- Feature 3 -->
-                <div class="flex flex-col items-center text-center group">
+                <!-- Feature -->
+                <div
+                    class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
                     <div
                         class="h-16 w-16 bg-[#1C1E21] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[var(--color-primary)]/10 transition-colors duration-300 border border-[var(--color-valen-border)] group-hover:border-[var(--color-primary)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -157,8 +155,9 @@
                     </p>
                 </div>
 
-                <!-- Feature 4 -->
-                <div class="flex flex-col items-center text-center group">
+                <!-- Feature -->
+                <div
+                    class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
                     <div
                         class="h-16 w-16 bg-[#1C1E21] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[var(--color-primary)]/10 transition-colors duration-300 border border-[var(--color-valen-border)] group-hover:border-[var(--color-primary)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -173,8 +172,9 @@
                     </p>
                 </div>
 
-                <!-- Feature 5 -->
-                <div class="flex flex-col items-center text-center group">
+                <!-- Feature -->
+                <div
+                    class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
                     <div
                         class="h-16 w-16 bg-[#1C1E21] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[var(--color-primary)]/10 transition-colors duration-300 border border-[var(--color-valen-border)] group-hover:border-[var(--color-primary)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -189,8 +189,9 @@
                     </p>
                 </div>
 
-                <!-- Feature 6 -->
-                <div class="flex flex-col items-center text-center group">
+                <!-- Feature -->
+                <div
+                    class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
                     <div
                         class="h-16 w-16 bg-[#1C1E21] rounded-xl flex items-center justify-center mb-6 group-hover:bg-[var(--color-primary)]/10 transition-colors duration-300 border border-[var(--color-valen-border)] group-hover:border-[var(--color-primary)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -274,7 +275,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 <!-- Step 1 -->
                 <div
                     class="bg-[#1C1E21] p-8 rounded-xl text-center border border-transparent hover:border-[var(--color-valen-border)] transition-all duration-300 group hover:-translate-y-1">
