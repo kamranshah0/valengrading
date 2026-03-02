@@ -9,10 +9,12 @@ class SubmissionCard extends Model
     protected $fillable = [
         'submission_id',
         'qty',
+        'brand',
         'title',
         'set_name',
         'year',
         'card_number',
+        'variant',
         'lang',
         'notes',
         'label_type_id',

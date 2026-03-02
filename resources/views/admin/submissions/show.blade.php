@@ -200,28 +200,46 @@
                     <!-- Hidden Qty forces 1 per entry -->
                     <input type="hidden" name="qty" value="1">
                     
+                    <!-- Card Name/Title -->
+                    <div class="md:col-span-12">
+                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Card Name</label>
+                        <input type="text" name="title" required placeholder="Charizard VMAX" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="md:col-span-6">
+                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Brand</label>
+                        <input type="text" name="brand" placeholder="Pokemon" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    </div>
+
                     <!-- Year -->
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-6">
                         <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Year</label>
                         <input type="text" name="year" placeholder="2024" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                     </div>
 
-                    <!-- Set Name -->
-                    <div class="md:col-span-3">
-                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Set Name</label>
-                        <input type="text" name="set_name" placeholder="Pokemon TCG" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    <!-- Language -->
+                    <div class="md:col-span-4">
+                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Language</label>
+                        <input type="text" name="lang" placeholder="English" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                     </div>
 
-                    <!-- Card Name/Title -->
-                    <div class="md:col-span-5">
-                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Card Name / Title</label>
-                        <input type="text" name="title" required placeholder="Charizard VMAX" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    <!-- Set Name -->
+                    <div class="md:col-span-4">
+                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Card Set</label>
+                        <input type="text" name="set_name" placeholder="Pokemon TCG Base Set" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                     </div>
-                    
+
                     <!-- Card Number -->
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-4">
                         <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Card #</label>
                         <input type="text" name="card_number" placeholder="001/100" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
+                    </div>
+
+                    <!-- Variant -->
+                    <div class="md:col-span-12">
+                        <label class="block text-xs text-gray-500 uppercase font-bold mb-1">Variant</label>
+                        <input type="text" name="variant" placeholder="Holo Foil" class="w-full bg-[#15171A] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none">
                     </div>
                 </div>
                 
@@ -260,7 +278,11 @@
                     <div class="flex justify-between items-start gap-4">
                         <div>
                             <div class="text-white font-medium">{{ $card->title }}</div>
-                            <div class="text-xs text-gray-500 mt-0.5">{{ $card->year }} {{ $card->set_name }} #{{ $card->card_number }}</div>
+                            <div class="text-xs text-gray-500 mt-0.5">
+                                {{ $card->brand }} {{ $card->year }} {{ $card->set_name }} #{{ $card->card_number }}
+                                @if($card->variant) | {{ $card->variant }} @endif
+                                @if($card->lang) | {{ $card->lang }} @endif
+                            </div>
                         </div>
                         <form action="{{ route('admin.submissions.cards.update', $card) }}" method="POST" x-data class="flex-shrink-0">
                             @csrf
@@ -314,7 +336,11 @@
                         <tr class="hover:bg-white/[0.02] transition-colors group">
                             <td class="px-6 py-4">
                                 <div class="text-white font-medium">{{ $card->title }}</div>
-                                <div class="text-xs text-gray-500">{{ $card->year }} {{ $card->set_name }} #{{ $card->card_number }}</div>
+                                <div class="text-xs text-gray-500">
+                                    {{ $card->brand }} {{ $card->year }} {{ $card->set_name }} #{{ $card->card_number }}
+                                    @if($card->variant) <br> <span class="text-gray-400">Variant:</span> {{ $card->variant }} @endif
+                                    @if($card->lang) | <span class="text-gray-400">Lang:</span> {{ $card->lang }} @endif
+                                </div>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 @if($card->labelType)

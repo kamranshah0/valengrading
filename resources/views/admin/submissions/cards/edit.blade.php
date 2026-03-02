@@ -46,6 +46,14 @@
                             <span class="text-gray-200 font-medium">#{{ $card->card_number ?: '-' }}</span>
                         </div>
                         <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">
+                            <span class="text-gray-500 font-bold uppercase text-[10px] tracking-wider">Brand:</span>
+                            <span class="text-gray-200 font-medium">{{ $card->brand ?: '-' }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">
+                            <span class="text-gray-500 font-bold uppercase text-[10px] tracking-wider">Variant:</span>
+                            <span class="text-gray-200 font-medium">{{ $card->variant ?: '-' }}</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">
                             <span class="text-gray-500 font-bold uppercase text-[10px] tracking-wider">Lang:</span>
                             <span class="text-gray-200 font-medium">{{ strtoupper($card->lang ?? '-') }}</span>
                         </div>
