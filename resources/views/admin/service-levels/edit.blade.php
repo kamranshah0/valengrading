@@ -35,22 +35,12 @@
                 @error('submission_type_id')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                    <label for="delivery_time" class="text-sm font-medium text-gray-400">Delivery Time (Old)*</label>
-                    <input type="text" id="delivery_time" name="delivery_time" value="{{ old('delivery_time', $serviceLevel->delivery_time) }}" 
-                        class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
-                        placeholder="e.g., 15-20 Business Days" required>
-                    @error('delivery_time')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
-                </div>
-                
-                <div class="space-y-2">
-                    <label for="turnaround_time" class="text-sm font-medium text-gray-400">Turnaround Time (Pricing Page)</label>
-                    <input type="text" id="turnaround_time" name="turnaround_time" value="{{ old('turnaround_time', $serviceLevel->turnaround_time) }}" 
-                        class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
-                        placeholder="e.g., 45 Business Days">
-                    @error('turnaround_time')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
-                </div>
+            <div class="space-y-2">
+                <label for="delivery_time" class="text-sm font-medium text-gray-400">Turnaround Time*</label>
+                <input type="text" id="delivery_time" name="delivery_time" value="{{ old('delivery_time', $serviceLevel->delivery_time) }}" 
+                    class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-red-500 transition-colors"
+                    placeholder="e.g., 15-20 Business Days" required>
+                @error('delivery_time')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -105,7 +105,7 @@
                                      <h3 class="text-xl font-bold text-white mb-2">{{ $level->name }}</h3>
                                      <p class="text-xs text-gray-500 mb-6">{{ $level->subtitle ?? 'Quality grading service' }}</p>
                                      <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£{{ rtrim(rtrim(number_format($level->price_per_card, 2), '0'), '.') }} <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                                     <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">{{ $level->turnaround_time ?? ($level->delivery_time . ' Days') }}</span></div>
+                                     <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">{{ $level->delivery_time }}</span></div>
         
                                      <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                         @if($level->features && is_array($level->features))

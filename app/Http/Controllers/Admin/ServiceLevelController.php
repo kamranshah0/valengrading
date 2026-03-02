@@ -34,7 +34,6 @@ class ServiceLevelController extends Controller
             'order' => 'required|integer',
             'is_active' => 'required|boolean',
             'subtitle' => 'nullable|string|max:255',
-            'turnaround_time' => 'nullable|string|max:255',
             'icon' => 'nullable|string',
             'features' => 'nullable|string',
         ]);

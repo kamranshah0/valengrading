@@ -43,7 +43,7 @@
                                 <div>
                                     <div class="font-bold text-white text-base">{{ $level->name }}</div>
                                     <div class="flex items-center gap-2 mt-1">
-                                        <span class="text-[10px] text-gray-500">{{ $level->turnaround_time ?? $level->delivery_time }} Days</span>
+                                        <span class="text-[10px] text-gray-500">{{ $level->delivery_time }}</span>
                                     </div>
                                 </div>
                                 <span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $level->is_active ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400' }}">
@@ -102,7 +102,7 @@
                                     x-show="search === '' || '{{ strtolower($level->name) }}'.includes(search.toLowerCase()) || '{{ strtolower($groupName) }}'.includes(search.toLowerCase())">
                                     <td class="hidden md:table-cell px-6 py-4 text-gray-500 font-mono">{{ $level->order }}</td>
                                     <td class="px-4 py-3 md:px-6 md:py-4 font-bold text-white text-xs md:text-sm whitespace-nowrap">{{ $level->name }}</td>
-                                    <td class="hidden md:table-cell px-6 py-4 text-center text-gray-300">{{ $level->turnaround_time ?? $level->delivery_time }}</td>
+                                    <td class="hidden md:table-cell px-6 py-4 text-center text-gray-300">{{ $level->delivery_time }}</td>
                                     <td class="hidden md:table-cell px-6 py-4 text-center text-gray-300">
                                         @if($level->min_submission)
                                             <span class="bg-white/5 px-2 py-1 rounded text-xs">{{ $level->min_submission }} cards</span>
