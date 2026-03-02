@@ -8,7 +8,7 @@ class DashboardController
     {
         $submissions = \App\Models\Submission::where('user_id', auth()->id())
             ->with(['serviceLevel', 'cards.labelType'])
-            ->latest()
+            ->orderBy('id', 'desc')
             ->get();
 
         // Fetch cards that are ready for collection (e.g. graded/completed)

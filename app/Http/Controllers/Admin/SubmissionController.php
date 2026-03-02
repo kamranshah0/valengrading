@@ -20,9 +20,8 @@ class SubmissionController extends Controller
 
     public function show(Submission $submission)
     {
-        $submission->load(['user', 'serviceLevel', 'submissionType', 'labelType', 'cards.labelType', 'shippingAddress']);
-
-        $statuses = [
+        $submission->load(['user', 'shippingAddress', 'serviceLevel', 'submissionType', 'cards.labelType']);
+        $submissionStatuses = [
             'draft',
             'pending_payment',
             'awaiting_arrival',
@@ -33,8 +32,17 @@ class SubmissionController extends Controller
             'completed',
             'cancelled'
         ];
+        
+        $cardStatuses = [
+            'Submission Complete',
+            'Cards Logged',
+            'Grading Complete',
+            'Label Created',
+            'Encapsulation Complete',
+            'Quality Control Complete'
+        ];
 
-        return view('admin.submissions.show', compact('submission', 'statuses'));
+        return view('admin.submissions.show', compact('submission', 'submissionStatuses', 'cardStatuses'));
     }
 
     public function updateStatus(Request $request, Submission $submission)
@@ -85,15 +93,12 @@ class SubmissionController extends Controller
     {
         $card->load('submission');
         $statuses = [
-            'draft',
-            'pending_payment',
-            'awaiting_arrival',
-            'order_arrived',
-            'in_production',
-            'awaiting_shipment',
-            'shipped',
-            'completed',
-            'cancelled'
+            'Submission Complete',
+            'Cards Logged',
+            'Grading Complete',
+            'Label Created',
+            'Encapsulation Complete',
+            'Quality Control Complete'
         ];
         return view('admin.submissions.cards.edit', compact('card', 'statuses'));
     }
@@ -226,7 +231,7 @@ class SubmissionController extends Controller
                 'variant' => $request->variant,
                 'lang' => $request->lang,
                 'label_type_id' => $request->label_type_id ?? $submission->label_type_id,
-                'status' => 'Cards Received',
+                'status' => 'Cards Logged',
                 'cert_number' => $cert,
                 'qr_code_token' => \Illuminate\Support\Str::random(32),
             ]);

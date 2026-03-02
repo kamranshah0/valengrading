@@ -333,36 +333,50 @@
                 <h2 class="text-xl font-bold text-white mb-8 text-center">My Order Status</h2>
 
                 <div class="space-y-8">
-                    @forelse($submissions as $submission)
+                    @forelse($submissions->sortByDesc('created_at') as $submission)
                         @php 
-                            $states = [
-                                'draft' => 1,
-                                'pending_payment' => 2,
-                                'awaiting_arrival' => 3,
-                                'order_arrived' => 4,
-                                'in_production' => 5,
-                                'awaiting_shipment' => 6,
-                                'shipped' => 7,
-                                'completed' => 8,
-                                'cancelled' => 0, // Special case handled separately
+                            $cardStates = [
+                                'Cards Logged' => 2,
+                                'Grading Complete' => 3,
+                                'Awaiting Label Selection' => 4,
+                                'Label Selection Received' => 4.5,
+                                'Label Created' => 5,
+                                'Encapsulation Complete' => 6,
+                                'Quality Control Complete' => 7,
                             ];
 
-                            $progressLevel = 1; // Default
+                            $minProgress = 1; // Default
+                            $hasAwaitingLabel = false;
                             
-                            $backendStatus = $submission->status;
-                            if (array_key_exists($backendStatus, $states)) {
-                                $progressLevel = $states[$backendStatus];
+                            if ($submission->cards && $submission->cards->count() > 0) {
+                                $minProgress = 999;
+                                foreach($submission->cards as $card) {
+                                    $status = $card->status;
+                                    $level = 1;
+                                    
+                                    if (array_key_exists($status, $cardStates)) {
+                                        $level = $cardStates[$status];
+                                    } elseif ($status === 'Cards Received') {
+                                        $level = 2; // Support for older status text
+                                    }
+
+                                    if ($level < $minProgress) {
+                                        $minProgress = $level;
+                                    }
+                                    if ($status === 'Awaiting Label Selection') {
+                                        $hasAwaitingLabel = true;
+                                    }
+                                }
+                                if ($minProgress == 999) $minProgress = 1;
                             }
 
                             $stepsConfig = [
-                                1 => [ 'completed' => 'Draft Created', 'pending' => 'Draft' ],
-                                2 => [ 'completed' => 'Payment Received', 'pending' => 'Pending Payment' ],
-                                3 => [ 'completed' => 'Shipped to Valen', 'pending' => 'Awaiting Arrival' ],
-                                4 => [ 'completed' => 'Order Arrived', 'pending' => 'Awaiting Order Arrival' ],
-                                5 => [ 'completed' => 'In Production', 'pending' => 'Awaiting Production' ],
-                                6 => [ 'completed' => 'Ready to Ship', 'pending' => 'Awaiting Shipment' ],
-                                7 => [ 'completed' => 'Shipped', 'pending' => 'Awaiting Courier' ],
-                                8 => [ 'completed' => 'Complete', 'pending' => 'Finalizing' ],
+                                1 => [ 'completed' => 'Submission Complete', 'pending' => 'Submission Complete' ],
+                                2 => [ 'completed' => 'Cards Logged', 'pending' => 'Awaiting Card Logging' ],
+                                3 => [ 'completed' => 'Grading Complete', 'pending' => 'Awaiting Grading' ],
+                                4 => [ 'completed' => 'Label Created', 'pending' => ($minProgress == 4.5) ? 'Label Selection Received' : 'Awaiting Label Selection' ],
+                                5 => [ 'completed' => 'Encapsulation Complete', 'pending' => 'Awaiting Encapsulation' ],
+                                6 => [ 'completed' => 'Quality Control Confirmed', 'pending' => 'Awaiting Quality Control' ],
                             ];
                         @endphp
                         
@@ -393,27 +407,50 @@
                                     <h4 class="text-white font-bold text-lg mb-1">Submission Cancelled</h4>
                                     <p class="text-gray-400 text-sm">This submission order has been cancelled.</p>
                                 </div>
-                            @elseif($submission->status === 'Awaiting Label Selection')
-                                <div class="mb-8 bg-blue-500/10 border border-blue-500/20 rounded-lg p-6 flex flex-col items-center text-center">
-                                    <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center mb-3">
-                                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                        </svg>
-                                    </div>
-                                    <h4 class="text-white font-bold text-lg mb-1">Action Required: Select Labels</h4>
-                                    <p class="text-gray-400 text-sm mb-4">Your cards have been graded! Because you submitted via Easy Mode, please select a label style for each card so we can encapsulate them.</p>
-                                    <a href="{{ route('user.submissions.labels', $submission->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-blue-500/20">
-                                        Select Labels Now
-                                    </a>
-                                </div>
                             @else
-                                <!-- Status Grid (Horizontal/Wrap) -->
-                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                                    @for($i = 2; $i <= 8; $i++)
+
+                                @if($hasAwaitingLabel || $submission->status === 'Awaiting Label Selection')
+                                    <div class="mb-8 bg-blue-500/10 border border-blue-500/20 rounded-lg p-6 flex flex-col items-center text-center">
+                                        <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center mb-3">
+                                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                            </svg>
+                                        </div>
+                                        <h4 class="text-white font-bold text-lg mb-1">Action Required: Select Labels</h4>
+                                        <p class="text-gray-400 text-sm mb-4">Your cards have been graded! Please select a label style for each card so we can encapsulate them.</p>
+                                        <a href="{{ route('user.submissions.labels', $submission->id) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                                            Select Labels Now
+                                        </a>
+                                    </div>
+                                @endif
+
+                                <!-- Status Grid (6 boxes) -->
+                                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                                    @for($i = 1; $i <= 6; $i++)
                                         @php
-                                            $isCompleted = $progressLevel >= $i;
-                                            $isActivePending = ($progressLevel + 1) == $i; // The immediately next step
-                                            $isFuture = $progressLevel < ($i - 1);
+                                            $isCompleted = false;
+                                            $isActivePending = false;
+                                            
+                                            // Determine Box Status mapped to the $minProgress numerical values
+                                            if ($i == 1) {
+                                                $isCompleted = true; // Box 1 is always completed for active orders
+                                                $isActivePending = false;
+                                            } else if ($i == 2) {
+                                                $isCompleted = ($minProgress >= 2);
+                                                $isActivePending = ($minProgress < 2);
+                                            } else if ($i == 3) {
+                                                $isCompleted = ($minProgress >= 3);
+                                                $isActivePending = ($minProgress == 2);
+                                            } else if ($i == 4) {
+                                                $isCompleted = ($minProgress >= 5);
+                                                $isActivePending = ($minProgress >= 3 && $minProgress < 5);
+                                            } else if ($i == 5) {
+                                                $isCompleted = ($minProgress >= 6);
+                                                $isActivePending = ($minProgress == 5);
+                                            } else if ($i == 6) {
+                                                $isCompleted = ($minProgress >= 7);
+                                                $isActivePending = ($minProgress == 6);
+                                            }
                                             
                                             $text = $isCompleted ? $stepsConfig[$i]['completed'] : $stepsConfig[$i]['pending'];
                                             
@@ -441,7 +478,7 @@
                                                     <div class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
                                                 @endif
                                             </div>
-                                            <span class="{{ $textColor }} text-sm {{ $isCompleted ? 'font-medium' : '' }}">{{ $text }}</span>
+                                            <span class="{{ $textColor }} text-xs lg:text-sm {{ $isCompleted ? 'font-medium' : '' }} line-clamp-2 leading-tight">{{ $text }}</span>
                                         </div>
                                     @endfor
                                 </div>

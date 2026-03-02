@@ -38,7 +38,7 @@
                 <label class="text-sm font-medium text-gray-400 md:hidden">Update Status:</label>
                 <div class="relative w-full md:w-auto">
                     <select x-ref="statusSelect" name="status" class="w-full md:w-48 h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-white focus:outline-none focus:border-red-500 transition-colors appearance-none cursor-pointer">
-                        @foreach($statuses as $statusOption)
+                        @foreach($submissionStatuses as $statusOption)
                             <option value="{{ $statusOption }}" {{ $submission->status === $statusOption ? 'selected' : '' }}>
                                 {{ ucwords(str_replace('_', ' ', $statusOption)) }}
                             </option>
@@ -290,7 +290,7 @@
                             <div class="relative">
                                 <select name="status" @change="$el.closest('form').submit()" 
                                     class="w-full bg-[#15171A] border border-white/10 rounded-lg pl-3 pr-8 py-1 text-[10px] text-white font-medium focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
-                                    @foreach($statuses as $statusOption)
+                                    @foreach($cardStatuses as $statusOption)
                                         <option value="{{ $statusOption }}" {{ $card->status === $statusOption ? 'selected' : '' }}>
                                             {{ ucwords(str_replace('_', ' ', $statusOption)) }}
                                         </option>
@@ -358,7 +358,7 @@
                                     <div class="relative">
                                         <select name="status" @change="$el.closest('form').submit()" 
                                             class="w-full bg-[#15171A] border border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-[11px] text-white font-medium focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
-                                            @foreach($statuses as $statusOption)
+                                            @foreach($cardStatuses as $statusOption)
                                                 <option value="{{ $statusOption }}" {{ $card->status === $statusOption ? 'selected' : '' }}>
                                                     {{ ucwords(str_replace('_', ' ', $statusOption)) }}
                                                 </option>
