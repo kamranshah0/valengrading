@@ -336,59 +336,33 @@
                     @forelse($submissions as $submission)
                         @php 
                             $states = [
-                                'Submission Complete' => 1,
-                                'Cards Received' => 1,
-                                'Cards Logged' => 2,
-                                'Awaiting Label Selection' => 2,
-                                'Label Selection Received' => 2,
-                                'Grading Complete' => 3,
-                                'Label Created' => 4,
-                                'Encapsulation Complete' => 5,
-                                'Quality Control Complete' => 6,
-                                'Quality Control Confirmed' => 6,
+                                'draft' => 1,
+                                'pending_payment' => 2,
+                                'awaiting_arrival' => 3,
+                                'order_arrived' => 4,
+                                'in_production' => 5,
+                                'awaiting_shipment' => 6,
+                                'shipped' => 7,
+                                'completed' => 8,
+                                'cancelled' => 0, // Special case handled separately
                             ];
 
                             $progressLevel = 1; // Default
                             
-                            if ($submission->cards && $submission->cards->count() > 0) {
-                                $minLevel = 6;
-                                foreach($submission->cards as $card) {
-                                    $cardStatus = $card->status ?? 'Submission Complete';
-                                    $cardLevel = $states[$cardStatus] ?? 1;
-                                    
-                                    if (in_array(strtolower($cardStatus), ['submitted', 'pending_payment', 'order_received', 'awaiting_arrival'])) {
-                                        $cardLevel = 1;
-                                    } elseif (in_array(strtolower($cardStatus), ['processing', 'in_production'])) {
-                                        $cardLevel = 3;
-                                    } elseif (in_array(strtolower($cardStatus), ['shipped', 'completed', 'delivered'])) {
-                                        $cardLevel = 6;
-                                    }
-
-                                    if ($cardLevel < $minLevel) {
-                                        $minLevel = $cardLevel;
-                                    }
-                                }
-                                $progressLevel = $minLevel;
-                            } else {
-                                $backendStatus = $submission->status;
-                                if (array_key_exists($backendStatus, $states)) {
-                                    $progressLevel = $states[$backendStatus];
-                                } elseif (in_array(strtolower($backendStatus), ['submitted', 'pending_payment', 'order_received', 'awaiting_arrival'])) {
-                                    $progressLevel = 1;
-                                } elseif (in_array(strtolower($backendStatus), ['processing', 'in_production'])) {
-                                    $progressLevel = 3;
-                                } elseif (in_array(strtolower($backendStatus), ['shipped', 'completed', 'delivered'])) {
-                                    $progressLevel = 6;
-                                }
+                            $backendStatus = $submission->status;
+                            if (array_key_exists($backendStatus, $states)) {
+                                $progressLevel = $states[$backendStatus];
                             }
 
                             $stepsConfig = [
-                                1 => [ 'completed' => 'Submission Complete', 'pending' => 'Submission Complete' ],
-                                2 => [ 'completed' => 'Cards Logged', 'pending' => 'Awaiting Card Logging' ],
-                                3 => [ 'completed' => 'Grading Complete', 'pending' => 'Awaiting Grading' ],
-                                4 => [ 'completed' => 'Label Created', 'pending' => 'Awaiting Label Creation' ],
-                                5 => [ 'completed' => 'Encapsulation Complete', 'pending' => 'Awaiting Encapsulation' ],
-                                6 => [ 'completed' => 'Quality Control Complete', 'pending' => 'Awaiting Quality Control' ],
+                                1 => [ 'completed' => 'Draft Created', 'pending' => 'Draft' ],
+                                2 => [ 'completed' => 'Payment Received', 'pending' => 'Pending Payment' ],
+                                3 => [ 'completed' => 'Shipped to Valen', 'pending' => 'Awaiting Arrival' ],
+                                4 => [ 'completed' => 'Order Arrived', 'pending' => 'Awaiting Order Arrival' ],
+                                5 => [ 'completed' => 'In Production', 'pending' => 'Awaiting Production' ],
+                                6 => [ 'completed' => 'Ready to Ship', 'pending' => 'Awaiting Shipment' ],
+                                7 => [ 'completed' => 'Shipped', 'pending' => 'Awaiting Courier' ],
+                                8 => [ 'completed' => 'Complete', 'pending' => 'Finalizing' ],
                             ];
                         @endphp
                         
@@ -434,8 +408,8 @@
                                 </div>
                             @else
                                 <!-- Status Grid (Horizontal/Wrap) -->
-                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                                    @for($i = 1; $i <= 6; $i++)
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                    @for($i = 2; $i <= 8; $i++)
                                         @php
                                             $isCompleted = $progressLevel >= $i;
                                             $isActivePending = ($progressLevel + 1) == $i; // The immediately next step

@@ -262,7 +262,8 @@ class UserDashboardController extends Controller
     }
     public function labelSelection(Submission $submission)
     {
-        if ($submission->user_id !== auth()->id() || $submission->status !== 'Awaiting Label Selection') {
+        // Allowed in 'in_production' or a custom flag if needed. We'll use 'in_production' as it's the closest stage for mid-process upgrades.
+        if ($submission->user_id !== auth()->id() || !in_array($submission->status, ['in_production', 'completed'])) {
             return redirect()->route('user.dashboard')->with('error', 'Label selection is not available for this submission.');
         }
 
@@ -274,7 +275,7 @@ class UserDashboardController extends Controller
 
     public function processLabelSelection(Request $request, Submission $submission)
     {
-        if ($submission->user_id !== auth()->id() || $submission->status !== 'Awaiting Label Selection') {
+        if ($submission->user_id !== auth()->id() || !in_array($submission->status, ['in_production', 'completed'])) {
             return redirect()->route('user.dashboard')->with('error', 'Label selection is not available for this submission.');
         }
 
@@ -367,8 +368,7 @@ class UserDashboardController extends Controller
             }
         }
 
-        // Update submission status to proceed out of "Awaiting Label Selection"
-        $submission->update(['status' => 'Label Selection Received']);
+        // Update submission status if needed, though 'in_production' remains 'in_production'
         session()->forget('label_selections_' . $submission->id);
 
         return redirect()->route('user.dashboard')->with('success', 'Your label selections have been saved! We will now proceed with encapsulating your cards.');

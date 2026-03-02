@@ -23,15 +23,15 @@ class SubmissionController extends Controller
         $submission->load(['user', 'serviceLevel', 'submissionType', 'labelType', 'cards.labelType', 'shippingAddress']);
 
         $statuses = [
-            'Submission Complete',
-            'Cards Logged',
-            'Awaiting Label Selection',
-            'Label Selection Received',
-            'Grading Complete',
-            'Label Created',
-            'Encapsulation Complete',
-            'Quality Control Complete',
-            'Cancelled'
+            'draft',
+            'pending_payment',
+            'awaiting_arrival',
+            'order_arrived',
+            'in_production',
+            'awaiting_shipment',
+            'shipped',
+            'completed',
+            'cancelled'
         ];
 
         return view('admin.submissions.show', compact('submission', 'statuses'));
@@ -40,7 +40,7 @@ class SubmissionController extends Controller
     public function updateStatus(Request $request, Submission $submission)
     {
         $request->validate([
-            'status' => 'required|in:Submission Complete,Cards Logged,Awaiting Label Selection,Label Selection Received,Grading Complete,Label Created,Encapsulation Complete,Quality Control Complete,Cancelled',
+            'status' => 'required|in:draft,pending_payment,awaiting_arrival,order_arrived,in_production,awaiting_shipment,shipped,completed,cancelled',
         ]);
 
         $sendEmailRequested = $request->input('send_email', '0') === '1';
@@ -85,12 +85,15 @@ class SubmissionController extends Controller
     {
         $card->load('submission');
         $statuses = [
-            'Submission Complete',
-            'Cards Logged',
-            'Grading Complete',
-            'Label Created',
-            'Encapsulation Complete',
-            'Quality Control Complete'
+            'draft',
+            'pending_payment',
+            'awaiting_arrival',
+            'order_arrived',
+            'in_production',
+            'awaiting_shipment',
+            'shipped',
+            'completed',
+            'cancelled'
         ];
         return view('admin.submissions.cards.edit', compact('card', 'statuses'));
     }

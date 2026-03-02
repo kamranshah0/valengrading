@@ -40,7 +40,7 @@
                     <select x-ref="statusSelect" name="status" class="w-full md:w-48 h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-white focus:outline-none focus:border-red-500 transition-colors appearance-none cursor-pointer">
                         @foreach($statuses as $statusOption)
                             <option value="{{ $statusOption }}" {{ $submission->status === $statusOption ? 'selected' : '' }}>
-                                {{ $statusOption }}
+                                {{ ucwords(str_replace('_', ' ', $statusOption)) }}
                             </option>
                         @endforeach
                     </select>
@@ -270,7 +270,7 @@
                                     class="w-full bg-[#15171A] border border-white/10 rounded-lg pl-3 pr-8 py-1 text-[10px] text-white font-medium focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
                                     @foreach($statuses as $statusOption)
                                         <option value="{{ $statusOption }}" {{ $card->status === $statusOption ? 'selected' : '' }}>
-                                            {{ $statusOption }}
+                                            {{ ucwords(str_replace('_', ' ', $statusOption)) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -334,7 +334,7 @@
                                             class="w-full bg-[#15171A] border border-white/10 rounded-lg pl-3 pr-8 py-1.5 text-[11px] text-white font-medium focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
                                             @foreach($statuses as $statusOption)
                                                 <option value="{{ $statusOption }}" {{ $card->status === $statusOption ? 'selected' : '' }}>
-                                                    {{ $statusOption }}
+                                                    {{ ucwords(str_replace('_', ' ', $statusOption)) }}
                                                 </option>
                                             @endforeach
                                         </select>

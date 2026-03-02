@@ -17,7 +17,7 @@
                     <select x-model="status" class="w-full md:w-auto h-10 bg-[#15171A] border border-white/10 rounded-lg pl-4 pr-10 text-sm text-gray-300 focus:outline-none focus:border-red-500 transition-all cursor-pointer appearance-none">
                         <option value="">All Statuses</option>
                         @foreach(['draft', 'pending_payment', 'awaiting_arrival', 'order_arrived', 'in_production', 'awaiting_shipment', 'shipped', 'completed', 'cancelled'] as $st)
-                            <option value="{{ $st }}">{{ strtoupper(str_replace('_', ' ', $st)) }}</option>
+                            <option value="{{ $st }}">{{ ucwords(str_replace('_', ' ', $st)) }}</option>
                         @endforeach
                     </select>
                     <svg class="w-4 h-4 text-gray-500 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
