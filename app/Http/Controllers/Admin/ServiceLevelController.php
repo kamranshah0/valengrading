@@ -33,10 +33,22 @@ class ServiceLevelController extends Controller
             'price_per_card' => 'required|numeric|min:0',
             'order' => 'required|integer',
             'is_active' => 'required|boolean',
+            'subtitle' => 'nullable|string|max:255',
+            'turnaround_time' => 'nullable|string|max:255',
+            'icon' => 'nullable|string',
+            'features' => 'nullable|string',
         ]);
 
         // Convert string to boolean
         $validated['is_active'] = (bool) $validated['is_active'];
+
+        // Convert features textarea separated by newlines to array
+        if (!empty($validated['features'])) {
+            $featuresArray = array_filter(array_map('trim', explode("\n", $validated['features'])));
+            $validated['features'] = array_values($featuresArray);
+        } else {
+            $validated['features'] = [];
+        }
 
         ServiceLevel::create($validated);
 
@@ -61,10 +73,22 @@ class ServiceLevelController extends Controller
             'price_per_card' => 'required|numeric|min:0',
             'order' => 'required|integer',
             'is_active' => 'required|boolean',
+            'subtitle' => 'nullable|string|max:255',
+            'turnaround_time' => 'nullable|string|max:255',
+            'icon' => 'nullable|string',
+            'features' => 'nullable|string',
         ]);
 
         // Convert string to boolean
         $validated['is_active'] = (bool) $validated['is_active'];
+
+        // Convert features textarea separated by newlines to array
+        if (!empty($validated['features'])) {
+            $featuresArray = array_filter(array_map('trim', explode("\n", $validated['features'])));
+            $validated['features'] = array_values($featuresArray);
+        } else {
+            $validated['features'] = [];
+        }
 
         $serviceLevel->update($validated);
 

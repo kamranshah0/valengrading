@@ -30,8 +30,12 @@ Route::get('/contact', function () {
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/pricing', function () {
+    $submissionTypes = \App\Models\SubmissionType::with(['serviceLevels' => function ($query) {
+        $query->where('is_active', true)->orderBy('order');
+    }])->where('is_active', true)->orderBy('order')->get();
+    
     $comparisonFeatures = \App\Models\ComparisonFeature::orderBy('order')->get();
-    return view('frontend.pricing', compact('comparisonFeatures'));
+    return view('frontend.pricing', compact('comparisonFeatures', 'submissionTypes'));
 })->name('pricing');
 
 Route::get('/about', function () {

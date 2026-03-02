@@ -31,4 +31,9 @@ class SubmissionType extends Model
     {
         return $this->title ?? $this->name;
     }
+
+    public function serviceLevels()
+    {
+        return $this->hasMany(ServiceLevel::class);
+    }
 }

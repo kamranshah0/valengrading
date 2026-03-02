@@ -50,7 +50,10 @@
             </div>
 
             <!-- Service Levels & Pricing -->
-            <div class="mb-24" x-data="{ activeTab: 'grading' }">
+            @php
+                $firstTabSlug = $submissionTypes->first() ? Str::slug($submissionTypes->first()->name) : 'grading';
+            @endphp
+            <div class="mb-24" x-data="{ activeTab: '{{ $firstTabSlug }}' }">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-extrabold text-white mb-4">Service Levels & Pricing</h2>
                     <p class="text-gray-400 max-w-2xl mx-auto">Choose the service level that best fits your needs and
@@ -60,57 +63,20 @@
                  <!-- Tabs -->
                 <div class="flex justify-center mb-12 w-full px-4">
                     <div class="bg-white/10 backdrop-blur-md rounded-2xl md:rounded-full p-1.5 flex flex-wrap justify-center gap-1 border border-white/10 w-full max-w-2xl mx-auto">
-                        <button @click="activeTab = 'grading'"
-                            :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'grading', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'grading' }"
-                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Grading</button>
-                        <button @click="activeTab = 'crossover'"
-                            :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'crossover', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'crossover' }"
-                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Crossover</button>
-                        <button @click="activeTab = 'reholder'"
-                            :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'reholder', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'reholder' }"
-                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Re-Holder</button>
-                        <button @click="activeTab = 'authentication'"
-                            :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === 'authentication', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== 'authentication' }"
-                            class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">Authentication</button>
+                        @foreach($submissionTypes as $type)
+                            @php $slug = Str::slug($type->name); @endphp
+                            <button @click="activeTab = '{{ $slug }}'"
+                                :class="{ 'bg-[var(--color-primary)] text-white shadow-lg': activeTab === '{{ $slug }}', 'text-gray-300 hover:text-white hover:bg-white/5': activeTab !== '{{ $slug }}' }"
+                                class="flex-1 md:flex-none px-3 sm:px-8 py-2 md:py-2.5 rounded-xl md:rounded-full font-bold text-[11px] sm:text-sm transition-all duration-300 whitespace-nowrap">{{ $type->display_title }}</button>
+                        @endforeach
                     </div>
                 </div>
 
                 <!-- Content Area -->
                 <div class="relative min-h-[500px]">
-                    
-                    @php
-                        $tiers = [
-                            'Basic' => ['price' => '15', 'time' => '45 Business Days', 'subtitle' => 'Perfect for casual collectors', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'],
-                            'Express' => ['price' => '25', 'time' => '20 Business Days', 'subtitle' => 'Faster service for urgent needs', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>'],
-                            'Premium' => ['price' => '45', 'time' => '5 Business Days', 'subtitle' => 'Our highest tier service', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>'],
-                        ];
-                        
-                        $services = [
-                            'grading' => [
-                                'Basic' => ['Authentication', 'Expert Grading', 'Encapsulation', 'Basic insurance'],
-                                'Express' => ['All Basic features', 'Priority handling', 'Enhanced insurance', 'Front of line access'],
-                                'Premium' => ['All Express features', 'Same day processing', 'Dedicated support', 'Max insurance cover', 'White glove service'],
-                            ],
-                            'crossover' => [
-                                'Basic' => ['Evaluation', 'New encapsulation if grade meets/exceeds', 'Database entry', 'Basic insurance'],
-                                'Express' => ['Priority Evaluation', 'New encapsulation if grade meets/exceeds', 'Enhanced insurance', 'Front of line access'],
-                                'Premium' => ['Expert Panel Evaluation', 'Same day processing', 'Dedicated support', 'Max insurance cover'],
-                            ],
-                            'reholder' => [
-                                'Basic' => ['New Generation Slab', 'Label refresh', 'Sonic sealing'],
-                                'Express' => ['Priority queue', 'New Generation Slab', 'Enhanced protection'],
-                                'Premium' => ['Max Speed', 'UV Protection', 'Custom label option'],
-                            ],
-                            'authentication' => [
-                                'Basic' => ['Visual inspection', 'Digital Proof', 'Database addition'],
-                                'Express' => ['Priority review', 'Physical Letter', 'Fast tracking'],
-                                'Premium' => ['Multi-expert panel', 'Detailed Report', 'High value items'],
-                            ]
-                        ];
-                    @endphp
-
-                    @foreach($services as $serviceKey => $serviceTiers)
-                        <div x-show="activeTab === '{{ $serviceKey }}'" {{ $serviceKey !== 'grading' ? 'style="display: none;"' : '' }}
+                    @foreach($submissionTypes as $index => $type)
+                        @php $slug = Str::slug($type->name); @endphp
+                        <div x-show="activeTab === '{{ $slug }}'" {!! $index !== 0 ? 'style="display: none;"' : '' !!}
                              x-transition:enter="transition ease-out duration-500"
                              x-transition:enter-start="opacity-0 translate-y-8"
                              x-transition:enter-end="opacity-100 translate-y-0"
@@ -119,36 +85,49 @@
                              x-transition:leave-end="opacity-0 -translate-y-8"
                              class="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-8 w-full">
                              
-                             @foreach($tiers as $tierName => $tierDetails)
-                                <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] {{ $tierName === 'Express' ? 'scale-105 z-10 shadow-2xl relative' : '' }} group relative overflow-hidden">
-                                     @if($tierName === 'Express')
+                             @forelse($type->serviceLevels as $level)
+                                <div class="bg-[#1C1E21] border border-[var(--color-valen-border)] rounded-2xl p-8 flex flex-col items-center text-center transition-all duration-300 hover:border-[var(--color-primary)] hover:shadow-[0_0_30px_rgba(163,5,10,0.15)] {{ strtolower($level->name) === 'express' ? 'scale-105 z-10 shadow-2xl relative' : '' }} group relative overflow-hidden">
+                                     @if(strtolower($level->name) === 'express')
                                         <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-[10px] font-bold px-3 py-1 rounded-bl uppercase">Most Popular</div>
                                      @endif
                                      
                                      <div class="w-12 h-12 rounded-lg bg-[#2A1215] flex items-center justify-center text-[var(--color-primary)] mb-6">
-                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                             {!! $tierDetails['icon'] !!}
-                                         </svg>
+                                         @if($level->icon)
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                {!! $level->icon !!}
+                                            </svg>
+                                         @else
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                            </svg>
+                                         @endif
                                      </div>
-                                     <h3 class="text-xl font-bold text-white mb-2">{{ $tierName }}</h3>
-                                     <p class="text-xs text-gray-500 mb-6">{{ $tierDetails['subtitle'] }}</p>
-                                     <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£{{ $tierDetails['price'] }} <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                                     <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">{{ $tierDetails['time'] }}</span></div>
+                                     <h3 class="text-xl font-bold text-white mb-2">{{ $level->name }}</h3>
+                                     <p class="text-xs text-gray-500 mb-6">{{ $level->subtitle ?? 'Quality grading service' }}</p>
+                                     <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£{{ rtrim(rtrim(number_format($level->price_per_card, 2), '0'), '.') }} <span class="text-sm font-medium text-gray-400">/ item</span></div>
+                                     <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">{{ $level->turnaround_time ?? ($level->delivery_time . ' Days') }}</span></div>
         
                                      <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
-                                        @foreach($serviceTiers[$tierName] as $featureDescription)
-                                            <li class="flex items-center">
-                                                <svg class="w-3 h-3 text-[var(--color-primary)] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> 
-                                                {{ $featureDescription }}
-                                            </li>
-                                        @endforeach
+                                        @if($level->features && is_array($level->features))
+                                            @foreach($level->features as $featureDescription)
+                                                <li class="flex items-center">
+                                                    <svg class="w-3 h-3 text-[var(--color-primary)] mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg> 
+                                                    {{ $featureDescription }}
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <li class="flex items-center text-gray-600 italic">No features listed.</li>
+                                        @endif
                                      </ul>
-                                     <button class="mt-auto w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm">Select</button>
+                                     <a href="{{ route('submission.step1') }}" class="mt-auto block w-full py-3 rounded-lg border border-[var(--color-valen-border)] text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] transition-colors font-bold text-sm text-center">Select</a>
                                 </div>
-                             @endforeach
+                             @empty
+                                <div class="col-span-1 lg:col-span-3 text-center py-12 text-gray-500 border border-dashed border-white/10 rounded-xl">
+                                    No services available for this type yet.
+                                </div>
+                             @endforelse
                         </div>
                     @endforeach
-
                 </div>
             </div>
 

@@ -18,6 +18,10 @@ class ServiceLevel extends Model
         'price_per_card',
         'order',
         'is_active',
+        'subtitle',
+        'turnaround_time',
+        'features',
+        'icon',
     ];
 
     protected function casts(): array
@@ -27,6 +31,7 @@ class ServiceLevel extends Model
             'min_submission' => 'integer',
             'order' => 'integer',
             'is_active' => 'boolean',
+            'features' => 'array',
         ];
     }
 
