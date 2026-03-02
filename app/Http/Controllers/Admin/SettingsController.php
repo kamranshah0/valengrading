@@ -16,6 +16,7 @@ class SettingsController extends Controller
             'admin_notification_email' => SiteSetting::get('admin_notification_email', 'admin@valengrading.com'),
             'site_name' => SiteSetting::get('site_name', 'Valen Grading'),
             'site_logo_header' => SiteSetting::get('site_logo_header', asset('images/logo.avif')),
+            'site_logo_home' => SiteSetting::get('site_logo_home', asset('images/logo.avif')),
             'site_logo_footer' => SiteSetting::get('site_logo_footer', asset('images/logo.avif')),
             'return_shipping_fee' => SiteSetting::get('return_shipping_fee', '7.99'),
             
@@ -59,11 +60,11 @@ class SettingsController extends Controller
             'admin_notification_email' => 'required|email',
             'site_name' => 'required|string|max:255',
             'site_logo_header' => 'nullable|image|mimes:jpeg,png,jpg,svg,avif|max:4096',
+            'site_logo_home' => 'nullable|image|mimes:jpeg,png,jpg,svg,avif|max:4096',
             'site_logo_footer' => 'nullable|image|mimes:jpeg,png,jpg,svg,avif|max:4096',
             'return_shipping_fee' => 'required|numeric|min:0',
         ]);
-
-        $logoTypes = ['site_logo_header', 'site_logo_footer'];
+        $logoTypes = ['site_logo_header', 'site_logo_home', 'site_logo_footer'];
         
         foreach ($logoTypes as $type) {
             if ($request->hasFile($type)) {

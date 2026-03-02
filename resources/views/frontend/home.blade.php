@@ -6,10 +6,10 @@
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
             <div class="flex justify-center mb-8">
                 <!-- Logo mark -->
-                <div class="flex flex-col items-center animate-fade-in">
-                    <div class="h-16 w-auto mb-6 flex items-center justify-center">
-                        <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}"
-                            class="h-full w-auto object-contain" alt="{{ config('app.name') }}">
+                <div class="flex flex-col items-center animate-fade-in relative top-4">
+                    <div class="h-16 w-auto mb-6 flex items-center justify-center transform scale-150 origin-bottom">
+                        <img src="{{ \App\Models\SiteSetting::get('site_logo_home', asset('images/logo.avif')) }}"
+                            class="h-full w-auto object-contain drop-shadow-lg" alt="{{ config('app.name') }}">
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
             <a href="#labelOptionSection"
                 class="mt-6 inline-block text-xs text-white/70 uppercase  font-semibold tracking-widest animate-slide-up"
                 style="animation-delay: 0.3s;">
-                See Label options</a>
+                VIEW Label options</a>
         </div>
 
         <!-- Abstract Background Glow -->
@@ -115,9 +115,9 @@
                                 d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Very Fast Turnaround</h3>
+                    <h3 class="text-lg font-bold text-white mb-3">Fast Turnaround</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                        Industry-leading turnaround times without compromising quality. We value your time.
+                        Cards move quickly through grading without cutting corners.
                     </p>
                 </div>
 
@@ -132,9 +132,9 @@
                                 d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Guaranteed for Every Card</h3>
+                    <h3 class="text-lg font-bold text-white mb-3">Grading Guarantee</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                        Every submission is backed by our comprehensive guarantee of authenticity and grade.
+                        Every slab is backed by our authenticity and grading guarantee.
                     </p>
                 </div>
 
@@ -151,7 +151,7 @@
                     </div>
                     <h3 class="text-lg font-bold text-white mb-3">Easy Submission</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                        Simple, streamlined online submission process designed for collectors.
+                        Submit online in minutes and track progress from your dashboard.
                     </p>
                 </div>
 
@@ -166,9 +166,9 @@
                                 d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Transparency & Safety</h3>
+                    <h3 class="text-lg font-bold text-white mb-3">Tracked & Secure</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                        Full tracking and high-resolution imaging for complete peace of mind.
+                        Full order tracking and a grading report for complete transparency.
                     </p>
                 </div>
 
@@ -183,9 +183,9 @@
                                 d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Custom Labeling</h3>
+                    <h3 class="text-lg font-bold text-white mb-3">Custom Labels</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                        Personalize your slabs with our premium and custom label options.
+                        Choose from Valen label styles or match the card.
                     </p>
                 </div>
 
@@ -200,9 +200,9 @@
                                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-3">Quality Control Expert</h3>
+                    <h3 class="text-lg font-bold text-white mb-3">Quality Assured</h3>
                     <p class="text-sm text-gray-500 leading-relaxed max-w-xs">
-                        Rigorous multi-stage inspection by senior grading professionals.
+                        Every card is carefully inspected before it leaves us.
                     </p>
                 </div>
             </div>
@@ -215,7 +215,7 @@
             <div class="text-center mb-20">
                 <h2 class="text-4xl font-extrabold text-white mb-4">Label Options</h2>
                 <p class="text-gray-500 max-w-2xl mx-auto text-lg">
-                    Choose from our range of label designs aimed to complement your card's aesthetic.
+                    Choose the label style that best complements your card.
                 </p>
             </div>
 
@@ -271,7 +271,7 @@
             <div class="text-center mb-20">
                 <h2 class="text-4xl font-extrabold text-white mb-4">Our Grading Process</h2>
                 <p class="text-gray-500 max-w-2xl mx-auto text-lg hover:text-white transition-colors duration-300">
-                    Transparent, secure, and professional handling from start to finish.
+                    A clear process from submission to return.
                 </p>
             </div>
 
@@ -288,7 +288,7 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Submit & Ship</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Prepare instructions online and mail us your cards.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Create your submission online, then send your cards to us.</p>
                 </div>
 
                 <!-- Step 2 -->
@@ -303,7 +303,7 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Authentication</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Cards are logged and verified upon arrival.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Cards are logged and verified on arrival.</p>
                 </div>
 
                 <!-- Step 3 -->
@@ -318,7 +318,7 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Grading</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Experts assess condition using advanced equipment.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Our graders assess centering, corners, edges, and surface condition.</p>
                 </div>
 
                 <!-- Step 4 -->
@@ -333,7 +333,7 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Encapsulation</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Sonic welding seals the card in a protective slab.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Each card is sealed inside a Valen slab.</p>
                 </div>
 
                 <!-- Step 5 -->
@@ -348,7 +348,7 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Return Shipping</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Secure shipping with tracking to your doorstep.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Your graded cards are securely packed and shipped with tracking.</p>
                 </div>
             </div>
         </div>
@@ -360,7 +360,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl font-bold text-white mb-4">Frequently Asked Questions</h2>
                 <p class="text-gray-500">
-                    Quick answers to common questions about our grading services.
+                    Answers to common questions about grading with Valen.
                 </p>
             </div>
 

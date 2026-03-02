@@ -81,7 +81,7 @@
                                 </div>
                                 @error('return_shipping_fee') <p class="text-red-500 text-[10px] font-bold mt-1">{{ $message }}</p> @enderror
                             </div>
-                            <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-white/5">
+                            <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-white/5">
                                 <div class="space-y-4">
                                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Header Logo</label>
                                     @if($site_logo_header)
@@ -90,6 +90,16 @@
                                         </div>
                                     @endif
                                     <input type="file" name="site_logo_header" accept="image/*"
+                                        class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-500/10 file:text-red-500 hover:file:bg-red-500/20">
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest">Main Page Logo</label>
+                                    @if(isset($site_logo_home) && $site_logo_home)
+                                        <div class="bg-white/5 p-4 rounded-xl flex items-center justify-center h-32 border border-white/10">
+                                            <img src="{{ $site_logo_home }}" alt="Main Page Logo" class="max-h-full max-w-full object-contain">
+                                        </div>
+                                    @endif
+                                    <input type="file" name="site_logo_home" accept="image/*"
                                         class="block w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-red-500/10 file:text-red-500 hover:file:bg-red-500/20">
                                 </div>
                                 <div class="space-y-4">
