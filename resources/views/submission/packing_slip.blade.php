@@ -84,8 +84,8 @@
 <body>
     <div id="slip-content">
         <div style="text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-            <div style="background-color: #A3050A; padding: 6px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px;">
-                <img src="{{ \App\Models\SiteSetting::get('site_logo_header', asset('images/logo.avif')) }}" alt="Valen Grading Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            <div style="display: inline-flex; align-items: center; justify-content: center; height: 45px;">
+                <img src="{{ asset('images/logo-black.png') }}" alt="Valen Grading Logo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
             </div>
             <span style="font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #A3050A;">Valen Grading</span>
         </div>
