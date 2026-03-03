@@ -82,7 +82,10 @@
                             {{ $card->title }}
                         </h1>
                         <p class="text-xl text-gray-400 font-medium tracking-wide">
-                            {{ $card->year }} {{ $card->set_name }} {{ $card->card_number }}
+                            {{ $card->year ?? '-' }} . {{ $card->brand ?? '-' }} . {{ $card->set_name ?? '-' }}
+                        </p>
+                        <p class="text-lg text-gray-500 font-medium tracking-wide mt-1">
+                            {{ $card->variant ?? '-' }} . #{{ $card->card_number ?? '-' }} . {{ $card->lang ?? '-' }}
                         </p>
                     </section>
 
@@ -119,10 +122,6 @@
                     <section class="space-y-6">
                         <h3 class="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Technical Specifications</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-12">
-                            <div>
-                                <p class="text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">Language</p>
-                                <p class="text-sm font-semibold text-white uppercase">{{ $card->lang ?? '-' }}</p>
-                            </div>
                             <div>
                                 <p class="text-[9px] font-bold text-gray-600 uppercase tracking-widest mb-1.5">Label Type</p>
                                 <p class="text-sm font-semibold text-red-500">{{ $card->labelType->name ?? 'Pending Selection' }}</p>
