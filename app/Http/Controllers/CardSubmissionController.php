@@ -402,6 +402,9 @@ class CardSubmissionController extends Controller
             'quantity' => 1,
         ];
 
+        // Update status to pending_payment before redirecting to prevent the callback from rejecting it
+        $submission->update(['status' => 'pending_payment']);
+
         try {
              \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -528,11 +531,6 @@ class CardSubmissionController extends Controller
 
         if (! $isOwner && ! $isAdmin) {
             abort(403);
-        }
-
-        // Prevent download for draft submissions
-        if ($submission->status === 'draft') {
-            abort(403, 'Packing slips cannot be generated for draft submissions.');
         }
 
         return view('submission.packing_slip', compact('submission'));
