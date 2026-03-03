@@ -101,6 +101,10 @@
                             <span class="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-500 flex-shrink-0 flex items-center justify-center text-[10px] font-bold">3</span>
                             Clearly mark your Submission Number on the outside of the parcel.
                         </li>
+                        <li class="flex gap-3">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-500 flex-shrink-0 flex items-center justify-center text-[10px] font-bold">4</span>
+                            Use a tracked shipping service to ensure your items arrive safely.
+                        </li>
                     </ul>
                 </div>
 
