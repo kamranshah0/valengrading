@@ -21,7 +21,7 @@
                                         <img src="{{ $message->embed(\App\Models\SiteSetting::get('site_logo_header') ? public_path(str_replace(url('/'), '', \App\Models\SiteSetting::get('site_logo_header'))) : public_path('images/logo.avif')) }}" alt="Valen Grading" style="height: 48px; width: auto; object-fit: contain; display: block;">
                                     </td>
                                     <td style="vertical-align: middle;">
-                                        <h1 style="margin: 0; font-size: 20px; font-weight: bold; color: #ef4444; font-family: 'Outfit', sans-serif; line-height: 1.2;">
+                                        <h1 style="margin: 0; font-size: 28px; font-weight: 800; color: #ef4444; font-family: 'Outfit', sans-serif; line-height: 1.2; letter-spacing: -0.5px;">
                                             {{ \App\Models\SiteSetting::get('site_name', 'Valen Grading') }}
                                         </h1>
                                     </td>

@@ -43,6 +43,12 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        try {
+            \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\UserRegistered($user));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send registration email: ' . $e->getMessage());
+        }
+
         Auth::login($user);
 
         if ($request->wantsJson()) {
