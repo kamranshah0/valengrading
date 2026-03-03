@@ -433,6 +433,14 @@ class CardSubmissionController extends Controller
         }
 
         $submission = Submission::with(['user', 'serviceLevel', 'submissionType', 'cards', 'shippingAddress'])->findOrFail($submissionId);
+
+        // Prevent race condition: If already processed (e.g. browser refreshed before session saved), skip processing
+        if ($submission->status !== 'pending_payment') {
+            session()->forget('pending_submission_id');
+            session()->forget('submission_data');
+            return view('submission.success', compact('submission'));
+        }
+
         $submission->update(['status' => 'awaiting_arrival']);
 
         // Generate Certification Numbers and QR Tokens for each card
