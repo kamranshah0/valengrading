@@ -157,6 +157,36 @@
                 </div>
 
                 <div class="space-y-6">
+                    <label class="block text-sm font-bold text-gray-300 uppercase tracking-wider">Certified Attributes</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                        @php
+                            $attributes = [
+                                'FP' => 'First Print',
+                                'LP' => 'Last Print',
+                                'CM' => 'Colour Match',
+                                'JM' => 'Jersey Match',
+                                'RC' => 'Rookie Card',
+                                'CH' => 'Case Hit',
+                                '#1' => 'One of One',
+                            ];
+                            $stored = old('certified_attributes', $card->certified_attributes);
+                            $selectedAttributes = is_string($stored) ? json_decode($stored, true) : (is_array($stored) ? $stored : []);
+                        @endphp
+                        @foreach($attributes as $code => $label)
+                            <label class="flex items-center gap-3 p-3 bg-[#15171A] border border-white/5 rounded-xl cursor-pointer hover:border-red-500/50 transition-colors group">
+                                <input type="checkbox" name="certified_attributes[]" value="{{ $code }}" 
+                                    class="w-4 h-4 rounded bg-gray-900 border-gray-600 text-red-600 focus:ring-red-600 focus:ring-offset-gray-900"
+                                    {{ in_array($code, $selectedAttributes) ? 'checked' : '' }}>
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-bold text-white group-hover:text-red-400 transition-colors">{{ $code }}</span>
+                                    <span class="text-[10px] text-gray-500 uppercase tracking-widest">{{ $label }}</span>
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="space-y-6">
                     <label class="block text-sm font-bold text-gray-300 uppercase tracking-wider">Sub-Grades</label>
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach(['centering', 'corners', 'edges', 'surface'] as $subgrade)

@@ -32,6 +32,11 @@ class SubmissionCard extends Model
         'qr_code_token',
         'is_revealed',
         'grading_report_path',
+        'certified_attributes',
+    ];
+
+    protected $casts = [
+        // No casts needed for certified_attributes since it's a comma-separated string
     ];
 
     public function submission()

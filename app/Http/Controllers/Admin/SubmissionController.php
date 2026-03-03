@@ -108,12 +108,12 @@ class SubmissionController extends Controller
         // Make all fields nullable since this method handles both the full edit page and the quick status dropdown on the show page
         $request->validate([
             'title' => 'required|string|max:255',
-            'year' => 'nullable|string|max:4',
+            'year' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',
             'set_name' => 'nullable|string|max:255',
             'card_number' => 'nullable|string|max:255',
             'variant' => 'nullable|string|max:255',
-            'lang' => 'nullable|string|max:5',
+            'lang' => 'nullable|string|max:255',
             'status' => 'nullable|string',
             'grade' => 'nullable|string',
             'centering' => 'nullable|integer|min:1|max:10',
@@ -125,13 +125,21 @@ class SubmissionController extends Controller
             'grading_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'back_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'admin_notes' => 'nullable|string',
+            'certified_attributes' => 'nullable|array',
+            'certified_attributes.*' => 'string',
         ]);
 
         $data = $request->only([
             'title', 'year', 'brand', 'set_name', 'card_number', 'variant', 'lang',
             'status', 'grade', 'centering', 'corners', 'edges', 'surface',
-            'grading_insights', 'admin_notes'
+            'grading_insights', 'admin_notes', 'certified_attributes'
         ]);
+
+        \Illuminate\Support\Facades\Log::info('Card Edit Request Data: ', $data);
+
+        $attrs = $request->input('certified_attributes', []);
+        $jsonAttrs = json_encode(is_array($attrs) ? array_values($attrs) : []);
+        unset($data['certified_attributes']);
 
         $data['is_revealed'] = $request->has('is_revealed');
 
@@ -159,7 +167,10 @@ class SubmissionController extends Controller
 
         $card->update($data);
 
-        // Check if all cards are awaiting label selection
+        // Force the JSON column update directly via Query Builder to bypass Eloquent's JSON column casting/escaping bugs
+        \Illuminate\Support\Facades\DB::table('submission_cards')
+            ->where('id', $card->id)
+            ->update(['certified_attributes' => $jsonAttrs]);
         $submission = $card->submission;
         if ($submission) {
             $totalCards = $submission->cards()->count();

@@ -87,6 +87,23 @@
                         <p class="text-lg text-gray-500 font-medium tracking-wide mt-1">
                             {{ $card->variant ?? '-' }} . #{{ $card->card_number ?? '-' }} . {{ $card->lang ?? '-' }}
                         </p>
+
+                        @php
+                            $stored = $card->certified_attributes;
+                            $attrs = is_string($stored) ? json_decode($stored, true) : (is_array($stored) ? $stored : []);
+                            $attrs = is_array($attrs) ? array_filter($attrs) : [];
+                        @endphp
+                        @if(is_array($attrs) && count($attrs) > 0)
+                            <div class="flex flex-wrap gap-4 pt-4">
+                                @foreach($attrs as $attr)
+                                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#A3050A] shrink-0 p-1 shadow-lg" title="{{ $attr }}">
+                                        <div class="inline-flex items-center justify-center w-full h-full rounded-full border-2 border-white">
+                                            <span class="text-white font-black text-2xl leading-none tracking-tighter">{{ $attr }}</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </section>
 
                     <div class="sep-line"></div>
