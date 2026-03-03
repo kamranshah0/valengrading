@@ -78,14 +78,60 @@
 
         <!-- Main Form Content -->
         <div class="bg-[#232528]/80 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl overflow-hidden">
-            <div class="p-4 md:p-8 border-b border-white/5 bg-white/2">
+            <div class="p-4 md:px-8 md:pt-8 md:pb-4 border-b border-white/5 bg-white/2">
                 <h3 class="text-xl font-bold text-white">Grading & Logistics</h3>
                 <p class="text-gray-400 text-sm mt-1">Provide final grading details and update the current logistics status.</p>
             </div>
 
-            <form action="{{ route('admin.submissions.cards.update', $card) }}" method="POST" enctype="multipart/form-data" class="p-4 md:p-8 space-y-10">
+            <form action="{{ route('admin.submissions.cards.update', $card) }}" method="POST" enctype="multipart/form-data" class="px-4 md:px-8 pb-8 pt-2 space-y-8">
                 @csrf
                 @method('PATCH')
+
+                <div class="space-y-6 pb-6 border-b border-white/5">
+                    <h4 class="text-sm font-bold text-emerald-500 uppercase tracking-widest">Card Details</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <label for="title" class="block text-sm font-bold text-gray-300 uppercase tracking-wider">Card Name</label>
+                            <input type="text" name="title" id="title" value="{{ old('title', $card->title) }}" required
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20">
+                        </div>
+                        <div class="space-y-4">
+                            <label for="set_name" class="block text-sm font-bold text-gray-300 uppercase tracking-wider">Set Name / Expansion</label>
+                            <input type="text" name="set_name" id="set_name" value="{{ old('set_name', $card->set_name) }}" 
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
+                        <div class="space-y-4">
+                            <label for="year" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Year</label>
+                            <input type="text" name="year" id="year" value="{{ old('year', $card->year) }}" 
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20">
+                        </div>
+                        <div class="space-y-4">
+                            <label for="brand" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Brand</label>
+                            <input type="text" name="brand" id="brand" value="{{ old('brand', $card->brand) }}" 
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20">
+                        </div>
+                        <div class="space-y-4">
+                            <label for="card_number" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Card Number</label>
+                            <input type="text" name="card_number" id="card_number" value="{{ old('card_number', $card->card_number) }}" 
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20">
+                        </div>
+                        <div class="space-y-4">
+                            <label for="variant" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Variant / Frame</label>
+                            <input type="text" name="variant" id="variant" value="{{ old('variant', $card->variant) }}" 
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20">
+                        </div>
+                        <div class="space-y-4">
+                            <label for="lang" class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Language</label>
+                            <input type="text" name="lang" id="lang" value="{{ old('lang', $card->lang) }}" maxlength="5"
+                                class="w-full bg-[#15171A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20"
+                                placeholder="ENG, JPN">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-4">

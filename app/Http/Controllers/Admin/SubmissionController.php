@@ -107,6 +107,13 @@ class SubmissionController extends Controller
     {
         // Make all fields nullable since this method handles both the full edit page and the quick status dropdown on the show page
         $request->validate([
+            'title' => 'required|string|max:255',
+            'year' => 'nullable|string|max:4',
+            'brand' => 'nullable|string|max:255',
+            'set_name' => 'nullable|string|max:255',
+            'card_number' => 'nullable|string|max:255',
+            'variant' => 'nullable|string|max:255',
+            'lang' => 'nullable|string|max:5',
             'status' => 'nullable|string',
             'grade' => 'nullable|string',
             'centering' => 'nullable|integer|min:1|max:10',
@@ -121,6 +128,7 @@ class SubmissionController extends Controller
         ]);
 
         $data = $request->only([
+            'title', 'year', 'brand', 'set_name', 'card_number', 'variant', 'lang',
             'status', 'grade', 'centering', 'corners', 'edges', 'surface',
             'grading_insights', 'admin_notes'
         ]);
