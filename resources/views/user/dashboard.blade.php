@@ -162,10 +162,21 @@
 
             <!-- MY CARDS TAB -->
             <div x-show="activeTab === 'cards'" class="p-8" style="display: none;">
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4 relative">
                     <h2 class="text-xl font-bold text-white whitespace-nowrap">My Card Collection</h2>
                     
-                    <form action="{{ route('user.dashboard') }}" method="GET" class="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
+                    <!-- Global Pop Report Link -->
+                    <a href="{{ route('pop-report') }}" target="_blank"
+                        class="absolute top-0 right-0 hidden lg:flex flex-col items-center gap-1 text-gray-500 hover:text-[var(--color-primary)] transition-colors group/btn">
+                        <svg class="w-5 h-5 text-[var(--color-primary)] opacity-70 group-hover/btn:opacity-100 transition-opacity"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-center">Pop<br>Report</span>
+                    </a>
+                    
+                    <form action="{{ route('user.dashboard') }}" method="GET" class="w-full lg:w-auto flex flex-col sm:flex-row gap-3 lg:mr-16">
                         <input type="hidden" name="tab" value="cards">
                         
                         <!-- Search Group -->
@@ -207,112 +218,108 @@
                 <div class="space-y-4">
                     @forelse($myCards as $card)
                     <!-- Card Item -->
-                    <div
-                        class="bg-[var(--color-valen-dark)] border border-[var(--color-valen-border)] rounded-lg p-6 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-[var(--color-valen-border)]/80 transition-colors group">
+                    <!-- Card Item -->
+                    <div x-data="{ revealed: false, grade: '{{ $card->grade }}', loading: false }"
+                        class="bg-[var(--color-valen-dark)] border border-transparent rounded-lg p-6 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-[var(--color-primary)] transition-all group">
                         <div class="flex items-center gap-6 w-full">
-                            <!-- Image Placeholder -->
-                            <div
-                                class="w-24 h-32 bg-[var(--color-valen-light)] rounded border border-[var(--color-valen-border)] flex-shrink-0 overflow-hidden relative">
+                            <!-- Image Container -->
+                            <div class="w-24 h-32 bg-[var(--color-valen-light)] rounded border border-[var(--color-valen-border)] flex-shrink-0 overflow-hidden relative">
                                 @if($card->grading_image)
-                                    <img src="{{ asset('storage/' . $card->grading_image) }}" alt="{{ $card->title }}" class="w-full h-full object-cover">
+                                    <!-- Use object-contain to prevent cutoff, and apply blur based on reveal state -->
+                                    <img src="{{ asset('storage/' . $card->grading_image) }}" alt="{{ $card->title }}" 
+                                         class="w-full h-full object-contain transition-all duration-700"
+                                         :class="!revealed ? 'blur-md scale-110' : 'blur-0 scale-100'">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center text-gray-600">
-                                            <svg class="w-8 h-8 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
+                                         <svg class="w-8 h-8 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                         </svg>
                                     </div>
                                 @endif
-                                @if($card->grade)
-                                    <!-- Optional: Show grade here if revealed, but user wants specific reveal behavior below -->
-                                    {{-- <div class="absolute top-0 right-0 bg-[var(--color-primary)] text-white text-xs font-bold px-1.5 py-0.5 rounded-bl">
-                                        {{ $card->grade ?? 'N/A' }}
-                                    </div> --}}
-                                @endif
+                                <!-- Grade absolute overlay (optional, usually left off when dealing with physical slab images) -->
                             </div>
 
-                            <div x-data="{ revealed: false, grade: '{{ $card->grade }}', loading: false }">
-                                <h3 class="text-white font-bold text-lg">{{ $card->title }}</h3>
-                                <p class="text-gray-400 text-sm mb-4">{{ $card->set_name ?? 'N/A' }} • {{ $card->year ?? 'N/A' }}</p>
-
-                                <template x-if="revealed">
-                                    <button 
-                                        @click="revealed = false" 
-                                        class="bg-white text-black text-xs font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-gray-200 transition-colors cursor-pointer">
-                                         <svg class="w-4 h-4 text-[var(--color-primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span x-text="grade"></span>
-                                    </button>
-                                </template>
-
-                                <template x-if="!revealed">
-                                    <button 
-                                        @click="loading = true; 
-                                                // If we already have the grade, just toggle. Otherwise fetch.
-                                                if (grade && grade !== 'Pending' && grade !== '') {
-                                                    revealed = true;
-                                                    loading = false;
-                                                } else {
-                                                    fetch('{{ route('user.card.reveal', $card->id) }}', {
-                                                        method: 'POST',
-                                                        headers: {
-                                                            'Content-Type': 'application/json',
-                                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                                        }
-                                                    })
-                                                    .then(response => response.json())
-                                                    .then(data => {
-                                                        if (data.status === 'error') {
-                                                            alert(data.message);
-                                                            loading = false;
-                                                            return;
-                                                        }
-                                                        grade = data.grade;
-                                                        revealed = true;
-                                                        loading = false;
-                                                    })
-                                                    .catch(() => {
-                                                        loading = false;
-                                                        alert('Something went wrong');
-                                                    });
-                                                }"
-                                        class="bg-white text-black text-xs font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-gray-200 transition-colors"
-                                        :class="{ 'opacity-75 cursor-wait': loading }"    
-                                    >
-                                        <svg x-show="!loading" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
-                                        <svg x-show="loading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        <span x-text="loading ? 'Revealing...' : 'Reveal Grade'"></span>
-                                    </button>
-                                </template>
+                            <!-- Card Info Block -->
+                            <div class="flex-1">
+                                <h3 class="text-white font-bold text-lg mb-1">{{ $card->title }}</h3>
+                                <p class="text-gray-400 text-sm mb-1">{{ $card->year ?? 'N/A' }} . {{ $card->brand ?? 'N/A' }} . {{ $card->set_name ?? 'N/A' }}</p>
+                                <p class="text-gray-400 text-sm mb-2">{{ $card->variant ?? 'N/A' }} . #{{ $card->card_number ?? 'N/A' }} . {{ $card->lang ?? 'N/A' }}</p>
+                                <p class="text-sm">
+                                    <span class="text-gray-500">Certification ID:</span> 
+                                    <span class="text-[var(--color-primary)] font-bold">{{ $card->cert_number ?? 'N/A' }}</span>
+                                </p>
                             </div>
                         </div>
 
-                        <div class="flex gap-8 pr-4">
+                        <!-- Action Buttons (Right Aligned) -->
+                        <div class="flex gap-6 pr-4 items-center justify-end flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
+                            @if($card->is_revealed)
+                            <!-- Reveal Grade Text Block (Left of Buttons) -->
+                            <div class="flex flex-col items-center justify-center mr-4" x-show="revealed" x-cloak>
+                                <span class="text-3xl font-black text-red-600 leading-none" x-text="grade"></span>
+                                <span class="text-[10px] uppercase font-bold text-white tracking-widest mt-1">Grade</span>
+                            </div>
+
+                            <!-- Reveal Grade Button -->
+                            <button 
+                                x-show="!revealed"
+                                @click="loading = true; 
+                                        if (grade && grade !== 'Pending' && grade !== '') {
+                                            setTimeout(() => { revealed = true; loading = false; }, 500);
+                                        } else {
+                                            fetch('{{ route('user.card.reveal', $card->id) }}', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                }
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.status === 'error') {
+                                                    alert(data.message);
+                                                    loading = false;
+                                                    return;
+                                                }
+                                                grade = data.grade;
+                                                revealed = true;
+                                                loading = false;
+                                            })
+                                            .catch(() => {
+                                                loading = false;
+                                                alert('Something went wrong');
+                                            });
+                                        }"
+                                class="flex flex-col items-center gap-1 text-gray-500 hover:text-[var(--color-primary)] transition-colors group/btn"
+                                :class="{ 'cursor-wait opacity-50': loading }"    
+                            >
+                                <svg x-show="!loading" class="w-6 h-6 text-red-600 opacity-80 group-hover/btn:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                <svg x-show="loading" class="animate-spin h-5 w-5 text-[var(--color-primary)]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="display: none;">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-center" x-text="loading ? 'Revealing...' : 'Reveal\nGrade'"></span>
+                            </button>
+                            @else
+                            <div class="flex flex-col items-center mr-2 opacity-50">
+                                <span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest text-center">Grade<br>Pending</span>
+                            </div>
+                            @endif
+
+                            <!-- View Report Button -->
                             <a href="{{ route('cert.index', ['cert' => $card->cert_number]) }}" target="_blank"
                                 class="flex flex-col items-center gap-1 text-gray-500 hover:text-[var(--color-primary)] transition-colors group/btn">
-                                <svg class="w-5 h-5 text-[var(--color-primary)] opacity-70 group-hover/btn:opacity-100 transition-opacity"
+                                <svg class="w-6 h-6 text-gray-400 group-hover/btn:text-[var(--color-primary)] transition-colors"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                <span class="text-[10px] uppercase font-bold tracking-wider">View<br>Report</span>
-                            </a>
-                            <a href="{{ route('pop-report') }}" target="_blank"
-                                class="flex flex-col items-center gap-1 text-gray-500 hover:text-[var(--color-primary)] transition-colors group/btn">
-                                <svg class="w-5 h-5 text-[var(--color-primary)] opacity-70 group-hover/btn:opacity-100 transition-opacity"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                                <span class="text-[10px] uppercase font-bold tracking-wider">Pop<br>Report</span>
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-center">View<br>Report</span>
                             </a>
                         </div>
                     </div>
