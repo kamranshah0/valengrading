@@ -336,6 +336,8 @@
                     @forelse($submissions->sortByDesc('created_at') as $submission)
                         @php 
                             $cardStates = [
+                                'Submission Complete' => 1,
+                                'Cards Received' => 2, // Legacy hook
                                 'Cards Logged' => 2,
                                 'Grading Complete' => 3,
                                 'Awaiting Label Selection' => 4,
