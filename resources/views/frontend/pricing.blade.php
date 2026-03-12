@@ -8,7 +8,7 @@
             <div class="mb-24">
                 <div class="text-center mb-16">
                     <h1 class="text-4xl font-extrabold text-white sm:text-5xl mb-4">Label Options</h1>
-                    <p class="text-gray-400 text-lg">Choose your preferred label design and service level</p>
+                    <p class="text-gray-400 text-lg">Choose your preferred label style.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -56,8 +56,7 @@
             <div class="mb-24" x-data="{ activeTab: '{{ $firstTabSlug }}' }">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-extrabold text-white mb-4">Service Levels & Pricing</h2>
-                    <p class="text-gray-400 max-w-2xl mx-auto">Choose the service level that best fits your needs and
-                        budget. All options include our industry-leading quality standards.</p>
+                    <p class="text-gray-400 max-w-2xl mx-auto">Choose the grading service that matches your turnaround needs.</p>
                 </div>
 
                  <!-- Tabs -->
@@ -104,8 +103,8 @@
                                      </div>
                                      <h3 class="text-xl font-bold text-white mb-2">{{ $level->name }}</h3>
                                      <p class="text-xs text-gray-500 mb-6">{{ $level->subtitle ?? 'Quality grading service' }}</p>
-                                     <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£{{ rtrim(rtrim(number_format($level->price_per_card, 2), '0'), '.') }} <span class="text-sm font-medium text-gray-400">/ item</span></div>
-                                     <div class="text-sm text-white font-bold mb-8">Turnaround: <span class="text-gray-400 font-normal">{{ $level->delivery_time }}</span></div>
+                                     <div class="text-4xl font-black text-[var(--color-primary)] mb-6">£{{ rtrim(rtrim(number_format($level->price_per_card, 2), '0'), '.') }} <span class="text-sm font-medium text-gray-400">per card</span></div>
+                                     <div class="text-sm text-white font-bold mb-8">Estimated Turnaround: <span class="text-gray-400 font-normal">{{ $level->delivery_time }}</span></div>
         
                                      <ul class="text-sm text-gray-400 text-left space-y-3 mb-8 w-full">
                                         @if($level->features && is_array($level->features))

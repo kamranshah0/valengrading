@@ -5,8 +5,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h1 class="text-4xl font-extrabold text-white sm:text-5xl mb-4">Contact Us</h1>
-                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Have questions about our grading services? We're here to
-                    help you get started.</p>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Need help with a submission or grading question? Our team is here to assist.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -85,7 +84,7 @@
                         </div>
                         <div class="ml-6">
                             <h3 class="text-lg font-bold text-white">Address</h3>
-                            <p class="mt-1 text-sm text-gray-400">1234 Grading Street</p>
+                            <p class="mt-1 text-sm text-gray-400">{{ \App\Models\SiteSetting::get('contact_address', '1234 Grading Street') }}</p>
                         </div>
                     </div>
 
@@ -103,7 +102,7 @@
                         </div>
                         <div class="ml-6">
                             <h3 class="text-lg font-bold text-white">Phone</h3>
-                            <p class="mt-1 text-sm text-gray-400">(555) 123-GRADE</p>
+                            <p class="mt-1 text-sm text-gray-400">{{ \App\Models\SiteSetting::get('contact_phone', '(555) 123-GRADE') }}</p>
                         </div>
                     </div>
 
@@ -121,7 +120,7 @@
                         </div>
                         <div class="ml-6">
                             <h3 class="text-lg font-bold text-white">Email</h3>
-                            <p class="mt-1 text-sm text-gray-400">support@valengrading.com</p>
+                            <p class="mt-1 text-sm text-gray-400">{{ \App\Models\SiteSetting::get('contact_email', 'support@valengrading.com') }}</p>
                         </div>
                     </div>
 
@@ -138,7 +137,7 @@
                         </div>
                         <div class="ml-6">
                             <h3 class="text-lg font-bold text-white">Business Hour</h3>
-                            <p class="mt-1 text-sm text-gray-400">Monday - Friday: 8:00 AM - 6:00 PM PST</p>
+                            <p class="mt-1 text-sm text-gray-400">{{ \App\Models\SiteSetting::get('contact_hours', 'Monday - Friday: 8:00 AM - 6:00 PM PST') }}</p>
                         </div>
                     </div>
                 </div>

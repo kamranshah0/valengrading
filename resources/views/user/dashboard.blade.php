@@ -434,6 +434,7 @@
                                 @endif
 
                                 <!-- Status Grid (6 boxes) -->
+                                <h4 class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">Card Status</h4>
                                 <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                                     @for($i = 1; $i <= 6; $i++)
                                         @php
@@ -499,7 +500,7 @@
                                 <p class="text-gray-400 text-sm mb-6">Submitted on {{ $submission->created_at->format('F j, Y') }}</p>
 
                                 <div class="flex items-center gap-2 text-sm text-gray-300">
-                                    Current Status: <span class="text-[var(--color-primary)] font-bold uppercase">{{ ucfirst(str_replace('_', ' ', $submission->status)) }}</span>
+                                    Current Order Status: <span class="text-[var(--color-primary)] font-bold uppercase">{{ ucfirst(str_replace('_', ' ', $submission->status)) }}</span>
                                 </div>
                             </div>
                         </div>

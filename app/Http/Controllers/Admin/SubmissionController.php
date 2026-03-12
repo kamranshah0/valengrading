@@ -107,7 +107,7 @@ class SubmissionController extends Controller
     {
         // Make all fields nullable since this method handles both the full edit page and the quick status dropdown on the show page
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'sometimes|required|string|max:255',
             'year' => 'nullable|string|max:255',
             'brand' => 'nullable|string|max:255',
             'set_name' => 'nullable|string|max:255',
@@ -115,7 +115,7 @@ class SubmissionController extends Controller
             'variant' => 'nullable|string|max:255',
             'lang' => 'nullable|string|max:255',
             'status' => 'nullable|string',
-            'grade' => 'nullable|string',
+            'grade' => 'nullable|numeric|between:1,10',
             'centering' => 'nullable|integer|min:1|max:10',
             'corners' => 'nullable|integer|min:1|max:10',
             'edges' => 'nullable|integer|min:1|max:10',
@@ -132,16 +132,24 @@ class SubmissionController extends Controller
         $data = $request->only([
             'title', 'year', 'brand', 'set_name', 'card_number', 'variant', 'lang',
             'status', 'grade', 'centering', 'corners', 'edges', 'surface',
-            'grading_insights', 'admin_notes', 'certified_attributes'
+            'grading_insights', 'admin_notes'
         ]);
 
         \Illuminate\Support\Facades\Log::info('Card Edit Request Data: ', $data);
 
-        $attrs = $request->input('certified_attributes', []);
-        $jsonAttrs = json_encode(is_array($attrs) ? array_values($attrs) : []);
-        unset($data['certified_attributes']);
+        if ($request->has('certified_attributes')) {
+            $attrs = $request->input('certified_attributes', []);
+            $jsonAttrs = json_encode(is_array($attrs) ? array_values($attrs) : []);
+            
+            // Force the JSON column update directly via Query Builder to bypass Eloquent's JSON column casting/escaping bugs
+            \Illuminate\Support\Facades\DB::table('submission_cards')
+                ->where('id', $card->id)
+                ->update(['certified_attributes' => $jsonAttrs]);
+        }
 
-        $data['is_revealed'] = $request->has('is_revealed');
+        if ($request->has('is_revealed')) {
+            $data['is_revealed'] = $request->boolean('is_revealed');
+        }
 
         if ($request->hasFile('grading_image')) {
             $path = $request->file('grading_image')->store('grading_images', 'public');
@@ -166,11 +174,6 @@ class SubmissionController extends Controller
         }
 
         $card->update($data);
-
-        // Force the JSON column update directly via Query Builder to bypass Eloquent's JSON column casting/escaping bugs
-        \Illuminate\Support\Facades\DB::table('submission_cards')
-            ->where('id', $card->id)
-            ->update(['certified_attributes' => $jsonAttrs]);
         $submission = $card->submission;
         if ($submission) {
             $totalCards = $submission->cards()->count();

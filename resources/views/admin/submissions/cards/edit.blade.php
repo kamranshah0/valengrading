@@ -150,9 +150,9 @@
 
                     <div class="space-y-4">
                         <label for="grade" class="block text-sm font-bold text-gray-300 uppercase tracking-wider">Final Grade</label>
-                        <input type="text" name="grade" id="grade" value="{{ old('grade', $card->grade) }}" 
+                        <input type="number" step="0.5" min="1" max="10" name="grade" id="grade" value="{{ old('grade', $card->grade) }}" 
                             class="w-full bg-[#15171A] border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-red-500 transition-all hover:border-white/20"
-                            placeholder="e.g. Gem Mint 10">
+                            placeholder="e.g. 10 or 9.5">
                     </div>
                 </div>
 

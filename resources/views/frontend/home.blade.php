@@ -14,10 +14,10 @@
                 </div>
             </div>
             <h1 class="text-5xl tracking-tight font-extrabold text-white sm:text-6xl md:text-7xl mb-6 animate-slide-up">
-                Precision Card Grading
+                {{ \App\Models\SiteSetting::get('home_hero_title', 'Precision Card Grading') }}
             </h1>
             <p class="mt-6 max-w-2xl mx-auto text-xl text-gray-400 mb-12 animate-slide-up" style="animation-delay: 0.1s;">
-                Premium UK-based card grading <br> for collectors who demand excellence.
+                {!! \App\Models\SiteSetting::get('home_hero_subtitle', 'Premium UK-based card grading <br> for collectors who demand excellence.') !!}
             </p>
             <div class="flex justify-center flex-col sm:flex-row gap-4 animate-slide-up" style="animation-delay: 0.2s;">
                 <a href="{{ route('submission.step1') }}"

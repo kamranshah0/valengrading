@@ -25,10 +25,12 @@ class UserDashboardController extends Controller
             $q->where('user_id', $user->id)->where('status', '!=', 'draft');
         })
             ->where(function ($q) {
-            $q->whereNotNull('grade')
-                ->orWhere('grade', '!=', '')
+                // Show if it has a grade OR if it's in a processing status that implies it might be visible soon
+                $q->where(function($sq) {
+                    $sq->whereNotNull('grade')->where('grade', '!=', '');
+                })
                 ->orWhereIn('status', ['Label Creation', 'Slabbed', 'Quality Control', 'Completed', 'Shipped', 'Delivered']);
-        });
+            });
 
         // 1. Search (Title, Set, Year)
         if ($request->filled('search')) {
@@ -95,7 +97,18 @@ class UserDashboardController extends Controller
                 break;
         }
 
-        // 4. Pagination (10 per page)
+        // 4. Strict Filtering for Filtered/Sorted Results
+        // If sorting or filtering by grade, only show revealed cards to avoid junk pending data appearing
+        if ($request->filled('grade_filter') || in_array($sort, ['highest_grade', 'lowest_grade'])) {
+            $query->where('is_revealed', true)->whereRaw("grade REGEXP '^[0-9]+(\\.[0-9]+)?$'");
+        }
+
+        // Search still allows finding items but we filter the records for quality
+        if ($request->filled('search') || $request->filled('grade_filter') || in_array($sort, ['highest_grade', 'lowest_grade'])) {
+            $query->whereRaw("TRIM(IFNULL(grade, '')) != ''");
+        }
+
+        // 5. Pagination (10 per page)
         // Append query params to pagination links
         $myCards = $query->paginate(10)->withQueryString();
 

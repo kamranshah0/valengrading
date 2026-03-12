@@ -250,6 +250,7 @@
                     </form>
                 </div>
 
+
                 <!-- Security Settings -->
                 <div id="tab-security" class="setting-tab p-4 md:p-8 hidden">
                     <div class="mb-8">

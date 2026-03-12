@@ -7,7 +7,7 @@
             <div class="text-center mb-20 md:mb-28">
                 <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Our Story</h1>
                 <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                    Founded on the principles of precision, trust, and excellence in trading card authentication.
+                    Built around precision, transparency, and trust in card grading.
                 </p>
             </div>
 
@@ -17,13 +17,16 @@
                         Precision</h2>
                     <div class="space-y-6 text-gray-400 leading-relaxed text-base">
                         <p>
-                            Valen Grading was established in 2019 with a singular mission: to provide collectors with the
-                            most accurate and trustworthy card grading services in the industry. Our founders recognized the
-                            need for a grading company that combined cutting-edge technology with traditional craftsmanship.
+                          Valen was created with a simple goal: to provide collectors with accurate grading and clean, modern presentation.
                         </p>
                         <p>
-                            From our state-of-the-art facility, we've graded over 500,000 cards for collectors worldwide,
-                            establishing ourselves as a trusted name in the trading card community.
+                           As collectors ourselves, we believe grading should be consistent, transparent, and focused on the card. Every submission is evaluated carefully and sealed in a slab designed to protect the card while showcasing it properly.
+                        </p>
+                        <p>
+                       Valen is built around a straightforward philosophy, grade cards honestly, handle them carefully, and provide collectors with a service they can trust.
+                        </p>
+                         <p>
+Valen was founded in the UK by a lifelong collector with a background in engineering and product design.
                         </p>
                     </div>
                 </div>
@@ -44,7 +47,7 @@
                             </div>
                             <div>
                                 <h3 class="text-white font-bold mb-1 text-base">Security First</h3>
-                                <p class="text-gray-500 text-sm leading-relaxed">Every card fully insured and tracked</p>
+                                <p class="text-gray-500 text-sm leading-relaxed">Cards are handled carefully and stored securely throughout the grading process.</p>
                             </div>
                         </div>
 
@@ -60,9 +63,8 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-white font-bold mb-1 text-base">Expert Team</h3>
-                                <p class="text-gray-500 text-sm leading-relaxed">Certified graders with decades of
-                                    experience</p>
+                                <h3 class="text-white font-bold mb-1 text-base">Expert Grading</h3>
+                                <p class="text-gray-500 text-sm leading-relaxed">Each card is evaluated using a consistent grading standard focused on centering, corners, edges, and surface.</p>
                             </div>
                         </div>
 
@@ -78,8 +80,8 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-white font-bold mb-1 text-base">Community Focused</h3>
-                                <p class="text-gray-500 text-sm leading-relaxed">Supporting collectors at every level</p>
+                                <h3 class="text-white font-bold mb-1 text-base">Built for Collectors</h3>
+                                <p class="text-gray-500 text-sm leading-relaxed">Valen is designed around the needs of collectors, from submission to final presentation.</p>
                             </div>
                         </div>
                     </div>
@@ -91,8 +93,9 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-10">Our Vision</h2>
                 <div class="max-w-4xl mx-auto px-6">
                     <p class="text-gray-400 text-xl md:text-2xl leading-relaxed text-center font-normal">
-                        To be the world's most trusted trading card grading service, setting the standard for accuracy,
-                        consistency, and customer satisfaction in the collectibles industry.
+                       Valen exists to provide collectors with grading that is accurate, consistent, and clearly presented.
+
+Our vision is to maintain a standard collectors can rely on when evaluating, protecting, and displaying their cards.
                     </p>
                 </div>
             </div>
@@ -102,7 +105,7 @@
                 <div class="text-center mb-20 animate-fade-in">
                     <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Why Choose Valen?</h2>
                     <p class="text-gray-400 max-w-2xl mx-auto text-lg">
-                        Experience the difference that expertise, precision, and dedication make in card grading.
+                        What sets Valen apart for collectors.
                     </p>
                 </div>
 
@@ -118,10 +121,9 @@
                                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-4">Trusted Authentication</h3>
+                        <h3 class="text-xl font-bold text-white mb-4">Accurate Grading</h3>
                         <p class="text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">
-                            Our expert team uses advanced technology and decades of experience to authenticate every card
-                            with absolute precision.
+                            Every card is evaluated using a consistent grading standard focused on centering, corners, edges, and surface.
                         </p>
                     </div>
 
@@ -136,10 +138,9 @@
                                     d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-4">Industry-Leading Standards</h3>
+                        <h3 class="text-xl font-bold text-white mb-4">Clean Slab Design</h3>
                         <p class="text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">
-                            We maintain the highest grading standards in the industry, ensuring consistent and accurate
-                            assessments.
+                            Valen slabs are designed to protect the card while keeping the focus on its presentation.
                         </p>
                     </div>
 
@@ -154,10 +155,9 @@
                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-4">Fast Turnaround</h3>
+                        <h3 class="text-xl font-bold text-white mb-4">Flexible Submission</h3>
                         <p class="text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">
-                            Multiple service levels available to meet your timeline needs, from standard to premium rush
-                            service.
+                            Choose between Easy Submission for speed or Detailed Submission for full control over card information.
                         </p>
                     </div>
 
@@ -172,9 +172,9 @@
                                     d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-4">Customer-First Approach</h3>
+                        <h3 class="text-xl font-bold text-white mb-4">Transparent Process</h3>
                         <p class="text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">
-                            Dedicated support team and transparent process updates keep you informed every step of the way.
+                            Track your submission through your dashboard as it moves through each stage of grading.
                         </p>
                     </div>
                 </div>

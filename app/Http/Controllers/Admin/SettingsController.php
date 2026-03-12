@@ -41,17 +41,37 @@ class SettingsController extends Controller
             'shipping_phone' => SiteSetting::get('shipping_phone', ''),
 
             // Frontend Content
-            'home_hero_title' => SiteSetting::get('home_hero_title', 'Precision Card'),
+            'home_hero_title' => SiteSetting::get('home_hero_title', 'Precision Card Grading'),
             'home_hero_subtitle' => SiteSetting::get('home_hero_subtitle', 'Premium UK-based card grading <br> for collectors who demand excellence.'),
             'home_features_title' => SiteSetting::get('home_features_title', 'Very Fast Turnaround'),
             'pricing_title' => SiteSetting::get('pricing_title', 'Label Options'),
             'pricing_subtitle' => SiteSetting::get('pricing_subtitle', 'Choose your preferred label design and service level'),
             'pricing_comparison_title' => SiteSetting::get('pricing_comparison_title', 'Feature Comparison'),
             'pricing_comparison_subtitle' => SiteSetting::get('pricing_comparison_subtitle', "See what's included with each service tier"),
+
+            // Contact Settings
+            'contact_address' => SiteSetting::get('contact_address', '1234 Grading Street'),
+            'contact_phone' => SiteSetting::get('contact_phone', '(555) 123-GRADE'),
+            'contact_email' => SiteSetting::get('contact_email', 'support@valengrading.com'),
+            'contact_hours' => SiteSetting::get('contact_hours', 'Monday - Friday: 8:00 AM - 6:00 PM PST'),
         ];
 
 
         return view('admin.settings.index', $settings);
+    }
+
+    public function siteContent()
+    {
+        $settings = [
+            'home_hero_title' => SiteSetting::get('home_hero_title', 'Precision Card Grading'),
+            'home_hero_subtitle' => SiteSetting::get('home_hero_subtitle', 'Premium UK-based card grading <br> for collectors who demand excellence.'),
+            'contact_address' => SiteSetting::get('contact_address', '1234 Grading Street'),
+            'contact_phone' => SiteSetting::get('contact_phone', '(555) 123-GRADE'),
+            'contact_email' => SiteSetting::get('contact_email', 'support@valengrading.com'),
+            'contact_hours' => SiteSetting::get('contact_hours', 'Monday - Friday: 8:00 AM - 6:00 PM PST'),
+        ];
+
+        return view('admin.settings.site-content', $settings);
     }
 
     public function updateGeneral(Request $request)
@@ -133,13 +153,17 @@ class SettingsController extends Controller
             'pricing_subtitle' => 'nullable|string',
             'pricing_comparison_title' => 'nullable|string',
             'pricing_comparison_subtitle' => 'nullable|string',
+            'contact_address' => 'required|string',
+            'contact_phone' => 'required|string',
+            'contact_email' => 'required|email',
+            'contact_hours' => 'required|string',
         ]);
 
         foreach ($data as $key => $value) {
             SiteSetting::set($key, $value, 'content');
         }
 
-        return back()->with('success', 'Frontend content updated successfully.');
+        return redirect()->route('admin.site-content')->with('success', 'Site content and contact information updated successfully.');
     }
 
 

@@ -94,11 +94,11 @@
                             $attrs = is_array($attrs) ? array_filter($attrs) : [];
                         @endphp
                         @if(is_array($attrs) && count($attrs) > 0)
-                            <div class="flex flex-wrap gap-4 pt-4">
+                            <div class="flex flex-wrap gap-3 pt-4">
                                 @foreach($attrs as $attr)
-                                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#A3050A] shrink-0 p-1 shadow-lg" title="{{ $attr }}">
-                                        <div class="inline-flex items-center justify-center w-full h-full rounded-full border-2 border-white">
-                                            <span class="text-white font-black text-2xl leading-none tracking-tighter">{{ $attr }}</span>
+                                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#A3050A] shrink-0 p-0.5 shadow-[0_0_15px_rgba(163,5,10,0.5)]" title="{{ $attr }}">
+                                        <div class="inline-flex items-center justify-center w-full h-full rounded-full border border-white/50">
+                                            <span class="text-white font-black text-sm leading-none tracking-tighter">{{ $attr }}</span>
                                         </div>
                                     </div>
                                 @endforeach
