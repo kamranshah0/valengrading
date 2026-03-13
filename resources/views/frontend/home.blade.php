@@ -42,8 +42,7 @@
         <!-- Left/Right Fades -->
         <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none">
         </div>
-        <div
-            class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none">
+        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none">
         </div>
 
         <!-- Scroll Container -->
@@ -101,9 +100,22 @@
 
     <!-- Features Section (Expanded) -->
     <div class="py-24 bg-[var(--color-valen-dark)]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div
-                class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbars md:grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 pb-8 md:pb-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" x-data="{ 
+                        activeSlide: 0, 
+                        scrollTo(index) {
+                            this.activeSlide = index;
+                            this.$refs.slider.children[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        },
+                        updateSlide() {
+                            const slider = this.$refs.slider;
+                            const scrollLeft = slider.scrollLeft;
+                            const itemWidth = slider.clientWidth;
+                            this.activeSlide = Math.round(scrollLeft / itemWidth);
+                        }
+                    }">
+
+            <div x-ref="slider" @scroll.passive="updateSlide"
+                class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 pb-8 md:pb-0 scroll-smooth px-[10vw] sm:px-[30vw] md:px-0">
                 <!-- Feature -->
                 <div
                     class="flex flex-col items-center text-center group min-w-[80vw] sm:min-w-[40vw] md:min-w-0 snap-center shrink-0">
@@ -206,6 +218,16 @@
                     </p>
                 </div>
             </div>
+
+            <!-- Mobile Slider Pagination Dots -->
+            <div class="flex justify-center mt-6 md:hidden space-x-2">
+                <template x-for="i in 6">
+                    <button @click="scrollTo(i - 1)"
+                        :class="{ 'bg-[var(--color-primary)] w-6': activeSlide === (i - 1), 'bg-gray-600 w-2': activeSlide !== (i - 1) }"
+                        class="h-2 rounded-full transition-all duration-300 focus:outline-none"
+                        aria-label="Go to slide"></button>
+                </template>
+            </div>
         </div>
     </div>
 
@@ -288,7 +310,8 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Submit & Ship</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Create your submission online, then send your cards to us.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Create your submission online, then send your cards to
+                        us.</p>
                 </div>
 
                 <!-- Step 2 -->
@@ -318,7 +341,8 @@
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Grading</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Our graders assess centering, corners, edges, and surface condition.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Our graders assess centering, corners, edges, and
+                        surface condition.</p>
                 </div>
 
                 <!-- Step 4 -->
@@ -341,12 +365,15 @@
                     class="bg-[#1C1E21] p-8 rounded-xl text-center border border-transparent hover:border-[var(--color-valen-border)] transition-all duration-300 group hover:-translate-y-1">
                     <div
                         class="w-12 h-12 mx-auto mb-6 flex items-center justify-center bg-[#0A0C0E] rounded-xl text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                         </svg>
                     </div>
                     <h4 class="text-sm font-bold text-white mb-2">Return Shipping</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">Your graded cards are securely packed and shipped with tracking.</p>
+                    <p class="text-xs text-gray-500 leading-relaxed">Your graded cards are securely packed and shipped with
+                        tracking.</p>
                 </div>
             </div>
         </div>
